@@ -15,6 +15,11 @@
     set_fact:
       combined_packages: "{{ packages.common + (packages[effective_os_family] | default([])) }}"
 
+  - name: Print packages to be installed
+    ansible.builtin.debug:
+      msg: "Installing packages: {{ combined_packages }}"
+    when: combined_packages | length > 0
+
   - name: Install all packages on Debian
     apt:
       name: "{{ combined_packages }}"

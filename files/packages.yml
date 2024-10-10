@@ -1,6 +1,3 @@
-common:
-  - neofetch
-  - fish
-  - fzf
+common: ['neofetch','fish','fzf','firefox']
 debian: []
 arch: []
