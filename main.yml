@@ -3,3 +3,4 @@
   tasks:
     - include_tasks: tasks/system-upgrade.yml
     - include_tasks: tasks/install-packages.yml
+    - include_tasks: tasks/enable-fish-shell.yml
