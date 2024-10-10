@@ -1,0 +1,28 @@
+  - name: Read packages from YAML file
+    slurp:
+      src: "{{ playbook_dir }}/files/packages.yml"
+    register: package_file
+
+  - name: Set fact for effective OS family
+    set_fact:
+      effective_os_family: "{{ 'debian' if ansible_os_family in ['Debian', 'LMDE'] else ansible_os_family | lower }}"
+
+  - name: Parse YAML content
+    set_fact:
+      packages: "{{ package_file.content | b64decode | from_yaml }}"
+
+  - name: Combine packages
+    set_fact:
+      combined_packages: "{{ packages.common + (packages[effective_os_family] | default([])) }}"
+
+  - name: Install all packages on Debian
+    apt:
+      name: "{{ combined_packages }}"
+      state: present
+    when: ansible_os_family in ['Debian', 'LMDE']
+
+  - name: Install all packages on Arch
+    pacman:
+      name: "{{ combined_packages }}"
+      state: present
+    when: ansible_os_family == 'Arch'

@@ -1,0 +1,11 @@
+- name: Upgrade the system (Debian based)
+  apt:
+    upgrade: dist
+    autoremove: yes
+  when: ansible_os_family == "Debian" or ansible_distribution == "LMDE"
+
+- name: Upgrade the system (Arch based)
+  pacman:
+    update_cache: yes
+    upgrade: yes
+  when: ansible_os_family == "Arch"

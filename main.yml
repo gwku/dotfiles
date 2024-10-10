@@ -1,0 +1,5 @@
+- hosts: localhost
+  become: true
+  tasks:
+    - include_tasks: tasks/system-upgrade.yml
+    - include_tasks: tasks/install-packages.yml
