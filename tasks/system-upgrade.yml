@@ -2,7 +2,7 @@
   apt:
     upgrade: dist
     autoremove: yes
-  when: ansible_os_family == "Debian" or ansible_distribution == "LMDE"
+  when: ansible_os_family in ['Debian', 'LMDE']
 
 - name: Upgrade the system (Arch based)
   pacman:
