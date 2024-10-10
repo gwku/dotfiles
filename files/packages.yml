@@ -1,4 +1,6 @@
 common:
   - neofetch
+  - fish
+  - fzf
 debian: []
 arch: []
