@@ -1,0 +1,10 @@
+---
+- name: Check if gsettings is available
+  command: which gsettings
+  register: gsettings_check
+  ignore_errors: yes
+
+- name: Set wallpaper if gsettings is available
+  command: gsettings set org.gnome.desktop.background picture-uri "{{ wallpaper_uri }}"
+  become_user: "{{ lookup('env','USER') }}"
+  when: gsettings_check.rc == 0

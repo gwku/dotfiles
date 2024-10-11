@@ -1,9 +1,14 @@
 - hosts: localhost
   become: true
+  vars:
+    wallpaper_uri: "file:///mnt/data/nextcloud/Wallpapers/mpiwnicki_red_dusk.jpg"
   tasks:
     - include_tasks: tasks/system-upgrade.yml
+    - include_tasks: tasks/install-aur-helper.yml
     - include_tasks: tasks/install-packages.yml
+    - include_tasks: tasks/install-flatpak-packages.yml
     - include_tasks: tasks/enable-fish-shell.yml
+    # - include_tasks: tasks/set-wallpaper.yml
   roles:
     - jetbrains-toolbox
       

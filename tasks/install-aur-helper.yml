@@ -1,0 +1,33 @@
+---
+- name: Create Downloads directory if it doesn't exist
+  file:
+    path: "{{ ansible_env.HOME }}/Downloads"
+    state: directory
+    mode: '0755'
+  become: yes
+  when: ansible_os_family == 'Arch'
+
+- name: Clone yay repository into Downloads folder
+  git:
+    repo: https://aur.archlinux.org/yay.git
+    dest: "{{ ansible_env.HOME }}/Downloads/yay"
+    clone: yes
+    update: no
+  become: yes
+  when: ansible_os_family == 'Arch'
+
+- name: Build and install yay from source
+  command: makepkg -si --noconfirm
+  args:
+    chdir: "{{ ansible_env.HOME }}/Downloads/yay"
+  become: yes
+  when: ansible_os_family == 'Arch'
+
+
+- name: Remove the yay source folder after installation
+  file:
+    path: "{{ ansible_env.HOME }}/Downloads/yay"
+    state: absent
+  become: yes
+  when: ansible_os_family == 'Arch'
+
