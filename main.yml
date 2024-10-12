@@ -1,6 +1,5 @@
 - hosts: localhost
   vars:
-    wallpaper_uri: "./files/wallpaper.jpg"
     XDG_CONFIG_HOME: "{{ lookup('ansible.builtin.env', 'HOME') }}/.config"
   tasks:
   - name: Create config directory
@@ -11,17 +10,20 @@
     # - system-upgrade
     # - flatpak
     # - wallpaper
+    # - fonts
     
     # Regular (or Flatpak) Packages
     # - authenticator
+    # - oathtool
     # - azure-storage-explorer
     # - build-tools
     # - discord
-    - firefox
+    # - firefox
     # - fish
     # - fzf
     # - git
     # - insomnium
+    # - jq
     # - localsend
     # - neofetch
     # - obsidian
@@ -33,3 +35,4 @@
     # Packages from source
     # - yay
     # - jetbrains-toolbox
+    # - bitwarden-cli
