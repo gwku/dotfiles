@@ -1,0 +1,6 @@
+---
+- name: Install Fish
+  become: true
+  apt:
+    name: "fish"
+    state: present

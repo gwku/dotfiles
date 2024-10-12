@@ -1,0 +1,6 @@
+---
+- name: Install Zed (flatpak)
+  community.general.flatpak:
+    name: dev.zed.Zed
+    state: present
+    method: user

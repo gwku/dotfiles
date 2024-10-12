@@ -1,0 +1,6 @@
+---
+- name: Install Signal
+  become: true
+  pacman:
+    name: "signal-desktop"
+    state: present

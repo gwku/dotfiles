@@ -1,0 +1,6 @@
+---
+- name: Install LocalSend (flatpak)
+  community.general.flatpak:
+    name: org.localsend.localsend_app
+    state: present
+    method: user

@@ -1,0 +1,6 @@
+---
+- name: Install Fish
+  become: true
+  pacman:
+    name: "fish"
+    state: present

@@ -1,0 +1,6 @@
+---
+- name: Install Neofetch
+  become: true
+  pacman:
+    name: "neofetch"
+    state: present

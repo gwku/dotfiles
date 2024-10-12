@@ -1,0 +1,6 @@
+---
+- name: Install Zed
+  become: true
+  pacman:
+    name: "zed"
+    state: present

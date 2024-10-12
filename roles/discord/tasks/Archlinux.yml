@@ -1,0 +1,6 @@
+---
+- name: Install Discord (Webcord)
+  become: true
+  pacman:
+    name: "webcord"
+    state: present

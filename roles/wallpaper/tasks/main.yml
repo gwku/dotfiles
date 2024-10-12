@@ -1,0 +1,23 @@
+---
+- name: Ensure the wallpaper directory exists
+  file:
+    path: "{{ lookup('env', 'HOME') }}/Pictures"
+    state: directory
+
+- name: Copy wallpaper to the user's Pictures directory
+  copy:
+    src: files/wallpaper.jpg
+    dest: "{{ lookup('env', 'HOME') }}/Pictures/wallpaper.jpg"
+    owner: gerwin
+    group: gerwin
+    mode: '0644'
+
+- name: Check if gsettings is available
+  command: which gsettings
+  register: gsettings_check
+  ignore_errors: yes
+
+- name: Set wallpaper if gsettings is available
+  command: gsettings set org.gnome.desktop.background picture-uri "file://{{ lookup('env', 'HOME') }}/Pictures/wallpaper.jpg"
+  become_user: "{{ lookup('env','USER') }}"
+  when: gsettings_check.rc == 0

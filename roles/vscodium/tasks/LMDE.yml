@@ -1,0 +1,6 @@
+---
+- name: Install VSCodium (flatpak)
+  community.general.flatpak:
+    name: com.vscodium.codium
+    state: present
+    method: user

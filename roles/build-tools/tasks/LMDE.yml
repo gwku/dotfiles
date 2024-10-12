@@ -1,0 +1,5 @@
+- name: Install build-essential
+  become: true
+  apt:
+    name: "build-essential"
+    state: present

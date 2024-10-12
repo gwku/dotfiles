@@ -1,0 +1,6 @@
+---
+- name: Install Authenticator
+  become: true
+  pacman:
+    name: "authenticator"
+    state: present

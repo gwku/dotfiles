@@ -1,0 +1,6 @@
+---
+- name: Install Azure Storage Explorer (flatpak)
+  community.general.flatpak:
+    name: com.microsoft.AzureStorageExplorer
+    state: present
+    method: user

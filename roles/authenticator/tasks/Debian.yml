@@ -1,0 +1,6 @@
+---
+- name: Install Authenticator (flatpak)
+  community.general.flatpak:
+    name: com.belmoussaoui.Authenticator
+    state: present
+    method: user

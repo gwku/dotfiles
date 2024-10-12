@@ -1,0 +1,6 @@
+---
+- name: Install Insomnium
+  become: true
+  pacman:
+    name: "insomnium-bin"
+    state: present

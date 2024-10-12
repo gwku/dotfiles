@@ -1,0 +1,6 @@
+---
+- name: Install Signal (flatpak)
+  community.general.flatpak:
+    name: org.signal.Signal
+    state: present
+    method: user

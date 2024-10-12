@@ -1,14 +1,35 @@
 - hosts: localhost
-  become: true
   vars:
     wallpaper_uri: "./files/wallpaper.jpg"
+    XDG_CONFIG_HOME: "{{ lookup('ansible.builtin.env', 'HOME') }}/.config"
   tasks:
-    - include_tasks: tasks/system-upgrade.yml
-    - include_tasks: tasks/install-aur-helper.yml
-    - include_tasks: tasks/install-packages.yml
-    - include_tasks: tasks/install-flatpak-packages.yml
-    - include_tasks: tasks/enable-fish-shell.yml
-    - include_tasks: tasks/set-wallpaper.yml
+  - name: Create config directory
+    file:
+      path: "{{XDG_CONFIG_HOME}}"
+      state: directory
   roles:
-    - jetbrains-toolbox
-      
+    # - system-upgrade
+    # - flatpak
+    # - wallpaper
+    
+    # Regular (or Flatpak) Packages
+    # - authenticator
+    # - azure-storage-explorer
+    # - build-tools
+    # - discord
+    - firefox
+    # - fish
+    # - fzf
+    # - git
+    # - insomnium
+    # - localsend
+    # - neofetch
+    # - obsidian
+    # - signal
+    # - todoist
+    # - vscodium
+    # - zed
+    
+    # Packages from source
+    # - yay
+    # - jetbrains-toolbox

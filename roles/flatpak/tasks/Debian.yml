@@ -1,0 +1,13 @@
+---
+- name: Install flatpak
+  become: true
+  apt:
+    name: "flatpak"
+    state: present
+
+- name: Add the flathub flatpak repository remote to the user installation
+  community.general.flatpak_remote:
+    name: flathub
+    state: present
+    flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
+    method: user
