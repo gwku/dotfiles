@@ -6,7 +6,7 @@
 
 - name: Copy wallpaper to the user's Pictures directory
   copy:
-    src: files/wallpaper.jpg
+    src: wallpaper.jpg
     dest: "{{ lookup('env', 'HOME') }}/Pictures/wallpaper.jpg"
     owner: gerwin
     group: gerwin
