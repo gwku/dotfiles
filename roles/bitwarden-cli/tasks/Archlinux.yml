@@ -1,0 +1,6 @@
+---
+- name: Install Bitwarden CLI
+  become: true
+  pacman:
+    name: "bitwarden-cli"
+    state: present

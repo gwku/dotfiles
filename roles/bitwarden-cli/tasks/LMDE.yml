@@ -1,0 +1,39 @@
+- name: Check if Bitwarden CLI is installed
+  ansible.builtin.command: which bw
+  register: bw_command
+  ignore_errors: true
+
+- block:
+    - name: Download Bitwarden CLI
+      ansible.builtin.get_url:
+        url: "https://vault.bitwarden.com/download/?app=cli&platform=linux"
+        dest: "/tmp/bitwarden-cli.zip"
+        mode: '0644'
+
+    - name: Ensure extraction directory exists
+      file:
+        path: "/tmp/bitwarden-cli"
+        state: directory
+
+    - name: Unzip Bitwarden CLI
+      ansible.builtin.unarchive:
+        src: "/tmp/bitwarden-cli.zip"
+        dest: "/tmp/bitwarden-cli"
+        remote_src: yes
+
+    - name: Move Bitwarden binary to /usr/local/bin
+      become: true
+      ansible.builtin.command:
+        cmd: mv /tmp/bitwarden-cli/bw /usr/local/bin/bw
+        creates: /usr/local/bin/bw
+
+    - name: Clean up downloaded files
+      ansible.builtin.file:
+        path: "/tmp/bitwarden-cli.zip"
+        state: absent
+
+    - name: Clean up extracted files
+      ansible.builtin.file:
+        path: "/tmp/bitwarden-cli"
+        state: absent
+  when: bw_command.rc != 0
