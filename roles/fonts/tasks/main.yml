@@ -1,0 +1,58 @@
+---
+- name: Define font families to check and install
+  ansible.builtin.set_fact:
+    fonts:
+      - JetBrainsMono
+
+- name: Ensure fonts directory exists
+  file:
+    path: "{{ ansible_env.HOME }}/.local/share/fonts"
+    state: directory
+    mode: '0755'
+
+- name: Check if fonts are installed
+  shell: |
+    fc-list | grep -i "{{ item }}"
+  register: fonts_check
+  changed_when: false
+  failed_when: false
+  loop: "{{ fonts }}"
+
+- name: Download and install fonts if not found
+  block:
+    - name: Download font zip files
+      get_url:
+        url: "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/{{ item.item }}.zip"
+        dest: "/tmp/{{ item.item }}.zip"
+      when: item.stdout == ""
+      loop: "{{ fonts_check.results }}"
+
+    - name: Ensure extraction directory exists
+      file:
+        path: "/tmp/{{ item.item }}"
+        state: directory
+      when: item.stdout == ""
+      loop: "{{ fonts_check.results }}"
+
+    - name: Unzip font files
+      unarchive:
+        src: "/tmp/{{ item.item }}.zip"
+        dest: "/tmp/{{ item.item }}"
+        remote_src: yes
+      when: item.stdout == ""
+      loop: "{{ fonts_check.results }}"
+
+    - name: Move font files to fonts directory
+      shell: |
+        mv /tmp/{{ item.item }}/*.ttf "{{ ansible_env.HOME }}/.local/share/fonts" || true
+      when: item.stdout == ""
+      loop: "{{ fonts_check.results }}"
+
+    - name: Clean up zip and extracted files
+      file:
+        path: "/tmp/{{ item.item }}"
+        state: absent
+      loop: "{{ fonts_check.results }}"
+
+    - name: Refresh font cache if new fonts were installed
+      command: fc-cache -fv
