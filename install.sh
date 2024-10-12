@@ -58,6 +58,10 @@ export $(grep -v '^#' "$env_file" | xargs)
 source ./scripts/ansible.sh
 initialize_ansible
 
+# Initialize oathtool
+source ./scripts/oathtool.sh
+initialize_oathtool
+
 # Initialize bitwarden
 source ./scripts/bitwarden.sh
 initialize_bitwarden
