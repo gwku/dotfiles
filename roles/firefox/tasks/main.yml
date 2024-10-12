@@ -19,7 +19,7 @@
 
   - name: Copy places.sqlite file to Firefox profile
     copy:
-      src: files/firefox/places.sqlite
+      src: places.sqlite
       dest: "{{ firefox_profile_dir.files[0].path }}/places.sqlite"
       owner: "{{ lookup('env', 'USER') }}"
       group: "{{ lookup('env', 'USER') }}"
