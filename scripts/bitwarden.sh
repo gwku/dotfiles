@@ -47,34 +47,7 @@ _check_bitwarden_status() {
     fi
 }
 
-# Function to ensure Bitwarden CLI installation
-_ensure_bitwarden_installation() {
-    # Check if Bitwarden CLI is installed
-    if ! command -v bw &> /dev/null; then
-        echo "Bitwarden CLI is not installed. Installing..."
-
-        # Download Bitwarden CLI Archive
-        local temp_zip="/tmp/bitwarden-cli.zip"
-        local extract_dir="/tmp/bitwarden-cli"
-
-        curl -Lo "$temp_zip" "https://vault.bitwarden.com/download/?app=cli&platform=linux"        
-        mkdir -p "$extract_dir"
-        unzip -o "$temp_zip" -d "$extract_dir"
-        sudo mv "$extract_dir/bw" /usr/local/bin/bw
-        sudo chmod +x /usr/local/bin/bw
-
-        # Clean up downloaded files
-        rm -f "$temp_zip"
-        rm -rf "$extract_dir"
-
-        echo "Bitwarden CLI installed successfully."
-    else
-        echo "Bitwarden CLI is already installed."
-    fi
-}
-
 initialize_bitwarden(){
-    _ensure_bitwarden_installation
     _check_bitwarden_status
     _unlock_bitwarden
 }

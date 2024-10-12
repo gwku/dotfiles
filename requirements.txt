@@ -1,0 +1,9 @@
+# Specify a package in the following format
+# |bin|debian|arch|
+# If a binary needs to be downloaded via a zip, specify a url like so:
+# zip:url
+jq|jq|jq
+python3|python3|python
+ansible|ansible|ansible
+oathtool|oathtool|oath-toolkit
+bw|zip:https://vault.bitwarden.com/download/?app=cli&platform=linux|bitwarden-cli"|bitwarden-cli
