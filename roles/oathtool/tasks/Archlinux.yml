@@ -1,0 +1,6 @@
+---
+- name: Install Oathtool
+  become: true
+  pacman:
+    name: "oath-toolkit"
+    state: present
