@@ -1,0 +1,6 @@
+---
+- name: Install Libreoffice
+  become: true
+  apt:
+    name: "libreoffice"
+    state: present
