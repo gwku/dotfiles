@@ -1,0 +1,6 @@
+---
+- name: Install HTTPie
+  become: true
+  apt:
+    name: "httpie"
+    state: present
