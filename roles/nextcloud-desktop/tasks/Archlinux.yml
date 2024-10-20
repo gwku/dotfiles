@@ -1,0 +1,6 @@
+---
+- name: Install Nextcloud Desktop
+  become: true
+  pacman:
+    name: "nextcloud-client"
+    state: present
