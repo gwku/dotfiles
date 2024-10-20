@@ -1,0 +1,6 @@
+---
+- name: Install slurp
+  become: true
+  pacman:
+    name: "slurp"
+    state: present

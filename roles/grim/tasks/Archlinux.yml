@@ -1,0 +1,6 @@
+---
+- name: Install grim
+  become: true
+  pacman:
+    name: "grim"
+    state: present

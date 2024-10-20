@@ -39,6 +39,7 @@
     # - fish
     # - fzf
     # - git
+    # - grim
     # - httpie
     # - insomnium
     # - jq
@@ -51,9 +52,11 @@
     # - obsidian
     # - redshift
     # - signal
+    # - slurp
     # - teamviewer
     # - todoist
     # - vscodium
+    # - wl-copy
     # - zed
     # - zoxide
     
