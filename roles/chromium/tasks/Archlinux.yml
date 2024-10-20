@@ -1,0 +1,6 @@
+---
+- name: Install Chromium
+  become: true
+  pacman:
+    name: "chromium"
+    state: present

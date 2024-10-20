@@ -1,0 +1,6 @@
+---
+- name: Install Chromium
+  become: true
+  apt:
+    name: "chromium"
+    state: present
