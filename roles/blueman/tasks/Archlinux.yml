@@ -1,0 +1,6 @@
+---
+- name: Install Blueman
+  become: true
+  pacman:
+    name: "blueman"
+    state: present

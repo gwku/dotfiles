@@ -1,0 +1,6 @@
+---
+- name: Install ADB
+  become: true
+  apt:
+    name: "adb"
+    state: present

@@ -1,0 +1,6 @@
+---
+- name: Install mpv
+  become: true
+  apt:
+    name: "mpv"
+    state: present

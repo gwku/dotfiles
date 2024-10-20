@@ -31,6 +31,12 @@ _unlock_bitwarden() {
     echo "Bitwarden vault unlocked."
 }
 
+_sync_bitwarden() {
+    echo "Syncing Bitwarden vault..."
+    bw sync
+    echo "Bitwarden vault synced."
+}
+
 # Function to lock the Bitwarden vault
 lock_bitwarden() {
     echo "Locking Bitwarden vault..."
@@ -41,7 +47,7 @@ lock_bitwarden() {
 # Function to check Bitwarden status and handle login
 _check_bitwarden_status() {
     if [ "$(bw status | jq -r '.status')" == "unauthenticated" ]; then
-        login_to_bitwarden
+        _login_to_bitwarden
     else
         echo "Already logged into Bitwarden."
     fi
@@ -50,4 +56,5 @@ _check_bitwarden_status() {
 initialize_bitwarden(){
     _check_bitwarden_status
     _unlock_bitwarden
+    _sync_bitwarden
 }

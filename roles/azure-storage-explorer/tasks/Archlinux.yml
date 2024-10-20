@@ -1,6 +1,3 @@
 ---
 - name: Install Azure Storage Explorer
-  become: true
-  pacman:
-    name: "storageexplorer"
-    state: present
+  yay: name=storageexplorer state=present

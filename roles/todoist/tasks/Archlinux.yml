@@ -1,6 +1,3 @@
 ---
 - name: Install Todoist
-  become: true
-  pacman:
-    name: "todoist-appimage"
-    state: present
+  yay: name=todoist-appimage state=present
