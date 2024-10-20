@@ -1,6 +1,13 @@
 ---
+- name: Add TeamViewer APT repository
+  apt_repository:
+    repo: "deb http://linux.teamviewer.com/deb stable main"
+    state: present
+    filename: "teamviewer"
+
 - name: Install Teamviewer
   become: true
   apt:
     name: "teamviewer"
     state: present
+    update_cache: yes
