@@ -1,0 +1,6 @@
+---
+- name: Install CopyQ
+  become: true
+  apt:
+    name: "copyq"
+    state: present
