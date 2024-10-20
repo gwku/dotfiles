@@ -6,10 +6,6 @@
     file:
       path: "{{XDG_CONFIG_HOME}}"
       state: directory
-  - name: "Get 'password' from Bitwarden record with ID 'bafba515-af11-47e6-abe3-af1200cd18b2'"
-    ansible.builtin.debug:
-      msg: >-
-        {{ lookup('community.general.bitwarden', 'b65c4ea0-f908-497f-9a9e-aec200956fd6', search='id', field='password') | first }}
   roles:
     # - system-upgrade
     # - ssh
@@ -47,6 +43,7 @@
     # - libreoffice
     # - localsend
     # - mpv
+    # - neo4j-desktop
     # - neofetch
     # - nvm
     # - oathtool
