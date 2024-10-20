@@ -1,0 +1,6 @@
+---
+- name: Install Wezterm
+  become: true
+  apt:
+    name: "wezterm"
+    state: present
