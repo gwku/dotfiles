@@ -37,6 +37,7 @@
     # - dotnet
     # - firefox
     # - fish
+    # - foot
     # - fzf
     # - git
     # - grim
@@ -56,6 +57,7 @@
     # - teamviewer
     # - todoist
     # - vscodium
+    # - waybar
     # - wl-copy
     # - zed
     # - zoxide

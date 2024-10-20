@@ -1,0 +1,6 @@
+---
+- name: Install foot
+  become: true
+  pacman:
+    name: "foot"
+    state: present
