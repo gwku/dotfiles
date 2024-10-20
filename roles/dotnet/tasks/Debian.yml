@@ -1,0 +1,50 @@
+---
+- name: Install Zoxide
+  become: true
+  apt:
+    name: "zoxide"
+    state: present
+
+- name: Download Microsoft package configuration
+  ansible.builtin.get_url:
+    url: https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb
+    dest: /tmp/packages-microsoft-prod.deb
+
+- name: Install Microsoft package configuration
+  ansible.builtin.command:
+    cmd: dpkg -i /tmp/packages-microsoft-prod.deb
+  become: true
+
+- name: Remove the downloaded package file
+  ansible.builtin.file:
+    path: /tmp/packages-microsoft-prod.deb
+    state: absent
+
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: true
+  become: true
+
+- name: Install .NET SDK (v8)
+  become: true
+  apt:
+    name: "dotnet-sdk-8.0"
+    state: present
+
+- name: Install .NET SDK (v6)
+  become: true
+  apt:
+    name: "dotnet-runtime-8.0"
+    state: present
+
+- name: Install .NET SDK (v6)
+  become: true
+  apt:
+    name: "dotnet-sdk-6.0"
+    state: present
+
+- name: Install .NET runtime (v6)
+  become: true
+  apt:
+    name: "dotnet-runtime-6.0"
+    state: present
