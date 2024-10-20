@@ -1,0 +1,6 @@
+---
+- name: Install Calibre
+  become: true
+  pacman:
+    name: "calibre"
+    state: present
