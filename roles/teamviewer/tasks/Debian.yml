@@ -1,0 +1,6 @@
+---
+- name: Install Teamviewer
+  become: true
+  apt:
+    name: "teamviewer"
+    state: present

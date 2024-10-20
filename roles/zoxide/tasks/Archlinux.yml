@@ -1,0 +1,6 @@
+---
+- name: Install Zoxide
+  become: true
+  pacman:
+    name: "zoxide"
+    state: present

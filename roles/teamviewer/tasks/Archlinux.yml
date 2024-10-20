@@ -1,0 +1,3 @@
+---
+- name: Install Teamviewer
+  yay: name=teamviewer state=present
