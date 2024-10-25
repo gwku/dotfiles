@@ -42,3 +42,16 @@ Debian (Flatpak)
     state: present
     method: user
 ```
+
+## Adding config files
+
+Add all config files under roles/{name}/files/config. Then link them with the following Ansible task in /roles/{name}/main.yml.
+
+```yaml
+- name: Symlink {name} dotfiles
+  ansible.builtin.file:
+    src: "{{ role_path }}/files/config"
+    dest: "{{ XDG_CONFIG_HOME }}/{name}"
+    state: link
+    force: no
+```
