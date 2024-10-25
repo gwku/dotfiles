@@ -1,0 +1,9 @@
+---
+- name: Install Sway
+  become: true
+  pacman:
+    name:
+      - sway
+      - swayidle
+      - swaylock
+    state: present

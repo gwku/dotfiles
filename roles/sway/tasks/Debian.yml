@@ -1,0 +1,9 @@
+---
+- name: Install Sway
+  become: true
+  apt:
+    name:
+      - sway
+      - swayidle
+      - swaylock
+    state: present
