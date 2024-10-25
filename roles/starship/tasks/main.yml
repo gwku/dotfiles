@@ -1,0 +1,13 @@
+---
+- name: Check if Starship is already installed
+  command: which starship
+  register: starship_check
+  ignore_errors: true
+  changed_when: false
+
+- name: Install Starship prompt
+  shell: curl -sS https://starship.rs/install.sh | sh
+  when: starship_check.rc != 0
+  args:
+    creates: /usr/local/bin/starship
+  become: true
