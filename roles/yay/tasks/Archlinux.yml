@@ -1,23 +1,32 @@
 ---
-- name: Create Downloads directory if it doesn't exist
-  file:
-    path: "{{ ansible_env.HOME }}/Downloads"
-    state: directory
-    mode: '0755'
+- name: Check if Yay is already installed
+  command: which yay
+  register: yay_check
+  ignore_errors: true
+  changed_when: false
 
-- name: Clone yay repository into Downloads folder
-  git:
-    repo: https://aur.archlinux.org/yay.git
-    dest: "{{ ansible_env.HOME }}/Downloads/yay"
-    clone: yes
-    update: no
+- name: Install Yay
+  when: yay_check.rc != 0
+  block:
+  - name: Create Downloads directory if it doesn't exist
+    file:
+      path: "{{ ansible_env.HOME }}/Downloads"
+      state: directory
+      mode: '0755'
 
-- name: Build and install yay from source
-  command: makepkg -si --noconfirm
-  args:
-    chdir: "{{ ansible_env.HOME }}/Downloads/yay"
+  - name: Clone yay repository into Downloads folder
+    git:
+      repo: https://aur.archlinux.org/yay.git
+      dest: "{{ ansible_env.HOME }}/Downloads/yay"
+      clone: yes
+      update: no
 
-- name: Remove the yay source folder after installation
-  file:
-    path: "{{ ansible_env.HOME }}/Downloads/yay"
-    state: absent
+  - name: Build and install yay from source
+    command: makepkg -si --noconfirm
+    args:
+      chdir: "{{ ansible_env.HOME }}/Downloads/yay"
+
+  - name: Remove the yay source folder after installation
+    file:
+      path: "{{ ansible_env.HOME }}/Downloads/yay"
+      state: absent
