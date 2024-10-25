@@ -22,7 +22,7 @@
         
     - name: Create SSH config file based on Bitwarden items
       blockinfile:
-        path: "{{ lookup('env', 'HOME') }}/.ssh/config_test"
+        path: "{{ lookup('env', 'HOME') }}/.ssh/config"
         block: |
           {% for item in ssh_items %}
           Host {{ item.fields | selectattr('name', 'equalto', 'host') | map(attribute='value') | first }}
