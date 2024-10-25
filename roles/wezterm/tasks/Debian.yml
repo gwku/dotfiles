@@ -5,12 +5,12 @@
     url: https://apt.fury.io/wez/gpg.key
     state: present
     validate_certs: yes
-    keyring: /etc/apt/keyrings/wezterm-fury.gpg
+    keyring: /usr/share/keyrings/wezterm-fury.gpg
 
 - name: Add Wezterm APT repository
   become: true
   ansible.builtin.apt_repository:
-    repo: 'deb [signed-by=/etc/apt/keyrings/wezterm-fury.gpg] https://apt.fury.io/wez/ * *'
+    repo: 'deb [signed-by=/usr/share/keyrings/wezterm-fury.gpg] https://apt.fury.io/wez/ * *'
     state: present
     filename: wezterm
 
