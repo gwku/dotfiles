@@ -2,28 +2,36 @@
 - name: Install Neo4j Desktop
   become: true
   block:
-  - name: Download Neo4j Desktop AppImage
-    get_url:
-      url: "https://dist.neo4j.org/neo4j-desktop/linux-offline/neo4j-desktop-1.6.1-x86_64.AppImage"
-      dest: "/tmp/neo4j-desktop.AppImage"
-      mode: '0755'
+    - name: Check if Neo4j Desktop is already installed
+      stat:
+        path: "/opt/neo4j-desktop.AppImage"
+      register: neo4j_installed
 
-  - name: Move Neo4j Desktop AppImage to /opt
-    command: mv /tmp/neo4j-desktop.AppImage /opt/neo4j-desktop.AppImage
+    - name: Download Neo4j Desktop AppImage
+      get_url:
+        url: "https://dist.neo4j.org/neo4j-desktop/linux-offline/neo4j-desktop-1.6.1-x86_64.AppImage"
+        dest: "/tmp/neo4j-desktop.AppImage"
+        mode: '0755'
+      when: not neo4j_installed.stat.exists
 
-  - name: Create desktop entry for Neo4j Desktop
-    copy:
-      dest: "/usr/share/applications/neo4j-desktop.desktop"
-      content: |
-        [Desktop Entry]
-        Name=Neo4j Desktop
-        Exec=/opt/neo4j-desktop.AppImage
-        Type=Application
-        Terminal=false
-        Icon=/opt/neo4j-desktop.AppImage
-        Categories=Development;Database;
-        Comment=Neo4j Desktop Application
-        StartupNotify=true
+    - name: Move Neo4j Desktop AppImage to /opt
+      command: mv /tmp/neo4j-desktop.AppImage /opt/neo4j-desktop.AppImage
+      args:
+        creates: "/opt/neo4j-desktop.AppImage"
+      when: not neo4j_installed.stat.exists
 
-  - name: Ensure the desktop entry is executable
-    command: chmod +x /usr/share/applications/neo4j-desktop.desktop
+    - name: Create desktop entry for Neo4j Desktop
+      copy:
+        dest: "/usr/share/applications/neo4j-desktop.desktop"
+        content: |
+          [Desktop Entry]
+          Name=Neo4j Desktop
+          Exec=/opt/neo4j-desktop.AppImage
+          Type=Application
+          Terminal=false
+          Icon=/opt/neo4j-desktop.AppImage
+          Categories=Development;Database;
+          Comment=Neo4j Desktop Application
+          StartupNotify=true
+        mode: '0755'
+      when: not neo4j_installed.stat.exists
