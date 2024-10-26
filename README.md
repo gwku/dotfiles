@@ -48,6 +48,10 @@ In order to properly run the commands which need sudo access (such as installing
 
 Because these environment variables are sensitive and could lead to a security breach if they are stored in plain text on your system, the install script will automatically delete the provided env file. If you don't want this, you can provide the optional `--keep-env` flag to the install script. Also, `.env` files are added to the `.gitignore` file.
 
+### Home directory
+
+In some config files (like those for Fish and nvim), my user directory is hardcoded. If you want to replicate my config files, make sure you search and replace `gerwin` with your Linux account username.
+
 ### Install command
 
 Run `./install.sh .env` where `.env` is the file with environment variables you have set. Optionally, you can pass the flags `--keep-env` (to not remove your env file after installation) and `--skip-bitwarden` (to skip the installation and initialization of bitwarden -> disable the `ssh` role because this requires Bitwarden.)

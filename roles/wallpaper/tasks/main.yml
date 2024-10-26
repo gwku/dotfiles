@@ -8,14 +8,14 @@
   copy:
     src: wallpaper.jpg
     dest: "{{ lookup('env', 'HOME') }}/Pictures/wallpaper.jpg"
-    owner: gerwin
-    group: gerwin
-    mode: '0644'
+    owner: "{{ lookup('env','USER') }}"
+    group: "{{ lookup('env','USER') }}"
+    mode: "0644"
 
 - name: Check if gsettings is available
   command: which gsettings
   register: gsettings_check
-  ignore_errors: yes
+  ignore_errors: true
 
 - name: Set wallpaper if gsettings is available
   command: gsettings set org.gnome.desktop.background picture-uri "file://{{ lookup('env', 'HOME') }}/Pictures/wallpaper.jpg"
