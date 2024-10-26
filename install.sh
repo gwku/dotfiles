@@ -16,10 +16,18 @@ else
     exit 1
 fi
 
-# Add NOPASSWD sudoers rule for Yay and Pacman, to install all packages without password
-echo "Adding sudoers rule NOPASSWD for Yay and Pacman"
+# Define the sudoers rule for yay and pacman
 SUDOERS_RULE="$(whoami) ALL=(ALL) NOPASSWD: /usr/bin/yay, /usr/bin/pacman"
-echo "$SUDOERS_RULE" | sudo tee -a /etc/sudoers.d/temp_yay_sudo > /dev/null
+SUDOERS_FILE="/etc/sudoers.d/temp_yay_sudo"
+
+# Check if the rule already exists
+if ! sudo grep -Fxq "$SUDOERS_RULE" "$SUDOERS_FILE"; then
+    # Add NOPASSWD sudoers rule for Yay and Pacman
+    echo "Adding sudoers rule NOPASSWD for Yay and Pacman"
+    echo "$SUDOERS_RULE" | sudo tee -a "$SUDOERS_FILE" > /dev/null
+else
+    echo "Sudoers rule for Yay and Pacman already exists."
+fi
 
 install_requirements requirements.txt
 
