@@ -7,61 +7,61 @@
         path: "{{XDG_CONFIG_HOME}}"
         state: directory
   roles:
-    # - system-upgrade
-    # - ssh
-    # - wallpaper
-    # - fonts
-    # - flatpak
+    - system-upgrade
+    - ssh
+    - wallpaper
+    - fonts
+    - flatpak
 
     # Packages from source
-    # - yay
-    # - jetbrains-toolbox
-    # - bitwarden-cli
+    - yay
+    - jetbrains-toolbox
+    - bitwarden-cli
 
     # Regular (or Flatpak) Packages
-    # - authenticator
-    # - oathtool
-    # - azure-storage-explorer
-    # - blueman
-    # - btop
-    # - build-tools
-    # - calibre
-    # - chromium
-    # - copyq
-    # - discord
-    # - docker
-    # - dotnet
-    # - firefox
-    # - fish
-    # - foot
-    # - fzf
-    # - git
-    # - grim
-    # - httpie
-    # - i3
-    # - i3status
-    # - insomnium
-    # - jq
-    # - libreoffice
-    # - localsend
-    # - mpv
-    # - neo4j-desktop
-    # - neofetch
-    # - nvim
-    # - oathtool
-    # - obsidian
-    # - redshift
-    # - ripgrep
-    # - rofi
-    # - signal
-    # - slurp
-    # - starship
-    # - sway
-    # - teamviewer
-    # - todoist
-    # - vscodium
-    # - waybar
-    # - wezterm
-    # - wl-copy
-    # - zed
-    # - zoxide
+    - authenticator
+    - oathtool
+    - azure-storage-explorer
+    - blueman
+    - btop
+    - build-tools
+    - calibre
+    - chromium
+    - copyq
+    - discord
+    - docker
+    - dotnet
+    - firefox
+    - fish
+    - foot
+    - fzf
+    - git
+    - grim
+    - httpie
+    - i3
+    - i3status
+    - insomnium
+    - jq
+    - libreoffice
+    - localsend
+    - mpv
+    - neo4j-desktop
+    - neofetch
+    - nvim
+    - oathtool
+    - obsidian
+    - redshift
+    - ripgrep
+    - rofi
+    - signal
+    - slurp
+    - starship
+    - sway
+    - teamviewer
+    - todoist
+    - vscodium
+    - waybar
+    - wezterm
+    - wl-copy
+    - zed
+    - zoxide
