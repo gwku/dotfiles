@@ -1,7 +1,4 @@
-exec mako
 exec blueman-applet
 exec nm-applet --indicator
 exec copyq --start-server
 exec safeeyes
-exec-once systemctl --user import-environment &
-# exec-once xdg-desktop-portal-hyprland

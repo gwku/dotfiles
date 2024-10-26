@@ -1,6 +1,4 @@
 # Swipe through workspaces
-bindgesture swipe:right workspace prev
-bindgesture swipe:left workspace next
 bindsym Ctrl+Mod1+Left workspace prev
 bindsym Ctrl+Mod1+Right workspace next
 
