@@ -6,19 +6,22 @@ You can do whatever you want with my code, since it's licensed under MIT. Use it
 
 ## Installation
 
-**Summary**
+### Summary
+
 Follow these three steps to start the installer:
 
 1. Run `cp .env.example .env`.
 2. Add relevant variables to `.env`
 3. Run `./install.sh .env` (optional: `--keep-env`, `--skip-bitwarden`)
 
-**Requirements**
+### Requirements
+
 To make installing as easy as possible, I have created an install script. This script first makes sure all requirements that are listed in `requirements.txt` are installed. If some required packages are not installed, you will be asked for your sudo password, in order to install the requirements.
 
 The script will install `python3` and `ansible`, in order to run the Ansible playbook.
 
-**Bitwarden**
+### Bitwarden
+
 To securely install my SSH keys, I am using Bitwarden as my secrets manager. In Bitwarden, I created a folder called SSH. The Ansible role `ssh` will loop through each item in that folder and add the ssh public and private keys to the `~/.ssh` folder. It will also add each item to the `~/.ssh/config` file.
 
 Each SSH item in Bitwarden consists of the following:
@@ -32,7 +35,8 @@ Each SSH item in Bitwarden consists of the following:
 
 If you don't want to make use of Bitwarden, add the option `--skip-bitwarden` to the install command. This will skip the installation and initialization of Bitwarden. Also make sure the role `ssh` has been commented out in `main.yml`, since it requires bitwarden.
 
-**Environment variables**
+### Environment variables
+
 In order to properly run the commands which need sudo access (such as installing packages), the environment variable `BECOME_PASSWORD` needs to be set. Also, to unlock the Bitwarden Vault, the environment variables `BITWARDEN_EMAIL` and `BITWARDEN_PASSWORD` need to be set. If you have enabled 2FA, the environment variable BITWARDEN_SECRET also needs to be set. To generate a 2FA token, oathtool is used in the script.
 
 - BITWARDEN_EMAIL: the email of your Bitwarden account
