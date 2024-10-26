@@ -36,9 +36,9 @@ Debian
 Debian (Flatpak)
 
 ```yaml
-- name: Install Zed (flatpak)
+- name: Install name (flatpak)
   community.general.flatpak:
-    name: dev.zed.Zed
+    name: com.company.packagename
     state: present
     method: user
 ```
