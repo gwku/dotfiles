@@ -5,8 +5,10 @@
   ignore_errors: true
   changed_when: false
 
-- name: Install Starship prompt
-  shell: curl -sS https://starship.rs/install.sh | sh
+- name: Download and install Starship prompt
+  shell: |
+    curl -sS https://starship.rs/install.sh -o /tmp/install_starship.sh
+    sh /tmp/install_starship.sh -f -y
   when: starship_check.rc != 0
   args:
     creates: /usr/local/bin/starship
