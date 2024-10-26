@@ -36,6 +36,7 @@
     - foot
     - fzf
     - git
+    - gnome-keyring
     - grim
     - httpie
     - i3
