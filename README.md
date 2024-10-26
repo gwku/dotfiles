@@ -22,7 +22,9 @@ The script will install `python3` and `ansible`, in order to run the Ansible pla
 
 ### Bitwarden
 
-To securely install my SSH keys, I am using Bitwarden as my secrets manager. In Bitwarden, I created a folder called SSH. The Ansible role `ssh` will loop through each item in that folder and add the ssh public and private keys to the `~/.ssh` folder. It will also add each item to the `~/.ssh/config` file.
+To securely install my SSH keys, I am using Bitwarden as my secrets manager. I know that Ansible Vault exists, but I don't want my secrets to be publicly on Github, even though they are encrypted, since this will give anyone the chance to brute force them. And maybe in the future, quantum computers can do that in seconds :)
+
+In Bitwarden, I created a folder called SSH. The Ansible role `ssh` will loop through each item in that folder and add the ssh public and private keys to the `~/.ssh` folder. It will also add each item to the `~/.ssh/config` file.
 
 Each SSH item in Bitwarden consists of the following:
 
