@@ -1,6 +1,7 @@
 # Disable Fish Welcome Message
 set fish_greeting
 
+# Set FZF theme to Neofusion
 set -Ux FZF_DEFAULT_OPTS "\
 --color=bg+:#031B26,bg:#06101e,spinner:#fd5e3a,hl:#e2d9c5 \
 --color=fg:#08435E,header:#e2d9c5,info:#35b5ff,pointer:#fa7a61 \
