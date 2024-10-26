@@ -34,6 +34,14 @@ Each SSH item in Bitwarden consists of the following:
 - custom fields:
   - host: SSH alias/host for config file (to be able to run `ssh alias_here`)
   - public_key: SSH public key
+  - port: custom SSH port (optional)
+
+The private key should be stored with literal `\n` characters. In order to do this, you can use the following command to copy it to your clipboard (or modify to your liking). _Make sure you run this in `bash`_:
+
+```bash
+awk -v ORS='\n' '1' ~/.ssh.bak/gitea | xclip -selection clipboard # for X11
+awk -v ORS='\n' '1' ~/.ssh.bak/gitea | wl-copy # for Wayland
+```
 
 If you don't want to make use of Bitwarden, add the option `--skip-bitwarden` to the install command. This will skip the installation and initialization of Bitwarden. Also make sure the role `ssh` has been commented out in `main.yml`, since it requires bitwarden.
 

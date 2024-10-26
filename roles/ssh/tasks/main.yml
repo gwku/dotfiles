@@ -1,5 +1,6 @@
 ---
 - name: Generate SSH config from Bitwarden Vault using bw CLI
+  when: lookup('env', 'BW_SESSION') is defined and lookup('env', 'BW_SESSION') != ''
   block:
     - name: Run Bitwarden CLI to get items from SSH folder
       command: bw list items --folderid 0aa03118-114c-4591-9f05-b2090089361b
@@ -24,8 +25,30 @@
           Host {{ item.fields | selectattr('name', 'equalto', 'host') | map(attribute='value') | first }}
               Hostname {{ item.login.uris[0].uri }}
               User {{ item.login.username }}
+          {% set port = item.fields | selectattr('name', 'equalto', 'port') | map(attribute='value') | first | default('22') %}
+          {% if port %}
+              Port {{ port }}
+          {% endif %}
               IdentityFile ~/.ssh/{{ item.fields | selectattr('name', 'equalto', 'host') | map(attribute='value') | first }}
           {% endfor %}
         owner: "{{ lookup('env', 'USER') }}"
         mode: "0600"
         create: true
+
+    - name: Create private key files
+      copy:
+        content: "{{ item.login.password | replace('\\n', '\n') }}"
+        dest: "{{ lookup('env', 'HOME') }}/.ssh/{{ item.fields | selectattr('name', 'equalto', 'host') | map(attribute='value') | first }}"
+        owner: "{{ lookup('env', 'USER') }}"
+        mode: "0600"
+        force: yes
+      loop: "{{ ssh_items }}"
+
+    - name: Create public key files (with .pub extension)
+      copy:
+        content: "{{ item.fields | selectattr('name', 'equalto', 'public_key') | map(attribute='value') | first }}"
+        dest: "{{ lookup('env', 'HOME') }}/.ssh/{{ item.fields | selectattr('name', 'equalto', 'host') | map(attribute='value') | first }}.pub"
+        owner: "{{ lookup('env', 'USER') }}"
+        mode: "0644"
+        force: yes
+      loop: "{{ ssh_items }}"
