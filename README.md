@@ -98,7 +98,7 @@ Debian
     state: present
 ```
 
-Debian (Flatpak)
+Flatpak
 
 ```yaml
 - name: Install name (flatpak)
