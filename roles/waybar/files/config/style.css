@@ -1,0 +1,115 @@
+@define-color text-color white;
+@define-color active-text-color black;
+@define-color background-transparent rgba(0, 0, 0, 0);
+@define-color border-color #11111b;
+@define-color button-bg-hover #ababab;
+
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "JetBrainsMono NF";
+    font-weight: bold;
+    font-size: 16px;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+}
+
+window#waybar {
+    background: @background-transparent;
+    margin: 0;
+    padding: 0;
+}
+
+tooltip {
+    background: #000000;
+    border-radius: 10px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: @border-color;
+    color: @text-color;
+}
+
+tooltip * {
+    color: @text-color;
+}
+
+#workspaces button {
+    padding: 0 5px;
+    margin-right: 5px;
+    border-radius: 10px;
+    color: @text-color;
+}
+
+#workspaces button.focused,
+#workspaces button.active,
+#workspaces button.urgent,
+#workspaces button:hover,
+#workspaces button.focused * ,
+#workspaces button.active * ,
+#workspaces button.urgent * ,
+#workspaces button:hover * {
+    background: @button-bg-hover;
+    color: @active-text-color;
+}
+
+#custom-power_profile,
+#custom-weather,
+#custom-myhyprv,
+#custom-light_dark,
+#window,
+#clock,
+#battery,
+#pulseaudio,
+#network,
+#bluetooth,
+#temperature,
+#workspaces,
+#tray,
+#memory,
+#backlight {
+    background: @background-transparent;
+    padding: 0 10px;
+    color: @text-color;
+}
+
+#temperature, #backlight , #custom-myhyprv {
+    border-radius: 10px 0 0 10px;
+}
+
+#bluetooth, #custom-light_dark {
+    border-radius: 0 10px 10px 0;
+    margin-right: 10px;
+}
+
+#tray {
+    border-radius: 10px;
+    margin-right: 10px;
+}
+
+#workspaces {
+    border-radius: 10px;
+    margin-left: 10px;
+    padding: 0 5px;
+}
+
+#custom-power_profile,
+#window,
+#clock,
+#network,
+#pulseaudio,
+#battery {
+    border-radius: 10px;
+}
+
+#clock {
+    margin-left: 10px;
+}
+
+#memory, #network, #bluetooth, #battery, #pulseaudio.microphone {
+    margin-right: 10px;
+}
+
+#pulseaudio.microphone {
+    border-radius: 0 10px 10px 0;
+}
