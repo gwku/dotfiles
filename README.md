@@ -1,6 +1,6 @@
 # Dotfiles
 
-This repository contains all packages, configuration files and more to automate linux desktop installations for me. I only use Debian or Arch based distros. This repository supports both. At this moment, I only use Xorg on Debian and Wayland on Arch (which is the reason that Wayland related packages will only be installed on Arch). If I need a fresh Linux desktop install, I only need to add environment variables and run one [command](#installation), to replicate my favourite setup. That makes my life a whole lot easier!
+This repository contains all packages, (symlinked) configuration files and more to automate linux desktop installations for me. I only use Debian or Arch based distros. This repository supports both. At this moment, I only use Xorg on Debian and Wayland on Arch (which is the reason that Wayland related packages will only be installed on Arch). If I need a fresh Linux desktop install, I only need to add environment variables and run one [command](#installation), to replicate my favourite setup. That makes my life a whole lot easier!
 
 You can do whatever you want with my code, since it's licensed under MIT. Use it as inspiration for your own automation setup.
 
@@ -130,6 +130,8 @@ Often, you can define configuration files (dotfiles) for your apps. Almost all a
     state: link
     force: no
 ```
+
+Keep in mind that these are symlinks, which means that the original files are in this repository. So clone this repository in a convenient place, where it can stay persistent.
 
 ### Adding custom tasks
 
