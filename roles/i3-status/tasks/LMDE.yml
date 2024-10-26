@@ -1,0 +1,6 @@
+---
+- name: Install i3status
+  become: true
+  apt:
+    name: i3status
+    state: present
