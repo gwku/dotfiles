@@ -1,0 +1,9 @@
+bindsym XF86AudioLowerVolume exec pamixer -ud 3
+bindsym XF86AudioRaiseVolume exec pamixer -ui 3
+bindsym XF86AudioMute exec amixer sset Master toggle
+bindsym XF86AudioMicMute exec pamixer --default-source -t
+
+bindsym XF86KbdBrightnessUp exec brightnessctl s +5%
+bindsym XF86MonBrightnessUp exec brightnessctl s +5%
+bindsym XF86KbdBrightnessDown exec brightnessctl s 5%-
+bindsym XF86MonBrightnessDown exec brightnessctl s 5%-

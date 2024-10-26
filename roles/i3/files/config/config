@@ -1,0 +1,14 @@
+include /etc/sway/config.d/*
+include ~/.config/sway/variables
+include ~/.config/sway/outputs
+include ~/.config/sway/inputs
+include ~/.config/sway/function_keys
+include ~/.config/sway/workspaces
+include ~/.config/sway/layout
+include ~/.config/sway/scratchpad
+include ~/.config/sway/resize
+include ~/.config/sway/windows
+include ~/.config/sway/keybindings
+include ~/.config/sway/bar
+include ~/.config/sway/styles
+

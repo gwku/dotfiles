@@ -1,0 +1,15 @@
+input "type:touchpad" {
+    dwt enabled
+    tap enabled
+    natural_scroll enabled
+    middle_emulation enabled
+}
+
+input "type:keyboard" {
+    xkb_layout us
+    xkb_variant intl
+    xkb_numlock enabled
+    xkb_options ''
+}
+
+focus_follows_mouse no
