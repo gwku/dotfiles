@@ -11,7 +11,7 @@
 - name: Install C# REPL tool using dotnet
   ansible.builtin.command:
     cmd: "dotnet tool install -g csharprepl"
-  become: yes
+  become: true
   environment:
     PATH: "{{ ansible_env.HOME }}/.dotnet/tools:{{ ansible_env.PATH }}"
   changed_when: "'csharprepl' not in lookup('pipe', 'dotnet tool list -g')"

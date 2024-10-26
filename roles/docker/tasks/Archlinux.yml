@@ -5,11 +5,11 @@
       - docker
       - docker-compose
     state: present
-  become: yes
+  become: true
 
 - name: Enable and start Docker service
   ansible.builtin.systemd:
     name: docker.service
     enabled: yes
     state: started
-  become: yes
+  become: true
