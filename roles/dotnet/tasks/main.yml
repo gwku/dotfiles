@@ -8,10 +8,13 @@
   ansible.builtin.include_tasks: "{{ ansible_distribution }}.yml"
   when: distribution_config.stat.exists
 
-- name: Install C# REPL tool using dotnet
-  ansible.builtin.command:
-    cmd: "dotnet tool install -g csharprepl"
+- name: Ensure C# REPL tool is installed using dotnet
+  ansible.builtin.shell: |
+    if ! dotnet tool list -g | grep -q 'csharprepl'; then
+      dotnet tool install -g csharprepl
+    fi
   become: true
   environment:
     PATH: "{{ ansible_env.HOME }}/.dotnet/tools:{{ ansible_env.PATH }}"
-  changed_when: "'csharprepl' not in lookup('pipe', 'dotnet tool list -g')"
+  register: install_result
+  changed_when: install_result.rc == 0
