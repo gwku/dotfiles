@@ -42,6 +42,7 @@
     filename: docker
 
 - name: Install Docker packages
+  become: true
   apt:
     name:
       - docker-ce

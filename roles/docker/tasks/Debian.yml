@@ -47,6 +47,7 @@
     update_cache: yes
 
 - name: Install Docker packages
+  become: true
   apt:
     name:
       - docker-ce
