@@ -9,7 +9,11 @@ source ./scripts/validation.sh
 export $(grep -v '^#' "$env_file" | xargs)
 
 install_requirements requirements.txt
-initialize_bitwarden
+
+# Initialize Bitwarden if the skip flag is not set
+if ! $skip_bitwarden; then
+    initialize_bitwarden
+fi
 
 # Run the Ansible playbook with become password as variable
 ansible-playbook main.yml --extra-vars "ansible_become_password=$BECOME_PASSWORD"

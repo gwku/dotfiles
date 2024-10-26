@@ -60,6 +60,12 @@ install_requirements() {
         debian_pkg=$(echo $entry | cut -d '|' -f 2)
         arch_pkg=$(echo $entry | cut -d '|' -f 3)
 
+        # Skip Bitwarden and oathtool initialization if the skip bitwarden flag is set
+        if [[ ("$bin" == "bw" || "$bin" == "oathtool") && "$skip_bitwarden" == true ]]; then
+            echo "Skipping $bin installation as per --skip-bitwarden flag."
+            continue
+        fi
+
         if ! command -v "$bin" &> /dev/null; then
             pkg=""
             if [[ "$ID" == "debian" || "$ID_LIKE" == "debian" ]]; then

@@ -2,14 +2,14 @@
 
 # Initialize variables
 remove_env_file=true
+skip_bitwarden=false
 
 # Define the options using getopt
-OPTIONS=$(getopt -o k --long keep-env -n "$0" -- "$@")
+OPTIONS=$(getopt -o k,s --long keep-env,skip-bitwarden -n "$0" -- "$@")
 if [ $? -ne 0 ]; then
-    echo "Usage: $0 [--keep-env] path_to_env_file"
+    echo "Usage: $0 [--keep-env] [--skip-bitwarden] path_to_env_file"
     exit 1
 fi
-
 
 # Parse the options
 eval set -- "$OPTIONS"
@@ -17,6 +17,10 @@ while true; do
     case "$1" in
         -k | --keep-env)
             remove_env_file=false
+            shift
+            ;;
+        -s | --skip-bitwarden)
+            skip_bitwarden=true
             shift
             ;;
         --)
@@ -32,7 +36,7 @@ done
 
 # Check if an env file is provided
 if [ "$#" -ne 1 ]; then
-    echo "Usage: $0 [--keep-env] path_to_env_file"
+    echo "Usage: $0 [--keep-env] [--skip-bitwarden] path_to_env_file"
     exit 1
 fi
 
