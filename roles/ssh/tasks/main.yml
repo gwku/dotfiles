@@ -10,16 +10,12 @@
       set_fact:
         ssh_items: "{{ bw_output.stdout | from_json }}"
 
-    - name: debug
-      ansible.builtin.debug:
-        var: ssh_items
-
     - name: Ensure ~/.ssh directory exists
       file:
         path: "{{ lookup('env', 'HOME') }}/.ssh"
         state: directory
-        mode: '0700'
-        
+        mode: "0700"
+
     - name: Create SSH config file based on Bitwarden items
       blockinfile:
         path: "{{ lookup('env', 'HOME') }}/.ssh/config"
@@ -31,5 +27,5 @@
               IdentityFile ~/.ssh/{{ item.fields | selectattr('name', 'equalto', 'host') | map(attribute='value') | first }}
           {% endfor %}
         owner: "{{ lookup('env', 'USER') }}"
-        mode: '0600'
+        mode: "0600"
         create: true
