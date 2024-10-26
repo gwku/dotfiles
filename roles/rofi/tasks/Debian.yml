@@ -1,0 +1,6 @@
+---
+- name: Install Rofi
+  become: true
+  apt:
+    name: "rofi"
+    state: present

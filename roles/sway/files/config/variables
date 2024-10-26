@@ -5,4 +5,4 @@ set $up k
 set $right l
 
 set $term wezterm
-set $menu exec wofi --show=drun
+set $menu exec rofi -show drun

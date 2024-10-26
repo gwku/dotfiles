@@ -1,0 +1,3 @@
+---
+- name: Install Rofi
+  yay: name=rofi-wayland state=present
