@@ -4,6 +4,7 @@ set -euo pipefail
 source ./scripts/requirements.sh
 source ./scripts/bitwarden.sh
 source ./scripts/validation.sh
+source ./scripts/sudoers_rule.sh
 
 # Load environment variables from the specified env file, ignoring comments
 export $(grep -v '^#' "$env_file" | xargs)
@@ -16,19 +17,7 @@ else
     exit 1
 fi
 
-# Define the sudoers rule for yay and pacman
-SUDOERS_RULE="$(whoami) ALL=(ALL) NOPASSWD: /usr/bin/yay, /usr/bin/pacman"
-SUDOERS_FILE="/etc/sudoers.d/temp_yay_sudo"
-
-# Check if the rule already exists
-if ! sudo grep -Fxq "$SUDOERS_RULE" "$SUDOERS_FILE"; then
-    # Add NOPASSWD sudoers rule for Yay and Pacman
-    echo "Adding sudoers rule NOPASSWD for Yay and Pacman"
-    echo "$SUDOERS_RULE" | sudo tee -a "$SUDOERS_FILE" > /dev/null
-else
-    echo "Sudoers rule for Yay and Pacman already exists."
-fi
-
+add_sudoers_rule
 install_requirements requirements.txt
 
 # Initialize Bitwarden if the skip flag is not set
@@ -57,4 +46,4 @@ fi
 echo "Removing sudoers rule NOPASSWD for Yay and Pacman"
 sudo rm -f /etc/sudoers.d/temp_yay_sudo
 
-echo "Everything installed successfully."
+echo "Install script complete."
