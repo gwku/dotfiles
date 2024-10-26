@@ -34,7 +34,8 @@ local neofusion_theme = {
 config = {
 	colors = neofusion_theme,
 	default_prog = { "/usr/bin/fish", "-l" },
-  window_decorations = "RESIZE"
+	window_decorations = "RESIZE",
+	default_cursor_style = "SteadyUnderline",
 }
 
 return config
