@@ -1,3 +1,4 @@
+---
 - name: Define font families to check and install
   ansible.builtin.set_fact:
     fonts:
@@ -7,11 +8,11 @@
   file:
     path: "{{ ansible_env.HOME }}/.local/share/fonts"
     state: directory
-    mode: "0755"
+    mode: '0755'
 
 - name: Check if fonts are installed
   shell: |
-    fc-list | awk -F: '/{{ item }}/ { print $2 }' >/dev/null 2>&1
+    fc-list | grep -i "{{ item }}"
   register: fonts_check
   changed_when: false
   failed_when: false
