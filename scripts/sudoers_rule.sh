@@ -14,3 +14,11 @@ add_sudoers_rule() {
         fi
     fi
 }
+
+remove_sudoers_rule() {
+    if [[ "$ID" == "arch" || "$ID_LIKE" == "arch" ]]; then
+        echo "Removing sudoers rule NOPASSWD for Yay and Pacman"
+        sudo rm -f /etc/sudoers.d/temp_yay_sudo
+    fi
+
+}

@@ -43,7 +43,6 @@ else
     echo "Kept env file: $env_file"
 fi
 
-echo "Removing sudoers rule NOPASSWD for Yay and Pacman"
-sudo rm -f /etc/sudoers.d/temp_yay_sudo
+remove_sudoers_rule
 
 echo "Install script complete."
