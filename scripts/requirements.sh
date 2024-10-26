@@ -1,13 +1,5 @@
 #!/usr/bin/env bash
 
-# Detect OS
-if [[ -f /etc/os-release ]]; then
-    . /etc/os-release
-else
-    echo "Unable to detect OS."
-    exit 1
-fi
-
 # Function to install missing packages
 _install_packages() {
     local packages="$1"
@@ -87,9 +79,6 @@ install_requirements() {
 
     # Install all missing packages
     if [ ${#missing_packages[@]} -gt 0 ]; then
-        # Escalate to sudo privileges
-        echo "In order to install all requirements, sudo privileges are required."
-        sudo -v
         _install_packages "${missing_packages[*]}"
     else
         echo "All specified requirements are already installed."

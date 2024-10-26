@@ -16,7 +16,7 @@ Follow these three steps to start the installer:
 
 ### Requirements
 
-To make installing as easy as possible, I have created an install script. This script first makes sure all requirements that are listed in `requirements.txt` are installed. If some required packages are not installed, you will be asked for your sudo password, in order to install the requirements.
+To make installing as easy as possible, I have created an install script. This script first makes sure all requirements that are listed in `requirements.txt` are installed. It requires sudo privileges to add a NOPASSWD sudoers rule for Yay and Pacman and for installing the requirements.
 
 The script will install `python3` and `ansible`, in order to run the Ansible playbook.
 
