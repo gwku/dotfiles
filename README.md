@@ -48,6 +48,12 @@ In order to properly run the commands which need sudo access (such as installing
 
 Because these environment variables are sensitive and could lead to a security breach if they are stored in plain text on your system, the install script will automatically delete the provided env file. If you don't want this, you can provide the optional `--keep-env` flag to the install script. Also, `.env` files are added to the `.gitignore` file.
 
+### Install command
+
+Run `./install.sh .env` where `.env` is the file with environment variables you have set. Optionally, you can pass the flags `--keep-env` (to not remove your env file after installation) and `--skip-bitwarden` (to skip the installation and initialization of bitwarden -> disable the `ssh` role because this requires Bitwarden.)
+
+If you want to enable or disable certain roles, (un)comment them in `main.yml` in the root directory of this repository.
+
 ## Configuration
 
 If you want to add a package to the installation process, create a folder in the `roles` directory and add a `main.yml` file, which will be automatically executed by Ansible. If you need to add support for multiple Linux distributions, you can add the following to your `main.yml` file:

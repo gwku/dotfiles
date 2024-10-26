@@ -19,8 +19,8 @@
     - bitwarden-cli
 
     # Regular (or Flatpak) Packages
+    - adb
     - authenticator
-    - oathtool
     - azure-storage-explorer
     - blueman
     - btop
