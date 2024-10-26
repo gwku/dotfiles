@@ -1,4 +1,4 @@
 ---
 - name: Install Neo4j Desktop
   become: true
-  yay: name=neo4j-desktop state: present
+  yay: name=neo4j-desktop state=present
