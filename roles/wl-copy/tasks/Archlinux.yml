@@ -1,6 +1,0 @@
----
-- name: Install wl-copy
-  become: true
-  pacman:
-    name: "wl-copy"
-    state: present
