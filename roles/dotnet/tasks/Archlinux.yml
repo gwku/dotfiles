@@ -1,24 +1,28 @@
 ---
 - name: Install .NET SDK (latest)
   become: true
+  ignore_errors: true
   pacman:
     name: "dotnet-sdk"
     state: present
 
 - name: Install .NET runtime (latest)
   become: true
+  ignore_errors: true
   pacman:
     name: "dotnet-runtime"
     state: present
 
 - name: Install .NET SDK (v6)
   become: true
+  ignore_errors: true
   pacman:
     name: "dotnet-sdk-6.0"
     state: present
 
 - name: Install .NET runtime (v6)
   become: true
+  ignore_errors: true
   pacman:
     name: "dotnet-runtime-6.0"
     state: present
