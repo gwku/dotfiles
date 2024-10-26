@@ -1,3 +1,4 @@
 ---
 - name: Install Rofi
+  become: true
   yay: name=rofi-wayland state=present

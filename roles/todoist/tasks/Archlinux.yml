@@ -1,3 +1,4 @@
 ---
 - name: Install Todoist
+  become: true
   yay: name=todoist-appimage state=present
