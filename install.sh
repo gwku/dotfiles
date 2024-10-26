@@ -37,7 +37,11 @@ if ! $skip_bitwarden; then
 fi
 
 # Run the Ansible playbook with become password as variable
-ansible-playbook main.yml --extra-vars "ansible_become_password=$BECOME_PASSWORD"
+if ansible-playbook main.yml --extra-vars "ansible_become_password=$BECOME_PASSWORD"; then
+    echo "Ansible playbook executed successfully."
+else
+    echo "Ansible playbook execution failed. Executing post install tasks."
+fi
 
 # Lock the Bitwarden vault after playbook execution
 lock_bitwarden
