@@ -13,4 +13,5 @@ if status is-interactive
     zoxide init fish | source
     set -x ASPNETCORE_ENVIRONMENT Development
     set -x DOTNET_ROOT /usr/share/dotnet
+    set -x FUNCTIONS_CORE_TOOLS_TELEMETRY_OPTOUT 1
 end

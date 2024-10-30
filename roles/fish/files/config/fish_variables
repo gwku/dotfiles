@@ -46,4 +46,4 @@ SETUVAR fish_pager_color_selected_background:\x1d
 SETUVAR fish_pager_color_selected_completion:\x1d
 SETUVAR fish_pager_color_selected_description:\x1d
 SETUVAR fish_pager_color_selected_prefix:\x1d
-SETUVAR fish_user_paths:/usr/bin\x1e/home/gerwin/\x2econfig/composer/vendor/bin\x1e/home/gerwin/\x2edotnet/tools\x1e/home/gerwin/\x2ecargo/bin\x1e/home/gerwin/\x2elocal/bin
+SETUVAR fish_user_paths:/home/gerwin/\x2enimble/bin\x1e/usr/bin\x1e/home/gerwin/\x2econfig/composer/vendor/bin\x1e/home/gerwin/\x2edotnet/tools\x1e/home/gerwin/\x2ecargo/bin\x1e/home/gerwin/\x2elocal/bin
