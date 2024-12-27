@@ -33,14 +33,14 @@
     - dotnet
     - firefox
     - fish
-    - foot
+    # - foot
     - fzf
     - git
     - gnome-keyring
     - grim
     - httpie
-    - i3
-    - i3status
+    # - i3
+    # - i3status
     - insomnium
     - jq
     - libreoffice
@@ -57,12 +57,12 @@
     - signal
     - slurp
     - starship
-    - sway
+    # - sway
     - teamviewer
     - todoist
     - vscodium
     - waybar
     - wezterm
-    - wl-clipboard
+    # - wl-clipboard
     - zed
     - zoxide
