@@ -1,4 +1,4 @@
-floating_modifier $mod normal
+floating_modifier $mod
 
 bindsym $mod+$left focus left
 bindsym $mod+$down focus down

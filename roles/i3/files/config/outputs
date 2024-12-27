@@ -1,2 +1,2 @@
-exec_always xrandr --output HDMI-1-0 --primary --auto --left-of eDP-1
+exec_always xrandr --output HDMI-1-0 --primary --auto --left-of eDP-2
 exec feh --bg-scale ~/Pictures/wallpaper.jpg
