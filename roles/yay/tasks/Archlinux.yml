@@ -22,7 +22,6 @@
         update: no
 
     - name: Build and install yay from source
-      become: true
       command: makepkg -si --noconfirm
       args:
         chdir: "{{ ansible_env.HOME }}/Downloads/yay"
