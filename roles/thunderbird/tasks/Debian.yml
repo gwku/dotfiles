@@ -1,0 +1,6 @@
+---
+- name: Install i3
+  become: true
+  apt:
+    name: thunderbird
+    state: present

@@ -1,0 +1,6 @@
+---
+- name: Install Thunderbird
+  become: true
+  pacman:
+    name: thunderbird
+    state: present
