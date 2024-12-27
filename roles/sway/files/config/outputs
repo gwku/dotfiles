@@ -1,6 +1,6 @@
 output * bg ~/Pictures/wallpaper.jpg fill
-output HDMI-1-0 resolution 2560x1440 position 0 0
-output eDP-1 mode 2560x1600@165.000Hz position 2560 0 scale 1 render_bit_depth 10
+output HDMI-A-1 resolution 2560x1440 position 0 0
+output eDP-2 mode 2560x1600@165.000Hz position 2560 0 scale 1 render_bit_depth 10
 
 exec swayidle -w \
       timeout 300 'swaylock -f -c 000000' \
