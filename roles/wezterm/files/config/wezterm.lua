@@ -36,6 +36,7 @@ config = {
 	default_prog = { "/usr/bin/fish", "-l" },
 	window_decorations = "RESIZE",
 	default_cursor_style = "SteadyUnderline",
+  	font_size=18.0
 }
 
 return config
