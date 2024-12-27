@@ -7,3 +7,5 @@ bindsym $mod+Mod1+v exec copyq toggle
 
 bindsym $mod+Shift+c reload
 bindsym $mod+Shift+q exec i3-msg exit
+
+bindsym Print exec --no-startup-id maim --format=png --select | xclip -selection clipboard -t image/png
