@@ -19,3 +19,4 @@ include ~/.config/i3/resize
 include ~/.config/i3/windows
 include ~/.config/i3/keybindings
 include ~/.config/i3/bar
+include ~/.config/i3/autostart
