@@ -15,3 +15,5 @@ if status is-interactive
     set -x DOTNET_ROOT /usr/share/dotnet
     set -x FUNCTIONS_CORE_TOOLS_TELEMETRY_OPTOUT 1
 end
+set -gx VOLTA_HOME "$HOME/.volta"
+set -gx PATH "$VOLTA_HOME/bin" $PATH
