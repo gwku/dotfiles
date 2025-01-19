@@ -1,0 +1,7 @@
+- name: Set power key to suspend in systemd logind.conf
+  become: true
+  ansible.builtin.lineinfile:
+    path: /etc/systemd/logind.conf
+    regexp: '^#?HandlePowerKey='
+    line: 'HandlePowerKey=suspend'
+    state: present
