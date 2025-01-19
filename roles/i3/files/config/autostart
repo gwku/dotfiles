@@ -3,3 +3,4 @@ exec nm-applet --indicator
 exec copyq --start-server
 exec safeeyes
 exec numlockx on
+exec nextcloud
