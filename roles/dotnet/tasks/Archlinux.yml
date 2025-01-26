@@ -40,3 +40,24 @@
   pacman:
     name: "aspnet-runtime-6.0"
     state: present
+
+- name: Install .NET SDK (v8)
+  become: true
+  ignore_errors: true
+  pacman:
+    name: "dotnet-sdk-8.0"
+    state: present
+
+- name: Install .NET runtime (v8)
+  become: true
+  ignore_errors: true
+  pacman:
+    name: "dotnet-runtime-8.0"
+    state: present
+
+- name: Install ASP.NET runtime (v8)
+  become: true
+  ignore_errors: true
+  pacman:
+    name: "aspnet-runtime-8.0"
+    state: present
