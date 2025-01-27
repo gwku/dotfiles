@@ -3,21 +3,21 @@
   become: true
   ignore_errors: true
   pacman:
-    name: "dotnet-sdk"
+    name: "dotnet-sdk-bin"
     state: present
 
 - name: Install .NET runtime (latest)
   become: true
   ignore_errors: true
   pacman:
-    name: "dotnet-runtime"
+    name: "dotnet-runtime-bin"
     state: present
 
 - name: Install ASP.NET runtime (latest)
   become: true
   ignore_errors: true
   pacman:
-    name: "aspnet-runtime"
+    name: "aspnet-runtime-bin"
     state: present
 
 - name: Install .NET SDK (v6)
