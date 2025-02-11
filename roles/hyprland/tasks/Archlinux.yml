@@ -1,0 +1,12 @@
+---
+- name: Install Hyprland
+  become: true
+  pacman:
+    name:
+      - hyprland
+      - hyprshot
+      - xdg-desktop-portal-hyprland
+      - xdg-desktop-portal-gtk
+      - swayidle
+      - swaylock
+    state: present

@@ -39,6 +39,7 @@
     - gnome-keyring
     - grim
     - httpie
+    - hyprland
     # - i3
     # - i3status
     - insomnium
@@ -63,6 +64,6 @@
     - vscodium
     - waybar
     - wezterm
-    # - wl-clipboard
+    - wl-clipboard
     - zed
     - zoxide
