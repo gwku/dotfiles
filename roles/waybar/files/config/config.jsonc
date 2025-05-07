@@ -8,10 +8,10 @@
     "height": 50,
     "modules-left": [
         "clock",
-        "sway/workspaces"
+        "hyprland/workspaces"
     ],
     "modules-center": [
-        "sway/window"
+        "hyprland/window"
     ],
     "modules-right": [
         "memory",
@@ -22,7 +22,7 @@
         "battery",
         "tray"
     ],
-    "sway/workspaces": {
+    "hyprland/workspaces": {
         "disable-scroll": false,
         "on-click": "activate",
         "persistent_workspaces": {}
@@ -44,8 +44,8 @@
             "󰃟",
             "󰃠"
         ],
-        "on-scroll-up": "~/.config/waybar/scripts/brightness --inc",
-        "on-scroll-down": "~/.config/waybar/scripts/brightness --dec",
+        "on-scroll-up": "brightnessctl s +5%",
+        "on-scroll-down": "brightnessctl s 5%-",
         "min-length": 6
     },
     "battery": {
@@ -76,10 +76,10 @@
         "format": "{icon} {volume}%",
         "tooltip": false,
         "format-muted": " Muted",
-        "on-click": "~/.config/waybar/scripts/volume --toggle",
+        "on-click": "pamixer -t",
         "on-click-right": "pavucontrol",
-        "on-scroll-up": "~/.config/waybar/scripts/volume --inc",
-        "on-scroll-down": "~/.config/waybar/scripts/volume --dec",
+        "on-scroll-up": "pamixer -ui 3",
+        "on-scroll-down": "pamixer -ud 3",
         "scroll-step": 5,
         "format-icons": {
             "headphone": "",
@@ -99,17 +99,17 @@
         "format": "{format_source}",
         "format-source": " {volume}%",
         "format-source-muted": " Muted",
-        "on-click": "~/.config/waybar/scripts/volume --toggle-mic",
+        "on-click": "pamixer --default-source -t",
         "on-click-right": "pavucontrol",
-        "on-scroll-up": "~/.config/waybar/scripts/volume --mic-inc",
-        "on-scroll-down": "~/.config/waybar/scripts/volume --mic-dec",
+        "on-scroll-up": "pamixer --default-source -i 3",
+        "on-scroll-down": "pamixer --default-source -d 3",
         "scroll-step": 5
     },
     "memory": {
         "interval": 5,
         "format": " {percentage}%",
         "tooltip": true,
-        "on-click": "kitty -- btop",
+        "on-click": "kitty -- btop"
     },
     "temperature": {
         "thermal-zone": 1,
@@ -120,7 +120,7 @@
     },
     "bluetooth": {
         "format": " {status}",
-        "format-disabled": "", // an empty format will hide the module
+        "format-disabled": "",
         "format-connected": " {num_connections}",
         "tooltip-format": "{device_alias}",
         "tooltip-format-connected": " {device_enumerate}",

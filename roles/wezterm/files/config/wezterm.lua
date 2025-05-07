@@ -36,7 +36,8 @@ config = {
 	default_prog = { "/usr/bin/fish", "-l" },
 	window_decorations = "RESIZE",
 	default_cursor_style = "SteadyUnderline",
-  	font_size=18.0
+  	font_size=18.0,
+  enable_wayland = false
 }
 
 return config
