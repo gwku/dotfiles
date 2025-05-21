@@ -43,13 +43,12 @@ tooltip * {
 }
 
 #workspaces button.focused,
-#workspaces button.active,
-#workspaces button.urgent,
-#workspaces button:hover,
-#workspaces button.focused * ,
-#workspaces button.active * ,
-#workspaces button.urgent * ,
-#workspaces button:hover * {
+#workspaces button.active {
+    background: @button-bg-hover;
+    color: @active-text-color;
+}
+
+#workspaces button:hover {
     background: @button-bg-hover;
     color: @active-text-color;
 }

@@ -25,7 +25,12 @@
     "hyprland/workspaces": {
         "disable-scroll": false,
         "on-click": "activate",
-        "persistent_workspaces": {}
+        "persistent_workspaces": {},
+        "format": "{name}",
+        "sort-by-number": true,
+        "all-outputs": true,
+        "on-scroll-up": "hyprctl dispatch workspace e+1",
+        "on-scroll-down": "hyprctl dispatch workspace e-1"
     },
     "tray": {
         "icon-size": 18,
