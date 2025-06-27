@@ -1,0 +1,27 @@
+---
+- name: Ensure pipewire is installed
+  pacman:
+    name: pipewire
+    state: present
+  become: true
+
+- name: Create pipewire config directory
+  file:
+    path: "{{ ansible_user_dir }}/.config/pipewire/pipewire.conf.d"
+    state: directory
+    mode: '0755'
+
+- name: Configure pipewire clock rate
+  copy:
+    dest: "{{ ansible_user_dir }}/.config/pipewire/pipewire.conf.d/10-clock-rate.conf"
+    content: |
+      context.properties = {
+        default.clock.rate = 192000
+      }
+    mode: '0644'
+
+- name: Restart pipewire service
+  systemd:
+    name: pipewire
+    state: restarted
+    scope: user 

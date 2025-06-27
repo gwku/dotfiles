@@ -12,6 +12,7 @@
     - wallpaper
     - fonts
     - flatpak
+    - pipewire
 
     # Packages from source
     - yay
