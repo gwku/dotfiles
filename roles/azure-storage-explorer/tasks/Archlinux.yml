@@ -1,4 +1,0 @@
----
-- name: Install Azure Storage Explorer
-  become: true
-  yay: name=storageexplorer state=present
