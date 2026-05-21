@@ -27,19 +27,35 @@ Things you have installed that aren't declared by Nix or Homebrew in this repo. 
 | Zen | zen-browser.app | |
 | kdenlive | direct | Video editor. |
 
+## Login items
+
+nix-darwin has no first-class API for "open at login" GUI items, so these have to be toggled in each app's preferences. The current set on this machine:
+
+- Ice
+- Maccy
+- Cotypist
+- Itsycal
+- Scroll Reverser
+- Nextcloud
+
+Add OrbStack to this list if you want it to auto-start (currently it doesn't).
+
+## macOS settings nix-darwin can't manage
+
+| Setting | Current value | How to set |
+|---|---|---|
+| Keyboard input source | USInternational-PC | System Settings → Keyboard → Input Sources |
+| Automatic dark/light switching | Enabled | System Settings → Appearance → Auto (don't set `AppleInterfaceStyle` in nix-darwin or you'll lock it) |
+| Smart quotes style | `"..."` / `'...'` curly | System Settings → Keyboard → Text Replacements |
+| Adobe / Google / JetBrains LaunchAgents | Self-installed by each app | App preferences |
+
 ## Post-bootstrap manual steps
 
 After the first `darwin-rebuild switch`:
 
 1. Drop SSH keys into `~/.ssh/` (chmod 600). Never committed.
 2. Populate `~/.config/fish/conf.d/secrets.fish` with any per-session env vars.
-3. Sign into apps with persistent auth (1Password / Bitwarden, Slack, JetBrains, etc.).
+3. Sign into apps with persistent auth (Bitwarden, Slack, JetBrains, etc.).
 4. JetBrains Toolbox: open the app and reinstall the IDEs you use.
-
-## Login items / system services
-
-These can't be declared yet without extra modules; configure via each app's preferences.
-
-- **OrbStack** — start on login.
-- **Ice / Itsycal / Maccy** — start on login.
-- **Bitwarden** — system auth integration / browser extension hooks.
+5. Re-confirm input source = USInternational-PC and "Auto" appearance.
+6. Toggle login items in each app's preferences if they don't auto-add themselves.
