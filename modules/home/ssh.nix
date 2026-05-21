@@ -1,0 +1,30 @@
+{ lib, pkgs, ... }: {
+  # Writes ~/.ssh/config only. Keys are placed in ~/.ssh/ manually,
+  # never via Nix and never committed.
+  programs.ssh = {
+    enable = true;
+    addKeysToAgent = "yes";
+
+    extraConfig = ''
+      ServerAliveInterval 60
+      ServerAliveCountMax 3
+    '' + lib.optionalString pkgs.stdenv.isDarwin ''
+      UseKeychain yes
+      IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+    '';
+
+    matchBlocks = {
+      "github.com" = {
+        hostname = "github.com";
+        user = "git";
+        identitiesOnly = true;
+        identityFile = [ "~/.ssh/id_ed25519" ];
+      };
+
+      "*.local" = {
+        forwardAgent = false;
+        checkHostIP = false;
+      };
+    };
+  };
+}

@@ -1,0 +1,31 @@
+# Neofusion — dark theme adapted for WezTerm.
+[colors]
+foreground   = "#e0d9c7"
+background   = "#1a1815"
+cursor_bg    = "#fb7a3b"
+cursor_border = "#fb7a3b"
+cursor_fg    = "#1a1815"
+selection_bg = "#3a322a"
+selection_fg = "#e0d9c7"
+
+ansi = [
+  "#2a2520",
+  "#e6614f",
+  "#a7c080",
+  "#e0a458",
+  "#7daea3",
+  "#d3869b",
+  "#83c0c1",
+  "#d4be98",
+]
+
+brights = [
+  "#5a524a",
+  "#ea6962",
+  "#a9b665",
+  "#d8a657",
+  "#7daea3",
+  "#d3869b",
+  "#89b482",
+  "#e6d4a3",
+]
