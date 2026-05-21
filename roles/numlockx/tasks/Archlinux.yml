@@ -1,6 +1,0 @@
----
-- name: Install Numlockx
-  become: true
-  pacman:
-    name: numlockx
-    state: present

@@ -1,6 +1,0 @@
----
-- name: Install Calibre
-  become: true
-  apt:
-    name: "calibre"
-    state: present

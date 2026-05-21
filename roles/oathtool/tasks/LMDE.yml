@@ -1,6 +1,0 @@
----
-- name: Install Oathtool
-  become: true
-  apt:
-    name: "oathtool"
-    state: present

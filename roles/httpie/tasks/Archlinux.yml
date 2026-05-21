@@ -1,6 +1,0 @@
----
-- name: Install HTTPie
-  become: true
-  pacman:
-    name: "httpie"
-    state: present

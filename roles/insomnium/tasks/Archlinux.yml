@@ -1,4 +1,0 @@
----
-- name: Install Insomnium
-  become: true
-  yay: name=insomnium-bin state=present

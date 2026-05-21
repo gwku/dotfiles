@@ -1,6 +1,0 @@
----
-- name: Install Blueman
-  become: true
-  apt:
-    name: "blueman"
-    state: present

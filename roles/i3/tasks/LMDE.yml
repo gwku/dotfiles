@@ -1,9 +1,0 @@
----
-- name: Install i3
-  become: true
-  apt:
-    name:
-      - i3
-      - i3lock
-      - feh
-    state: present

@@ -1,6 +1,0 @@
----
-- name: Install mpv
-  become: true
-  pacman:
-    name: "mpv"
-    state: present

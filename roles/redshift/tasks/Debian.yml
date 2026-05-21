@@ -1,6 +1,0 @@
----
-- name: Install Redshift
-  become: true
-  apt:
-    name: "redshift"
-    state: present

@@ -1,6 +1,0 @@
----
-- name: Install Wezterm
-  become: true
-  pacman:
-    name: "wezterm"
-    state: present

@@ -1,6 +1,0 @@
----
-- name: Install VSCodium
-  become: true
-  pacman:
-    name: "vscodium"
-    state: present

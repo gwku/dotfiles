@@ -1,6 +1,0 @@
----
-- name: Install Redshift
-  become: true
-  pacman:
-    name: "redshift"
-    state: present

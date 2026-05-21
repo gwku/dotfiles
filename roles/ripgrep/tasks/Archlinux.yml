@@ -1,6 +1,0 @@
----
-- name: Install ripgrep
-  become: true
-  pacman:
-    name: "ripgrep"
-    state: present

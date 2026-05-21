@@ -1,6 +1,0 @@
----
-- name: Install jq
-  become: true
-  pacman:
-    name: "jq"
-    state: present

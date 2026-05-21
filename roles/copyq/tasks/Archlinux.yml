@@ -1,6 +1,0 @@
----
-- name: Install CopyQ
-  become: true
-  pacman:
-    name: "copyq"
-    state: present

@@ -1,6 +1,0 @@
----
-- name: Install ADB
-  become: true
-  pacman:
-    name: "android-tools"
-    state: present

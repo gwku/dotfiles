@@ -1,6 +1,0 @@
----
-- name: Install LocalSend
-  become: true
-  pacman:
-    name: "localsend"
-    state: present

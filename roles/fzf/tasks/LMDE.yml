@@ -1,6 +1,0 @@
----
-- name: Install fzf
-  become: true
-  apt:
-    name: "fzf"
-    state: present

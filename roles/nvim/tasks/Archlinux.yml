@@ -1,6 +1,0 @@
----
-- name: Install Neovim
-  become: true
-  pacman:
-    name: "neovim"
-    state: present

@@ -1,6 +1,0 @@
----
-- name: Install ripgrep
-  become: true
-  apt:
-    name: "ripgrep"
-    state: present

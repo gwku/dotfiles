@@ -1,6 +1,0 @@
----
-- name: Install Nextcloud Desktop
-  become: true
-  apt:
-    name: "nextcloud-desktop"
-    state: present
