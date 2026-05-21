@@ -10,6 +10,7 @@ Things you have installed that aren't declared by Nix or Homebrew in this repo. 
 | IntelliJ IDEA, PyCharm, Rider, WebStorm | via Toolbox | See above. |
 | Android Studio | via Toolbox or direct | See above. |
 | LM Studio | lmstudio.ai | Vendor installer; not in nixpkgs/casks. |
+| Little Snitch | obdev.at | Firewall; vendor-only, not in nixpkgs/casks. |
 | Amphetamine | Mac App Store | MAS-only. |
 | Cog | Mac App Store | Audio player. |
 | Cotypist | direct / MAS | |
@@ -40,14 +41,22 @@ nix-darwin has no first-class API for "open at login" GUI items, so these have t
 
 Add OrbStack to this list if you want it to auto-start (currently it doesn't).
 
-## macOS settings nix-darwin can't manage
+## macOS settings nix-darwin can't (or shouldn't) manage
 
 | Setting | Current value | How to set |
 |---|---|---|
 | Keyboard input source | USInternational-PC | System Settings → Keyboard → Input Sources |
 | Automatic dark/light switching | Enabled | System Settings → Appearance → Auto (don't set `AppleInterfaceStyle` in nix-darwin or you'll lock it) |
 | Smart quotes style | `"..."` / `'...'` curly | System Settings → Keyboard → Text Replacements |
+| Custom text replacements (e.g. `omw → On my way!`) | One entry | System Settings → Keyboard → Text Replacements |
+| Dictation enabled, Siri/Assistant disabled | Dictation on, Siri off | System Settings → Apple Intelligence & Siri / Dictation |
+| iCloud account sign-in | Signed in as administratie@gerwinkuijntjes.nl | One-time manual sign-in |
+| Display resolution + arrangement | Per-physical-display | System Settings → Displays |
+| Power management (displaysleep 2 min, etc.) | Custom | `pmset` from a script — per-machine, not in dotfiles |
+| Time Machine, Wi-Fi networks, Bluetooth pairings | Per-machine state | System Settings |
 | Adobe / Google / JetBrains LaunchAgents | Self-installed by each app | App preferences |
+| Little Snitch (firewall) | Installed manually | obdev.at — not in nixpkgs or casks |
+| Spaces layout / per-app space bindings | Multi-display arrangement | System Settings → Mission Control |
 
 ## Post-bootstrap manual steps
 
