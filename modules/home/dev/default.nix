@@ -4,6 +4,11 @@
     ./node.nix
     ./rust.nix
     ./dotnet.nix
+    ./java.nix
+    ./php.nix
+    ./android.nix
+    ./db.nix
+    ./ml.nix
     ./cloud.nix
     ./containers.nix
   ];

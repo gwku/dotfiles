@@ -1,23 +1,45 @@
 # Unmanaged macOS apps
 
-Apps not in nixpkgs for `aarch64-darwin` (or where the upstream installer is the only realistic distribution channel). Install these by hand after the first `darwin-rebuild switch` lands.
+Things you have installed that aren't declared by Nix or Homebrew in this repo. Everything self-updating now lives in either [`modules/darwin/homebrew.nix`](modules/darwin/homebrew.nix) (casks) or one of the [`modules/home/dev/`](modules/home/dev) modules (Nix packages).
 
-| App | Why | Download |
+## Manually installed apps (vendor installers / Mac App Store)
+
+| App | Source | Why manual |
 |---|---|---|
-| OrbStack | Docker / Linux VMs on macOS — preferred over Docker Desktop. Not in nixpkgs. | https://orbstack.dev |
-| Raycast | Spotlight replacement + extensions. Not in nixpkgs darwin. | https://www.raycast.com |
-| Rectangle | Window snapping. | https://rectangleapp.com |
-| JetBrains Toolbox | Manages all JetBrains IDEs. Toolbox itself isn't packaged. | https://www.jetbrains.com/toolbox-app |
-| 1Password (GUI) | Mac app for the vault; CLI `_1password` is fine via Nix. | https://1password.com/downloads/mac |
-| Signal | Sandboxed install only on darwin; nixpkgs has Linux only. | https://signal.org/download/macos |
-| Zoom | Pinned to vendor installer for AV compatibility. | https://zoom.us/download |
+| JetBrains Toolbox | jetbrains.com | Toolbox manages its own IDE installs in `~/Applications`. Don't fight it. |
+| IntelliJ IDEA, PyCharm, Rider, WebStorm | via Toolbox | See above. |
+| Android Studio | via Toolbox or direct | See above. |
+| LM Studio | lmstudio.ai | Vendor installer; not in nixpkgs/casks. |
+| Amphetamine | Mac App Store | MAS-only. |
+| Cog | Mac App Store | Audio player. |
+| Cotypist | direct / MAS | |
+| FileZilla | filezilla-project.org | |
+| HP (printer) | hp.com | Driver bundle. |
+| Kobo | kobo.com | E-reader sync. |
+| Microsoft Word | MAS / Microsoft 365 | |
+| Numbers / Pages / Keynote / GarageBand | Apple (built-in) | |
+| OpenMTP | github.com/ganeshrvel/openmtp | Android file transfer. |
+| Safari | Apple (built-in) | |
+| T3 Code (Alpha) | direct | AI IDE alpha. |
+| Todoist | Mac App Store | |
+| Tolaria | direct | MTG library. |
+| WireGuard | Mac App Store | App-store WireGuard client (the CLI `wireguard-tools` is in Nix). |
+| Zen | zen-browser.app | |
+| kdenlive | direct | Video editor. |
 
-If something here later shows up in nixpkgs for darwin (`nix search nixpkgs <name>`), move it into [`modules/darwin/apps.nix`](modules/darwin/apps.nix) and delete the row.
+## Post-bootstrap manual steps
 
-## Login items / system services that aren't config-managed
+After the first `darwin-rebuild switch`:
 
-- **OrbStack** — start on login (set in OrbStack preferences).
-- **Raycast** — start on login, hotkey `cmd+space` (after disabling Spotlight's).
-- **1Password** — SSH agent + system auth integration.
+1. Drop SSH keys into `~/.ssh/` (chmod 600). Never committed.
+2. Populate `~/.config/fish/conf.d/secrets.fish` with any per-session env vars.
+3. Sign into apps with persistent auth (1Password / Bitwarden, Slack, JetBrains, etc.).
+4. JetBrains Toolbox: open the app and reinstall the IDEs you use.
 
-These are not declarative on macOS without third-party modules (e.g. `home-manager` `launchd` services), so configure them via each app's preferences.
+## Login items / system services
+
+These can't be declared yet without extra modules; configure via each app's preferences.
+
+- **OrbStack** — start on login.
+- **Ice / Itsycal / Maccy** — start on login.
+- **Bitwarden** — system auth integration / browser extension hooks.

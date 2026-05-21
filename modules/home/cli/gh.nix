@@ -11,5 +11,7 @@
 
   home.packages = with pkgs; [
     gh-dash
+    act          # run GitHub Actions locally
+    stripe-cli
   ];
 }

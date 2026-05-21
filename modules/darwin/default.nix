@@ -4,5 +4,6 @@
     ./system-defaults.nix
     ./fonts.nix
     ./apps.nix
+    ./homebrew.nix
   ];
 }

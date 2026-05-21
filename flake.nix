@@ -13,6 +13,8 @@
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nix-homebrew.url = "github:zhaofengli/nix-homebrew";
   };
 
   outputs =
@@ -20,6 +22,7 @@
     , nixpkgs
     , home-manager
     , nix-darwin
+    , nix-homebrew
     , ...
     }@inputs:
     let
@@ -33,6 +36,7 @@
             ./modules/darwin
             ./hosts/darwin
             ./hosts/darwin/${host}
+            nix-homebrew.darwinModules.nix-homebrew
             home-manager.darwinModules.home-manager
             {
               home-manager.useGlobalPkgs = true;

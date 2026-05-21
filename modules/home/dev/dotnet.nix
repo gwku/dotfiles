@@ -1,6 +1,11 @@
 { pkgs, ... }: {
+  # .NET 8 LTS via Nix. .NET 10 is installed side-by-side as a brew
+  # cask (modules/darwin/homebrew.nix) because the cask channel tracks
+  # Microsoft's SxS layout exactly and self-updates to GA → patches.
   home.packages = with pkgs; [
-    dotnet-sdk_8
+    (dotnetCorePackages.combinePackages [
+      dotnetCorePackages.sdk_8_0
+    ])
   ];
 
   home.sessionVariables = {

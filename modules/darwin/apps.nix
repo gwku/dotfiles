@@ -1,11 +1,11 @@
 { pkgs, ... }: {
-  # GUI apps available from nixpkgs on aarch64-darwin. Apps that aren't
-  # packaged for darwin (OrbStack, Raycast, JetBrains Toolbox, etc.) are
-  # listed in UNMANAGED.md and installed manually.
+  # GUI apps that come from nixpkgs (not Homebrew casks).
+  #
+  # Most macOS GUI apps live in modules/darwin/homebrew.nix because
+  # self-updating apps fight pinned Nix versions. Add an app here only
+  # if you want strict reproducibility for it.
   environment.systemPackages = with pkgs; [
     firefox-bin
     vscode
-    obsidian
-    discord
   ];
 }
