@@ -5,7 +5,7 @@ Declarative Nix configuration for macOS (nix-darwin + Home Manager) and Linux (s
 ## Bootstrap
 
 ```sh
-git clone https://github.com/gwku/dotfiles.git ~/development/dotfiles
+git clone https://github.com/<your-user>/dotfiles.git ~/development/dotfiles
 cd ~/development/dotfiles
 ./install.sh <hostname>
 ```
@@ -16,8 +16,8 @@ The installer detects platform, installs Nix via the Determinate Systems install
 
 | | macOS | Linux |
 |---|---|---|
-| Switch | `darwin-rebuild switch --flake ~/development/dotfiles#<host>` | `home-manager switch --flake ~/development/dotfiles#gwku@<host>` |
-| Build only | `darwin-rebuild build --flake .#<host>` | `home-manager build --flake .#gwku@<host>` |
+| Switch | `darwin-rebuild switch --flake ~/development/dotfiles#<host>` | `home-manager switch --flake ~/development/dotfiles#<user>@<host>` |
+| Build only | `darwin-rebuild build --flake .#<host>` | `home-manager build --flake .#<user>@<host>` |
 | Check | `nix flake check` | `nix flake check` |
 | Update inputs | `nix flake update` | `nix flake update` |
 | Rollback | `darwin-rebuild --switch-generation <n>` | `home-manager generations` |

@@ -1,5 +1,5 @@
 {
-  description = "gwku dotfiles — nix-darwin + Home Manager (macOS + Linux)";
+  description = "dotfiles — nix-darwin + Home Manager (macOS + Linux)";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -26,12 +26,22 @@
     , ...
     }@inputs:
     let
-      username = "gwku";
+      # Single source of truth for identity. Change here, everything
+      # else picks it up via specialArgs.
+      user = {
+        name     = "gwku";
+        fullName = "Gerwin Kuijntjes";
+        email    = "administratie@gerwinkuijntjes.nl";
+      };
+
+      # Back-compat: keep `username` available too, so modules that
+      # only care about the short name don't have to destructure.
+      username = user.name;
 
       mkDarwin = host: system:
         nix-darwin.lib.darwinSystem {
           inherit system;
-          specialArgs = { inherit inputs username; };
+          specialArgs = { inherit inputs user username; };
           modules = [
             ./modules/darwin
             ./hosts/darwin
@@ -41,8 +51,8 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = { inherit inputs username; };
-              home-manager.users.${username} = import ./hosts/darwin/${host}/home.nix;
+              home-manager.extraSpecialArgs = { inherit inputs user username; };
+              home-manager.users.${user.name} = import ./hosts/darwin/${host}/home.nix;
               home-manager.sharedModules = [ ./modules/home ];
             }
           ];
@@ -54,7 +64,7 @@
             inherit system;
             config.allowUnfree = true;
           };
-          extraSpecialArgs = { inherit inputs username; };
+          extraSpecialArgs = { inherit inputs user username; };
           modules = [
             ./modules/home
             ./hosts/linux/${host}/home.nix
@@ -67,7 +77,7 @@
       };
 
       homeConfigurations = {
-        "gwku@workstation" = mkHome "workstation" "x86_64-linux";
+        "${user.name}@workstation" = mkHome "workstation" "x86_64-linux";
       };
     };
 }

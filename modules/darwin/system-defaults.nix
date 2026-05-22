@@ -1,4 +1,4 @@
-{ ... }: {
+{ username, ... }: {
   # Mirrors the preferences this user actually has set on the machine,
   # rather than forcing typical-dev defaults. Audited from a live
   # `defaults read` dump across every customised domain.
@@ -26,9 +26,9 @@
         "/System/Applications/System Settings.app"
         "/Applications/WezTerm.app"
         "/Applications/Todoist.app"
-        "/Users/gwku/Applications/Rider.app"
-        "/Users/gwku/Applications/WebStorm.app"
-        "/Users/gwku/Applications/PyCharm.app"
+        "/Users/${username}/Applications/Rider.app"
+        "/Users/${username}/Applications/WebStorm.app"
+        "/Users/${username}/Applications/PyCharm.app"
         "/Applications/Obsidian.app"
         "/System/Applications/Utilities/Activity Monitor.app"
         "/Applications/Bitwarden.app"

@@ -23,7 +23,7 @@ case "$(uname -s)" in
   Linux)
     echo "Applying standalone Home Manager configuration for host: ${HOST}"
     nix run --extra-experimental-features 'nix-command flakes' \
-      home-manager/master -- switch --flake ".#gwku@${HOST}"
+      home-manager/master -- switch --flake ".#${USER}@${HOST}"
     ;;
   *)
     echo "Unsupported platform: $(uname -s)" >&2

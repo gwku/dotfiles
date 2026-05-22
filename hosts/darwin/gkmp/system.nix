@@ -1,6 +1,6 @@
-{ ... }: {
+{ user, ... }: {
   networking.hostName = "gkmp";
-  networking.computerName = "Gerwin's MacBook Pro";
+  networking.computerName = "${user.fullName}'s MacBook Pro";
   networking.localHostName = "GKMP";
 
   nixpkgs.hostPlatform = "aarch64-darwin";

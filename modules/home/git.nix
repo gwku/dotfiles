@@ -1,10 +1,10 @@
-{ pkgs, ... }: {
+{ pkgs, user, ... }: {
   programs.git = {
     enable = true;
     package = pkgs.gitFull;
 
-    userName  = "Gerwin Kuijntjes";
-    userEmail = "administratie@gerwinkuijntjes.nl";
+    userName  = user.fullName;
+    userEmail = user.email;
 
     extraConfig = {
       init.defaultBranch = "main";
