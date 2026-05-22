@@ -148,10 +148,17 @@ set -euo pipefail
 cd '/Volumes/My Shared Files/dotfiles'
 . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
 export NIX_REMOTE=daemon
-# sudo needs nix on PATH too; pass it through with -E + explicit PATH.
+
+# nix's git+file:// default fetcher uses libgit2, which refuses to
+# open a repo it doesn't own. The shared-folder mount is owned by
+# 'admin'; sudo runs nix as root. The cleanest workaround is to use
+# the path: URL scheme, which bypasses libgit2 entirely and just
+# evaluates the flake from a plain directory.
+FLAKE_PATH="path:/Volumes/My%20Shared%20Files/dotfiles"
+
 echo admin | sudo -SE env PATH="\$PATH" NIX_REMOTE=daemon \
   nix --extra-experimental-features 'nix-command flakes' \
-  run nix-darwin -- switch --flake .#${HOST_NAME}
+  run nix-darwin -- switch --flake "\${FLAKE_PATH}#${HOST_NAME}"
 REMOTE
   echo "==> ✅ Full switch completed inside the VM."
 fi
