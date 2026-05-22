@@ -24,7 +24,7 @@
         "/System/Applications/Calendar.app"
         "/System/Applications/App Store.app"
         "/System/Applications/System Settings.app"
-        "/Applications/WezTerm.app"
+        "/Applications/Nix Apps/WezTerm.app"  # Nix-installed apps land here, not /Applications
         "/Applications/Todoist.app"
         "/Users/${username}/Applications/Rider.app"
         "/Users/${username}/Applications/WebStorm.app"
