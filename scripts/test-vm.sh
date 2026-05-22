@@ -108,8 +108,13 @@ cd '/Volumes/My Shared Files/dotfiles'
 if ! command -v nix >/dev/null 2>&1; then
   echo "Installing upstream Nix inside VM..."
   sh <(curl -L https://nixos.org/nix/install) --daemon
+  # The installer creates the LaunchDaemon plist but the current
+  # session won't have the daemon socket initialised. Load it now.
+  echo admin | sudo -S launchctl load -w /Library/LaunchDaemons/org.nixos.nix-daemon.plist 2>/dev/null || true
+  sleep 3
 fi
 . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+export NIX_REMOTE=daemon
 ./scripts/check.sh ${HOST_NAME}
 REMOTE
 
@@ -123,6 +128,7 @@ if $DO_SWITCH; then
 set -euo pipefail
 cd '/Volumes/My Shared Files/dotfiles'
 . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+export NIX_REMOTE=daemon
 echo admin | sudo -S nix --extra-experimental-features 'nix-command flakes' run nix-darwin -- switch --flake .#${HOST_NAME}
 REMOTE
   echo "==> ✅ Full switch completed inside the VM."
