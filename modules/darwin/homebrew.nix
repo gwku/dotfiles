@@ -57,14 +57,10 @@
       "whatsapp"
 
       # AI coding
-      "claude"
       "claude-code@latest"
       "cursor"
-      "opencode-desktop"
 
       # Dev / API tools
-      "bruno"
-      "burp-suite"
       "insomnia"
       "mitmproxy"
 
@@ -83,8 +79,6 @@
       "zulu@21"
 
       # Networking / Remote
-      "protonvpn"
-      "rustdesk"
       "teamviewer"
       "windows-app"
 
@@ -106,7 +100,6 @@
       "obsidian"
 
       # Utilities
-      "angry-ip-scanner"
       "balenaetcher"
     ];
   };
