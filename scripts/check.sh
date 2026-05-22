@@ -14,7 +14,10 @@ REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 # 1. Ensure Nix is installed.
 if ! command -v nix >/dev/null 2>&1; then
   echo "Nix not found. Install with:"
-  echo "  curl -fsSL https://install.determinate.systems/nix | sh -s -- install"
+  echo "  sh <(curl -L https://nixos.org/nix/install) --daemon"
+  echo
+  echo "(Use upstream Nix, NOT the Determinate Systems installer —"
+  echo " Determinate Nix doesn't play well with nix-darwin as of 2026.)"
   exit 1
 fi
 

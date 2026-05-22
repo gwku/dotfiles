@@ -8,8 +8,11 @@ if [[ -z "$HOST" ]]; then
 fi
 
 if ! command -v nix >/dev/null 2>&1; then
-  echo "Installing Nix via the Determinate Systems installer..."
-  curl -fsSL https://install.determinate.systems/nix | sh -s -- install --no-confirm
+  # Official upstream Nix installer. Avoid the Determinate Systems
+  # installer here — as of 2026 it ships Determinate Nix (a fork) and
+  # doesn't play well with nix-darwin.
+  echo "Installing upstream Nix..."
+  sh <(curl -L https://nixos.org/nix/install) --daemon
   # shellcheck disable=SC1091
   . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
 fi
