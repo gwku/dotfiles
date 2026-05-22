@@ -105,6 +105,14 @@ echo "==> Running install + check inside the VM..."
 "${SSHPASS[@]}" -p admin ssh "${SSH_OPTS[@]}" admin@"$IP" bash <<REMOTE
 set -euo pipefail
 cd '/Volumes/My Shared Files/dotfiles'
+
+# Try to source an existing Nix profile first so an already-installed
+# Nix doesn't get re-installed. Non-interactive bash doesn't read
+# /etc/bashrc, so we have to find nix-daemon.sh ourselves.
+if [ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
+  . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+fi
+
 if ! command -v nix >/dev/null 2>&1; then
   echo "Installing upstream Nix inside VM..."
   sh <(curl -L https://nixos.org/nix/install) --daemon
@@ -112,8 +120,8 @@ if ! command -v nix >/dev/null 2>&1; then
   # session won't have the daemon socket initialised. Load it now.
   echo admin | sudo -S launchctl load -w /Library/LaunchDaemons/org.nixos.nix-daemon.plist 2>/dev/null || true
   sleep 3
+  . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
 fi
-. /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
 export NIX_REMOTE=daemon
 ./scripts/check.sh ${HOST_NAME}
 REMOTE
@@ -129,7 +137,10 @@ set -euo pipefail
 cd '/Volumes/My Shared Files/dotfiles'
 . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
 export NIX_REMOTE=daemon
-echo admin | sudo -S nix --extra-experimental-features 'nix-command flakes' run nix-darwin -- switch --flake .#${HOST_NAME}
+# sudo needs nix on PATH too; pass it through with -E + explicit PATH.
+echo admin | sudo -SE env PATH="\$PATH" NIX_REMOTE=daemon \
+  nix --extra-experimental-features 'nix-command flakes' \
+  run nix-darwin -- switch --flake .#${HOST_NAME}
 REMOTE
   echo "==> ✅ Full switch completed inside the VM."
 fi
