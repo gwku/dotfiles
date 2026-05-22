@@ -159,6 +159,15 @@ if ! id "\$PRIMARY_USER" >/dev/null 2>&1; then
     -fullName "\$PRIMARY_USER" \
     -home "/Users/\$PRIMARY_USER" \
     -shell /bin/bash 2>&1 | tail -5
+  # sysadminctl assigns but doesn't physically create the home dir.
+  echo admin | sudo -S createhomedir -c -u "\$PRIMARY_USER" 2>&1 | tail -3
+fi
+
+# The cirruslabs base image ships /opt/homebrew owned by admin.
+# nix-homebrew needs that prefix owned by the primary user; chown it.
+if [ -d /opt/homebrew ] && [ "\$(stat -f %Su /opt/homebrew)" != "\$PRIMARY_USER" ]; then
+  echo "Transferring /opt/homebrew ownership to \$PRIMARY_USER..."
+  echo admin | sudo -S chown -R "\$PRIMARY_USER:staff" /opt/homebrew
 fi
 
 # The Nix installer modifies /etc/bashrc and /etc/zshrc; nix-darwin
