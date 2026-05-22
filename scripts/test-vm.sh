@@ -3,13 +3,14 @@
 # dotfiles can be tested without touching the host system.
 #
 # Usage:    ./scripts/test-vm.sh
-# Env vars: TART_IMAGE  — OCI image to clone (default: macos-sequoia-base:latest)
+# Env vars: TART_IMAGE  — OCI image to clone (default: macos-tahoe-base:latest)
 #          VM_NAME     — local VM name (default: dotfiles-test)
 #          HOST_NAME   — flake host to build inside the VM (default: gkmp)
 
 set -euo pipefail
 
-IMAGE="${TART_IMAGE:-ghcr.io/cirruslabs/macos-sequoia-base:latest}"
+# Default to Tahoe (macOS 26) so the VM matches the host OS version.
+IMAGE="${TART_IMAGE:-ghcr.io/cirruslabs/macos-tahoe-base:latest}"
 VM_NAME="${VM_NAME:-dotfiles-test}"
 HOST_NAME="${HOST_NAME:-gkmp}"
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
