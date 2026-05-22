@@ -66,6 +66,17 @@ command -v nix >/dev/null || {
   exit 1
 }
 
+# Kill any stale `tart run` for this VM left over from a previous
+# invocation that didn't clean up — otherwise we hit Apple's
+# "number of VMs exceeds the system limit" cap on the next start.
+if pgrep -f "tart run ${VM_NAME}" >/dev/null 2>&1; then
+  echo "==> Killing stale 'tart run ${VM_NAME}' processes..."
+  pkill -f "tart run ${VM_NAME}" || true
+  sleep 2
+fi
+# Also ensure tart's view of state is 'stopped'.
+tart stop "$VM_NAME" 2>/dev/null || true
+
 # Boot the VM headless in the background.
 echo "==> Starting VM '${VM_NAME}' headless (log: ${LOG_FILE})..."
 nohup tart run "$VM_NAME" --dir="dotfiles:$REPO_ROOT" --no-graphics \
