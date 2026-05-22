@@ -149,11 +149,32 @@ cd '/Volumes/My Shared Files/dotfiles'
 . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
 export NIX_REMOTE=daemon
 
+# The flake hardcodes username = "gwku". nix-darwin's
+# system.primaryUser must point at an existing local user, so create
+# it inside the VM if it's not there.
+PRIMARY_USER="\$(grep -oE 'name *= *\"[^\"]+\";' flake.nix | head -1 | sed -E 's/.*\"([^\"]+)\".*/\1/')"
+if ! id "\$PRIMARY_USER" >/dev/null 2>&1; then
+  echo "Creating local user '\$PRIMARY_USER' for nix-darwin activation..."
+  echo admin | sudo -S sysadminctl -addUser "\$PRIMARY_USER" \
+    -fullName "\$PRIMARY_USER" \
+    -home "/Users/\$PRIMARY_USER" \
+    -shell /bin/bash 2>&1 | tail -5
+fi
+
+# The Nix installer modifies /etc/bashrc and /etc/zshrc; nix-darwin
+# wants to manage those files and refuses to overwrite. Rename them.
+echo admin | sudo -S bash -c '
+  for f in /etc/bashrc /etc/zshrc; do
+    if [ -f "\$f" ] && [ ! -f "\$f.before-nix-darwin" ]; then
+      mv "\$f" "\$f.before-nix-darwin"
+    fi
+  done
+'
+
 # nix's git+file:// default fetcher uses libgit2, which refuses to
 # open a repo it doesn't own. The shared-folder mount is owned by
-# 'admin'; sudo runs nix as root. The cleanest workaround is to use
-# the path: URL scheme, which bypasses libgit2 entirely and just
-# evaluates the flake from a plain directory.
+# 'admin'; sudo runs nix as root. Use the path: URL scheme to bypass
+# libgit2 entirely.
 FLAKE_PATH="path:/Volumes/My%20Shared%20Files/dotfiles"
 
 echo admin | sudo -SE env PATH="\$PATH" NIX_REMOTE=daemon \
