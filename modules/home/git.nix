@@ -44,7 +44,7 @@
     # to enable.
   };
 
-  programs.git-lfs.enable = true;
+  programs.git.lfs.enable = true;
 
   home.packages = with pkgs; [
     git-filter-repo

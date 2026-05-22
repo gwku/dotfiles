@@ -2,6 +2,10 @@
   # Mirrors the preferences this user actually has set on the machine,
   # rather than forcing typical-dev defaults. Audited from a live
   # `defaults read` dump across every customised domain.
+  #
+  # nix-darwin's typed schema covers a subset of NSGlobalDomain keys.
+  # Anything outside the typed set goes through CustomUserPreferences,
+  # which writes raw plist values via `defaults write`.
 
   system.defaults = {
     dock = {
@@ -12,12 +16,8 @@
       mru-spaces = false;
       minimize-to-application = true;
       expose-group-apps = false;
+      wvous-tr-corner = 14;  # top-right hot corner = Lock Screen
 
-      # Hot corner: top-right = Lock Screen.
-      wvous-tr-corner = 14;
-
-      # Pinned dock apps, in order. Drag-to-reorder is clobbered on
-      # next switch — edit this list instead.
       persistent-apps = [
         "/Applications/Zen.app"
         "/System/Applications/Mail.app"
@@ -43,53 +43,26 @@
       FXPreferredViewStyle = "icnv";
     };
 
-    # Stage Manager off, but desktop icons hidden (cleaner desktop).
     WindowManager = {
-      GloballyEnabled = false;
+      GloballyEnabled = false;        # Stage Manager off
       AutoHide = false;
       EnableTiledWindowMargins = false;
       HideDesktop = true;
       StandardHideDesktopIcons = true;
     };
 
+    # Typed NSGlobalDomain options only — the rest go in
+    # CustomUserPreferences below.
     NSGlobalDomain = {
-      # AppleInterfaceStyle deliberately not set — user runs automatic
-      # light/dark switching, declaring "Dark" would lock it.
-
       AppleShowAllExtensions = true;
-      AppleMiniaturizeOnDoubleClick = false;
-      NSWindowShouldDragOnGesture = false;
-
-      # Text editing — autocorrect off, everything else stays default.
-      NSAutomaticCapitalizationEnabled    = true;
+      NSAutomaticCapitalizationEnabled = true;
       NSAutomaticPeriodSubstitutionEnabled = true;
       NSAutomaticSpellingCorrectionEnabled = false;
-      WebAutomaticSpellingCorrectionEnabled = false;
-
-      # Bilingual: English UI, Dutch region.
-      AppleLanguages = [ "en-US" "nl-NL" ];
-      AppleLocale = "en_US@rg=nlzzzz";
-
-      # Trackpad / mouse — match user's exact tuning.
-      "com.apple.swipescrolldirection" = true;
-      "com.apple.trackpad.scaling" = 0.6875;
-      "com.apple.trackpad.forceClick" = true;
-      "com.apple.mouse.tapBehavior" = 0;
-      "com.apple.mouse.scaling" = 1.5;
-      "com.apple.scrollwheel.scaling" = 0.3125;
-
-      # No screen flash on system beep.
-      "com.apple.sound.beep.flash" = 0;
-
-      # Spring-loaded folders.
-      "com.apple.springing.enabled" = true;
-      "com.apple.springing.delay" = 0.5;
-
-      # Expanded save / print panels.
-      NSNavPanelExpandedStateForSaveMode  = true;
+      NSNavPanelExpandedStateForSaveMode = true;
       NSNavPanelExpandedStateForSaveMode2 = true;
-      PMPrintingExpandedStateForPrint  = true;
+      PMPrintingExpandedStateForPrint = true;
       PMPrintingExpandedStateForPrint2 = true;
+      "com.apple.swipescrolldirection" = true;
     };
 
     trackpad = {
@@ -104,14 +77,30 @@
       ShowDayOfWeek = true;
     };
 
+    # Untyped plist keys — nix-darwin doesn't expose typed options
+    # for these, so they go through CustomUserPreferences which writes
+    # values directly via `defaults write`.
+    CustomUserPreferences = {
+      NSGlobalDomain = {
+        AppleLanguages = [ "en-US" "nl-NL" ];
+        AppleLocale = "en_US@rg=nlzzzz";
+        AppleMiniaturizeOnDoubleClick = false;
+        NSWindowShouldDragOnGesture = false;
+        WebAutomaticSpellingCorrectionEnabled = false;
+        "com.apple.trackpad.scaling" = 0.6875;
+        "com.apple.trackpad.forceClick" = true;
+        "com.apple.mouse.tapBehavior" = 0;
+        "com.apple.mouse.scaling" = 1.5;
+        "com.apple.scrollwheel.scaling" = 0.3125;
+        "com.apple.sound.beep.flash" = 0;
+        "com.apple.springing.enabled" = true;
+        "com.apple.springing.delay" = 0.5;
+      };
+    };
+
     # No screencapture override — user keeps screenshots on Desktop.
     # No key-repeat override — user uses macOS defaults.
-    # No LSQuarantine override — user hasn't disabled it.
-    # No AppleInterfaceStyle override — user has Auto switching.
-    # NSAutomaticDashSubstitutionEnabled / NSAutomaticQuoteSubstitutionEnabled
-    # left default (true) — user wants smart quotes.
-    # NSAutomaticInlinePredictionEnabled / NSAutomaticTextCompletionEnabled
-    # left default — user hasn't customised.
+    # No AppleInterfaceStyle override — user has Auto light/dark.
   };
 
   security.pam.services.sudo_local.touchIdAuth = true;

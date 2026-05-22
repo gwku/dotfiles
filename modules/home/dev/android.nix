@@ -5,7 +5,10 @@
   home.packages = with pkgs; [
     android-tools  # adb, fastboot
     apktool
-    jadx
     gitRepo        # AOSP `repo` tool
   ];
+
+  # jadx is not packaged cleanly on aarch64-darwin (pulls a broken
+  # python `av` build chain). Install from
+  # https://github.com/skylot/jadx/releases if needed.
 }

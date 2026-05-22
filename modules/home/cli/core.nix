@@ -5,7 +5,7 @@
     fd
     file
     tree
-    poppler_utils
+    poppler-utils
     p7zip
     innoextract
     wimlib

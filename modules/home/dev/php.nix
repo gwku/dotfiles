@@ -2,6 +2,6 @@
   home.packages = with pkgs; [
     php83
     php83Packages.composer
-    php-cs-fixer
+    php83Packages.php-cs-fixer
   ];
 }

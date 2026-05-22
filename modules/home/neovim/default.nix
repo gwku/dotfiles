@@ -63,7 +63,7 @@
       nixpkgs-fmt
       black
       shfmt
-      nodePackages.prettier
+      prettier
     ];
 
     extraLuaConfig = ''
