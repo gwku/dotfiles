@@ -14,7 +14,6 @@
     talosctl
 
     # IaC
-    terraform
     opentofu
   ];
 }
