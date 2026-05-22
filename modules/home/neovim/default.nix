@@ -5,6 +5,8 @@
     viAlias = true;
     vimAlias = true;
     vimdiffAlias = true;
+    withRuby = false;
+    withPython3 = false;
 
     plugins = with pkgs.vimPlugins; [
       # Core
@@ -66,7 +68,7 @@
       prettier
     ];
 
-    extraLuaConfig = ''
+    initLua = ''
       require('options')
       require('keymaps')
       require('plugins')

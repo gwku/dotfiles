@@ -25,6 +25,7 @@
     # Extra taps for proprietary tools not on the default homebrew-cask.
     taps = [
       "microsoft/mssql-release"
+      "cirruslabs/cli"
     ];
 
     # Brew formulae not (yet) in nixpkgs or where the brew distribution
@@ -32,6 +33,7 @@
     brews = [
       "msodbcsql17"
       "mssql-tools"
+      "cirruslabs/cli/tart"  # macOS VMs on Apple Silicon
     ];
 
     # Cask GUI apps. Apps that are reproducible from nixpkgs darwin
