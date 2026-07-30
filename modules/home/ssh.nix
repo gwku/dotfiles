@@ -50,9 +50,6 @@ in
         IdentityAgent = bitwardenAgentSocket;
         ServerAliveInterval = 60;
         ServerAliveCountMax = 3;
-      }
-      // lib.optionalAttrs pkgs.stdenv.isDarwin {
-        UseKeychain = "yes";
       };
 
       "*.local" = {
