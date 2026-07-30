@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Runtime checks to run after a successful nix-darwin switch.
+# Runtime checks to run after a successful Home Manager activation.
 
 set -euo pipefail
 
@@ -8,7 +8,7 @@ fail() {
   exit 1
 }
 
-for command in fish nvim wezterm git ssh bw-ssh-sync tofu go cloudflared psql mas shopify lighthouse; do
+for command in fish nvim wezterm git ssh bw-ssh-sync tofu go cloudflared psql shopify lighthouse fzf zoxide infisical stripe; do
   command -v "$command" >/dev/null 2>&1 || fail "missing command: $command"
 done
 
@@ -39,13 +39,24 @@ configured_agent="$(
 test "$configured_agent" = "$expected_agent" ||
   fail "OpenSSH is not configured for the Bitwarden agent"
 
-test -e "/Applications/Nix Apps/WezTerm.app" ||
-  fail "nix-darwin WezTerm application bundle is missing"
+case "$(uname -s)" in
+  Darwin)
+    command -v mas >/dev/null 2>&1 || fail "missing command: mas"
 
-configured_shell="$(/usr/bin/dscl . -read "/Users/$USER" UserShell | /usr/bin/awk '{ print $2 }')"
-case "$configured_shell" in
-  /nix/store/*/bin/fish) ;;
-  *) fail "login shell is not the nix-managed Fish: $configured_shell" ;;
+    test -e "/Applications/Nix Apps/WezTerm.app" ||
+      fail "nix-darwin WezTerm application bundle is missing"
+
+    configured_shell="$(/usr/bin/dscl . -read "/Users/$USER" UserShell | /usr/bin/awk '{ print $2 }')"
+    case "$configured_shell" in
+      /nix/store/*/bin/fish) ;;
+      *) fail "login shell is not the nix-managed Fish: $configured_shell" ;;
+    esac
+    ;;
+  Linux)
+    ;;
+  *)
+    fail "unsupported operating system: $(uname -s)"
+    ;;
 esac
 
 echo "All runtime smoke tests passed."

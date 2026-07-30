@@ -32,7 +32,7 @@ local neofusion_theme = {
 }
 
 config.colors = neofusion_theme
-config.default_prog = { "/run/current-system/sw/bin/fish", "-l" }
+config.default_prog = { "@fish@", "-l" }
 config.window_decorations = "RESIZE"
 config.default_cursor_style = "SteadyUnderline"
 config.font_size = 18.0

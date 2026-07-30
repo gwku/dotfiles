@@ -42,6 +42,25 @@ This repository standardises on Determinate Nix. Its official nix-darwin
 module prevents nix-darwin from trying to replace the Determinate-managed
 daemon and declares the additional Nix settings used by this setup.
 
+## Bootstrap Linux
+
+The Linux target manages the user environment with standalone Home Manager;
+it is not a complete NixOS system configuration. On an x86-64 Linux machine,
+install Nix if the machine does not already provide it, then run:
+
+```sh
+curl --proto '=https' --tlsv1.2 -sSf -L \
+  https://install.determinate.systems/nix | sh -s -- install
+git clone https://github.com/gwku/dotfiles.git ~/development/dotfiles
+cd ~/development/dotfiles
+nix run path:.#home-manager -- switch --flake path:.#gwku@workstation
+./scripts/smoke-test.sh
+```
+
+On NixOS, use the existing system Nix installation and start with the clone.
+The same Home Manager target can be imported into a future NixOS system
+configuration if system-level NixOS management is added later.
+
 ## Daily commands
 
 ```sh

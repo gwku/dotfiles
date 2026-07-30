@@ -8,5 +8,11 @@
     enableZshIntegration = false;
   };
 
-  xdg.configFile."wezterm/wezterm.lua".source = ./wezterm.lua;
+  # Embed the package's real store path. `/run/current-system/sw` exists on
+  # NixOS/nix-darwin systems, but not with standalone Home Manager on Linux.
+  xdg.configFile."wezterm/wezterm.lua".text =
+    builtins.replaceStrings
+      [ "@fish@" ]
+      [ "${pkgs.fish}/bin/fish" ]
+      (builtins.readFile ./wezterm.lua);
 }
