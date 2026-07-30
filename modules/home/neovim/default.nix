@@ -52,7 +52,6 @@
 
       # LSP servers
       lua-language-server
-      nil
       pyright
       typescript-language-server
       bash-language-server

@@ -3,6 +3,5 @@
     ollama
   ];
 
-  # huggingface-cli isn't a first-class nixpkgs package; install
-  # ad-hoc with `uv tool install huggingface-hub` when needed.
+  # The Hugging Face CLI is provided by python.nix.
 }

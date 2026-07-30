@@ -1,15 +1,15 @@
-{ pkgs, lib, ... }: {
+{ pkgs, ... }: {
   programs.fish = {
     enable = true;
 
     shellAliases = {
-      ll  = "eza -lah --git --group-directories-first";
-      ls  = "eza --group-directories-first";
-      lt  = "eza --tree --level=2 --git-ignore";
+      ll = "eza -lah --git --group-directories-first";
+      ls = "eza --group-directories-first";
+      lt = "eza --tree --level=2 --git-ignore";
       cat = "bat --paging=never";
       grep = "rg";
 
-      g  = "git";
+      g = "git";
       gs = "git status";
       gd = "git diff";
       gl = "git log --oneline --graph --decorate";
@@ -17,7 +17,7 @@
       gcm = "git commit -m";
 
       k = "kubectl";
-      tf = "terraform";
+      tf = "tofu";
     };
 
     shellAbbrs = {
@@ -39,7 +39,7 @@
     interactiveShellInit = ''
       set fish_greeting
 
-      # Source machine-local, non-committed env (Bitwarden-loaded vars, etc.)
+      # Source machine-local, non-committed paths and settings.
       if test -f ~/.config/fish/conf.d/local.fish
         source ~/.config/fish/conf.d/local.fish
       end
@@ -64,10 +64,22 @@
     };
 
     plugins = [
-      { name = "fzf-fish"; src = pkgs.fishPlugins.fzf-fish.src; }
-      { name = "autopair"; src = pkgs.fishPlugins.autopair.src; }
-      { name = "puffer";   src = pkgs.fishPlugins.puffer.src; }
-      { name = "done";     src = pkgs.fishPlugins.done.src; }
+      {
+        name = "fzf-fish";
+        src = pkgs.fishPlugins.fzf-fish.src;
+      }
+      {
+        name = "autopair";
+        src = pkgs.fishPlugins.autopair.src;
+      }
+      {
+        name = "puffer";
+        src = pkgs.fishPlugins.puffer.src;
+      }
+      {
+        name = "done";
+        src = pkgs.fishPlugins.done.src;
+      }
     ];
   };
 }

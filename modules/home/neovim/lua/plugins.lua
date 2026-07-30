@@ -34,6 +34,9 @@ require("bufferline").setup({
 })
 
 -- File tree
+-- nvim-tree clears netrw's legacy FileExplorer group during setup. Create the
+-- group first so Neovim does not leave E216 in v:errmsg on a clean profile.
+vim.api.nvim_create_augroup("FileExplorer", { clear = false })
 require("nvim-tree").setup({
   view = { width = 36 },
   renderer = { group_empty = true },
@@ -50,18 +53,18 @@ require("ibl").setup({ scope = { enabled = true } })
 require("which-key").setup()
 
 -- Treesitter
-require("nvim-treesitter.configs").setup({
-  highlight = { enable = true },
-  indent    = { enable = true },
-  incremental_selection = {
-    enable = true,
-    keymaps = {
-      init_selection    = "<C-space>",
-      node_incremental  = "<C-space>",
-      scope_incremental = false,
-      node_decremental  = "<bs>",
-    },
-  },
+require("nvim-treesitter").setup({})
+
+-- Highlighting is built into Neovim 0.12. Start it for every filetype
+-- that has one of the Nix-installed parsers, and enable Treesitter
+-- indentation where the parser supports it.
+vim.api.nvim_create_autocmd("FileType", {
+  callback = function(args)
+    local ok = pcall(vim.treesitter.start, args.buf)
+    if ok then
+      vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+    end
+  end,
 })
 
 -- Telescope
@@ -77,7 +80,6 @@ pcall(telescope.load_extension, "fzf")
 
 -- LSP
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
-local lspconfig = require("lspconfig")
 
 local servers = {
   lua_ls = {
@@ -88,7 +90,6 @@ local servers = {
       },
     },
   },
-  nil_ls = {},
   nixd = {},
   pyright = {},
   ts_ls = {},
@@ -99,7 +100,8 @@ local servers = {
 
 for server, cfg in pairs(servers) do
   cfg.capabilities = capabilities
-  lspconfig[server].setup(cfg)
+  vim.lsp.config(server, cfg)
+  vim.lsp.enable(server)
 end
 
 -- Completion

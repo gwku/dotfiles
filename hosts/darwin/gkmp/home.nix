@@ -1,7 +1,10 @@
-{ pkgs, username, ... }: {
-  home.username = username;
-  home.homeDirectory = "/Users/${username}";
-  home.stateVersion = "24.11";
+{ username, ... }: {
+  home = {
+    inherit username;
+    homeDirectory = "/Users/${username}";
+    stateVersion = "26.05";
+  };
 
   programs.home-manager.enable = true;
+  programs.man.generateCaches = false;
 }

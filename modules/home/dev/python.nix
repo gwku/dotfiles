@@ -6,5 +6,6 @@
     uv
     pipx
     ruff
+    python313Packages.huggingface-hub
   ];
 }

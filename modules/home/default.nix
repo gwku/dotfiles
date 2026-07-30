@@ -13,6 +13,7 @@
     ./ssh.nix
     ./neovim
     ./wezterm
+    ./cursor.nix
     ./dev
     ./fonts.nix
   ];

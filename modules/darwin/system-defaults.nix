@@ -12,28 +12,29 @@
       autohide = false;
       tilesize = 46;
       magnification = false;
-      show-recents = true;
+      show-recents = false;
       mru-spaces = false;
       minimize-to-application = true;
       expose-group-apps = false;
-      wvous-tr-corner = 14;  # top-right hot corner = Lock Screen
+      wvous-tr-corner = 14; # top-right hot corner = Lock Screen
 
       persistent-apps = [
         "/Applications/Zen.app"
-        "/System/Applications/Mail.app"
+        "/Applications/Thunderbird.app"
         "/System/Applications/Calendar.app"
         "/System/Applications/App Store.app"
         "/System/Applications/System Settings.app"
-        "/Applications/Nix Apps/WezTerm.app"  # Nix-installed apps land here, not /Applications
+        "/Applications/Nix Apps/WezTerm.app"
         "/Applications/Todoist.app"
         "/Users/${username}/Applications/Rider.app"
-        "/Users/${username}/Applications/WebStorm.app"
-        "/Users/${username}/Applications/PyCharm.app"
         "/Applications/Obsidian.app"
         "/System/Applications/Utilities/Activity Monitor.app"
         "/Applications/Bitwarden.app"
+        "/Applications/Claude.app"
+        "/Applications/ChatGPT.app"
         "/Applications/Slack.app"
         "/Applications/WhatsApp.app"
+        "/Applications/Signal.app"
       ];
     };
 
@@ -44,7 +45,7 @@
     };
 
     WindowManager = {
-      GloballyEnabled = false;        # Stage Manager off
+      GloballyEnabled = false; # Stage Manager off
       AutoHide = false;
       EnableTiledWindowMargins = false;
       HideDesktop = true;
@@ -73,7 +74,7 @@
 
     menuExtraClock = {
       ShowAMPM = true;
-      ShowDate = 0;        # 0 = never show date in menu bar
+      ShowDate = 0; # 0 = never show date in menu bar
       ShowDayOfWeek = true;
     };
 
@@ -82,7 +83,10 @@
     # values directly via `defaults write`.
     CustomUserPreferences = {
       NSGlobalDomain = {
-        AppleLanguages = [ "en-US" "nl-NL" ];
+        AppleLanguages = [
+          "en-US"
+          "nl-NL"
+        ];
         AppleLocale = "en_US@rg=nlzzzz";
         AppleMiniaturizeOnDoubleClick = false;
         NSWindowShouldDragOnGesture = false;
@@ -95,6 +99,76 @@
         "com.apple.sound.beep.flash" = 0;
         "com.apple.springing.enabled" = true;
         "com.apple.springing.delay" = 0.5;
+      };
+
+      "com.apple.screencapture" = {
+        showsClicks = true;
+        showsCursor = true;
+      };
+
+      # Preserve the current system-wide shortcut choices. IDs are
+      # Apple's stable symbolic-hotkey identifiers.
+      "com.apple.symbolichotkeys".AppleSymbolicHotKeys = {
+        "15".enabled = false;
+        "16".enabled = false;
+        "17".enabled = false;
+        "18".enabled = false;
+        "19".enabled = false;
+        "20".enabled = false;
+        "21".enabled = false;
+        "22".enabled = false;
+        "23".enabled = false;
+        "24".enabled = false;
+        "25".enabled = false;
+        "26".enabled = false;
+        "79".enabled = true;
+        "80".enabled = true;
+        "81".enabled = true;
+        "82".enabled = true;
+        "164" = {
+          enabled = false;
+          value = {
+            parameters = [
+              65535
+              65535
+              0
+            ];
+            type = "standard";
+          };
+        };
+        "31" = {
+          enabled = true;
+          value = {
+            parameters = [
+              115
+              1
+              1179648
+            ];
+            type = "standard";
+          };
+        };
+        "60" = {
+          enabled = true;
+          value = {
+            parameters = [
+              32
+              49
+              262144
+            ];
+            type = "standard";
+          };
+        };
+        "61" = {
+          enabled = true;
+          value = {
+            parameters = [
+              32
+              49
+              786432
+            ];
+            type = "standard";
+          };
+        };
       };
     };
 

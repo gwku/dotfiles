@@ -6,6 +6,8 @@
   # if you want strict reproducibility for it.
   environment.systemPackages = with pkgs; [
     firefox-bin
+    mas
     vscode
+    wezterm
   ];
 }

@@ -1,37 +1,39 @@
-# Unmanaged macOS apps
+# macOS state outside Nix
 
-Things you have installed that aren't declared by Nix or Homebrew in this repo. Everything self-updating now lives in either [`modules/darwin/homebrew.nix`](modules/darwin/homebrew.nix) (casks) or one of the [`modules/home/dev/`](modules/home/dev) modules (Nix packages).
+This file records the manual part of a clean Mac setup. Self-updating
+casks live in [`modules/darwin/homebrew.nix`](modules/darwin/homebrew.nix);
+Nix packages live under [`modules/home/`](modules/home/).
 
-## Manually installed apps (vendor installers / Mac App Store)
+## Manually installed applications
 
-| App | Source | Why manual |
-|---|---|---|
-| JetBrains Toolbox | jetbrains.com | Toolbox manages its own IDE installs in `~/Applications`. Don't fight it. |
-| IntelliJ IDEA, PyCharm, Rider, WebStorm | via Toolbox | See above. |
-| Android Studio | via Toolbox or direct | See above. |
-| LM Studio | lmstudio.ai | Vendor installer; not in nixpkgs/casks. |
-| Little Snitch | obdev.at | Firewall; vendor-only, not in nixpkgs/casks. |
-| Amphetamine | Mac App Store | MAS-only. |
-| Cog | Mac App Store | Audio player. |
-| Cotypist | direct / MAS | |
-| FileZilla | filezilla-project.org | |
-| HP (printer) | hp.com | Driver bundle. |
-| Kobo | kobo.com | E-reader sync. |
-| Microsoft Word | MAS / Microsoft 365 | |
-| Numbers / Pages / Keynote / GarageBand | Apple (built-in) | |
-| OpenMTP | github.com/ganeshrvel/openmtp | Android file transfer. |
-| Safari | Apple (built-in) | |
-| T3 Code (Alpha) | direct | AI IDE alpha. |
-| Todoist | Mac App Store | |
-| Tolaria | direct | MTG library. |
-| WireGuard | Mac App Store | App-store WireGuard client (the CLI `wireguard-tools` is in Nix). |
-| Zen | zen-browser.app | |
-| kdenlive | direct | Video editor. |
+| Application | Restore method |
+|---|---|
+| JetBrains Toolbox | Vendor installer; use Toolbox to restore IDEs |
+| IntelliJ IDEA, PyCharm, Rider, WebStorm | JetBrains Toolbox |
+| Android Studio | JetBrains Toolbox or vendor installer |
+| LM Studio | Vendor installer |
+| Little Snitch | Vendor installer and manual rules restore |
+| Cog | Vendor installer |
+| Cotypist, FileZilla, HP printer tools, Kobo, OpenMTP | Vendor installers |
+| RapidRAW, T3 Code, Tolaria, Zen, kdenlive | Vendor/project installers |
+
+## Mac App Store applications
+
+Sign into the App Store, then run:
+
+```sh
+./scripts/install-mas-apps.sh
+```
+
+The idempotent script installs Amphetamine, HP Smart, Keynote, Microsoft
+Word, Numbers, Pages, Todoist, and WireGuard by their numeric App Store
+IDs. Apple ID credentials remain outside the repository.
 
 ## Login items
 
-nix-darwin has no first-class API for "open at login" GUI items, so these have to be toggled in each app's preferences. The current set on this machine:
+Confirm these after installing their applications:
 
+- Elgato Wave Link
 - Ice
 - Maccy
 - Cotypist
@@ -39,32 +41,73 @@ nix-darwin has no first-class API for "open at login" GUI items, so these have t
 - Scroll Reverser
 - Nextcloud
 
-Add OrbStack to this list if you want it to auto-start (currently it doesn't).
+OrbStack is not currently configured to open at login.
 
-## macOS settings nix-darwin can't (or shouldn't) manage
+## Settings requiring manual work
 
-| Setting | Current value | How to set |
-|---|---|---|
-| Keyboard input source | USInternational-PC | System Settings → Keyboard → Input Sources |
-| Automatic dark/light switching | Enabled | System Settings → Appearance → Auto (don't set `AppleInterfaceStyle` in nix-darwin or you'll lock it) |
-| Smart quotes style | `"..."` / `'...'` curly | System Settings → Keyboard → Text Replacements |
-| Custom text replacements (e.g. `omw → On my way!`) | One entry | System Settings → Keyboard → Text Replacements |
-| Dictation enabled, Siri/Assistant disabled | Dictation on, Siri off | System Settings → Apple Intelligence & Siri / Dictation |
-| iCloud account sign-in | Signed in as administratie@gerwinkuijntjes.nl | One-time manual sign-in |
-| Display resolution + arrangement | Per-physical-display | System Settings → Displays |
-| Power management (displaysleep 2 min, etc.) | Custom | `pmset` from a script — per-machine, not in dotfiles |
-| Time Machine, Wi-Fi networks, Bluetooth pairings | Per-machine state | System Settings |
-| Adobe / Google / JetBrains LaunchAgents | Self-installed by each app | App preferences |
-| Little Snitch (firewall) | Installed manually | obdev.at — not in nixpkgs or casks |
-| Spaces layout / per-app space bindings | Multi-display arrangement | System Settings → Mission Control |
+| Setting/state | Current intent |
+|---|---|
+| Keyboard input source | USInternational-PC |
+| Appearance | Automatic light/dark switching |
+| Text replacements and smart quotes | Restore in Keyboard settings |
+| Dictation and Siri | Dictation on; Siri/Assistant off |
+| iCloud | Sign in manually |
+| Displays and Spaces | Reconfigure for attached displays |
+| Power management | Battery display sleep 2 min; AC display sleep 10 min; review with `pmset -g custom` |
+| Time Machine, Wi-Fi, Bluetooth | Restore or configure per machine |
+| Little Snitch rules | Restore through Little Snitch |
+| OBS Virtual Camera | Approve the camera system extension in Login Items & Extensions |
 
-## Post-bootstrap manual steps
+Symbolic keyboard shortcuts and the screen-recording cursor/click
+preferences are managed by nix-darwin. Menu-bar item positioning remains
+machine-local because macOS rewrites those positions and Ice manages the
+visible layout.
 
-After the first `darwin-rebuild switch`:
+## Project-local commands
 
-1. Drop SSH keys into `~/.ssh/` (chmod 600). Never committed.
-2. Populate `~/.config/fish/conf.d/secrets.fish` with any per-session env vars.
-3. Sign into apps with persistent auth (Bitwarden, Slack, JetBrains, etc.).
-4. JetBrains Toolbox: open the app and reinstall the IDEs you use.
-5. Re-confirm input source = USInternational-PC and "Auto" appearance.
-6. Toggle login items in each app's preferences if they don't auto-add themselves.
+These are intentionally rebuilt from their project repositories rather
+than copied into this repository:
+
+- `terraform-provider-staticform`: from
+  `~/development/terraform-provider-staticform` using its Go build/install
+  instructions;
+- `search-resoftware-customers`: symlinked from
+  `~/development/resoftware-customers` after that private project is
+  restored.
+
+Shopify CLI and Google Lighthouse are Nix packages in this repository.
+Cursor's public extension set is pinned through Home Manager. Cursor's
+bundled `anysphere.*` extensions are supplied by Cursor itself.
+
+## Post-bootstrap checklist
+
+1. Sign into the Bitwarden desktop app, enable its SSH agent, run
+   `bw login`, then run `bw-ssh-sync`. Confirm `ssh-add -L` lists the
+   expected keys and test at least one host alias. Private keys and host
+   metadata are restored from native Bitwarden SSH items; do not restore
+   `~/.ssh/config.local`.
+2. Populate `~/.config/fish/conf.d/local.fish` for non-secret local paths
+   and `secrets.fish` for environment secrets.
+3. Restore or re-authenticate AWS, Kubernetes, GitHub CLI, GPG, Stripe,
+   Bitwarden, and other cloud tools.
+4. Run `rustup default stable`.
+5. Restore Android SDK components. The previous machine used Android
+   platforms 33–36, build-tools 30.0.3 and 33–36.1, the emulator,
+   sources for Android 36, and an Android 36.1 system image.
+6. Install JetBrains Toolbox and restore the required IDEs.
+7. Sign into the Mac App Store and run `./scripts/install-mas-apps.sh`.
+8. Sign into GUI applications and enable settings sync where available.
+9. Confirm the keyboard source, automatic appearance, login items,
+   display layout, and power settings.
+10. Approve OBS Virtual Camera if it is needed.
+11. Run `./scripts/smoke-test.sh`.
+12. On a migrated Mac, run `./scripts/finish-current-mac-cleanup.sh`
+    and reboot if it reports a pending system-extension uninstall.
+
+When adding a Bitwarden SSH item, add an `ssh_config` Text custom field if
+it needs a Host alias, then rerun `bw-ssh-sync`. Use
+`{{identity_file}}` for its generated public selector. Items without that
+field are still exposed by the agent but do not create Host blocks.
+
+Do not place credentials, private keys, tokens, private SSH host data, or
+encrypted secret blobs in this repository.

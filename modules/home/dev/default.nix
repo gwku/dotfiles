@@ -1,4 +1,4 @@
-{ ... }: {
+{ pkgs, ... }: {
   imports = [
     ./python.nix
     ./node.nix
@@ -11,5 +11,9 @@
     ./ml.nix
     ./cloud.nix
     ./containers.nix
+  ];
+
+  home.packages = [
+    pkgs.go
   ];
 }

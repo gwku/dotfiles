@@ -1,0 +1,10 @@
+{
+  "name": "dotfiles-node-tools",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Pinned global Node CLI replacements for the dotfiles profile",
+  "dependencies": {
+    "@shopify/cli": "4.5.2",
+    "lighthouse": "13.4.1"
+  }
+}

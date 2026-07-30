@@ -1,21 +1,33 @@
-{ pkgs, username, ... }: {
-  nix.settings = {
-    experimental-features = [ "nix-command" "flakes" ];
-    trusted-users = [ "@admin" username ];
-  };
+{
+  inputs,
+  pkgs,
+  username,
+  ...
+}:
+{
+  # Determinate owns the daemon and base nix.conf. Its nix-darwin module
+  # disables nix-darwin's conflicting native Nix management and writes our
+  # additional settings to /etc/nix/nix.custom.conf.
+  determinateNix = {
+    enable = true;
 
-  nix.optimise.automatic = true;
+    customSettings = {
+      auto-optimise-store = true;
+      trusted-users = [
+        "root"
+        "@admin"
+        username
+      ];
+    };
 
-  nix.gc = {
-    automatic = true;
-    interval.Day = 7;
-    options = "--delete-older-than 14d";
+    determinateNixd.garbageCollector.strategy = "automatic";
   };
 
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.overlays = [ inputs.nix-vscode-extensions.overlays.default ];
 
-  # Fish at the system level so it's a valid login shell.
+  # Fish at the system level so the host activation can select it as the
+  # login shell for the existing macOS account.
   programs.fish.enable = true;
   environment.shells = [ pkgs.fish ];
-  users.users.${username}.shell = pkgs.fish;
 }
