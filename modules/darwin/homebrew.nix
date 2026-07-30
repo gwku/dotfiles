@@ -101,6 +101,7 @@ in
       # Browsers
       "google-chrome"
       "helium-browser"
+      "zen"
 
       # Comms
       "bitwarden"
@@ -117,12 +118,15 @@ in
       "claude-code@latest"
       "codex"
       "cursor"
+      "lm-studio"
 
       # Dev / API tools
+      "android-studio"
       "bruno"
       "burp-suite"
       "insomnia"
       "mitmproxy"
+      "rider"
 
       # Containers / VMs / k8s
       "orbstack"
@@ -131,6 +135,7 @@ in
 
       # Mobile / Android
       "android-commandlinetools"
+      "openmtp"
 
       # Current .NET SDK (SDK 8 is also provided via Nix in dev/dotnet.nix)
       "dotnet-sdk"
@@ -144,10 +149,12 @@ in
       "windows-app"
 
       # Files / Cloud
+      "cyberduck"
       "nextcloud"
 
       # Media / Creative
       "audacity"
+      "cog-app"
       "elgato-wave-link"
       "inkscape"
       "mp3tag"

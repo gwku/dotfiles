@@ -21,8 +21,8 @@
     };
 
     shellAbbrs = {
-      drs = "darwin-rebuild switch --flake ~/development/dotfiles";
-      hms = "home-manager switch --flake ~/development/dotfiles";
+      drs = "~/development/dotfiles/scripts/switch.sh gkmp";
+      hms = "~/development/dotfiles/scripts/switch.sh workstation";
       nfu = "nix flake update";
       nfc = "nix flake check";
     };

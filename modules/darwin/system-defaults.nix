@@ -1,4 +1,4 @@
-{ username, ... }: {
+{ ... }: {
   # Mirrors the preferences this user actually has set on the machine,
   # rather than forcing typical-dev defaults. Audited from a live
   # `defaults read` dump across every customised domain.
@@ -26,7 +26,7 @@
         "/System/Applications/System Settings.app"
         "/Applications/Nix Apps/WezTerm.app"
         "/Applications/Todoist.app"
-        "/Users/${username}/Applications/Rider.app"
+        "/Applications/Rider.app"
         "/Applications/Obsidian.app"
         "/System/Applications/Utilities/Activity Monitor.app"
         "/Applications/Bitwarden.app"

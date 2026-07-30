@@ -7,6 +7,7 @@
   environment.systemPackages = with pkgs; [
     firefox-bin
     mas
+    rapidraw
     vscode
     wezterm
   ];

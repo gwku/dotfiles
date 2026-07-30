@@ -27,6 +27,18 @@ The installer:
 3. uses the nix-darwin revision pinned by this flake;
 4. activates nix-darwin and Home Manager.
 
+The installer front-loads macOS administrator authentication and keeps that
+authorization alive during the build. If Xcode command-line tools are
+missing, it starts Apple's installer and asks you to rerun after it
+finishes. If the Bitwarden CLI is already configured but locked, its unlock
+also happens before the long switch starts. Once preflight is complete, the
+Nix/Homebrew activation itself is non-interactive.
+
+End-to-end bootstrap is not completely unattended: Mac App Store
+applications require an Apple ID sign-in and the separate command below,
+and a clean machine still needs one-time Bitwarden desktop/CLI login and
+SSH-agent setup after activation.
+
 After signing into the Mac App Store, restore the declared App Store
 applications:
 
@@ -67,8 +79,8 @@ configuration if system-level NixOS management is added later.
 # Evaluate every supported platform and build the Mac configuration
 ./scripts/check.sh gkmp
 
-# Activate
-sudo nix run path:.#darwin-rebuild -- switch --flake path:.#gkmp
+# Authenticate up front, synchronize Bitwarden metadata, then activate
+./scripts/switch.sh gkmp
 
 # Update pinned inputs, then build before switching
 nix flake update
@@ -132,8 +144,8 @@ metadata. Home Manager:
 - points OpenSSH at the Bitwarden desktop SSH-agent socket;
 - installs `bw-ssh-sync`;
 - includes the generated `~/.ssh/config.bitwarden`;
-- synchronizes metadata during activation, prompting to unlock the CLI when
-  it is logged in but locked.
+- synchronizes metadata in the switch preflight, prompting before the build
+  when the CLI is logged in but locked.
 
 Private keys are never written by Nix or `bw-ssh-sync`. The sync command
 writes only public-key selector files under `~/.ssh/bitwarden/` and Host
@@ -180,11 +192,11 @@ files. Custom fields such as `source_path`, `public_key_comment`, and
 `host_aliases` are retained as provenance but are not required at
 runtime.
 
-Activation prompts for `bw unlock` when the CLI is logged in but locked. On
-a clean Mac where `bw login` has never run, it preserves the last generated
-configuration and skips with setup instructions. Use
-`bw-ssh-sync --non-interactive` only for automation that must never prompt.
-The repository contains neither secret blobs nor vault credentials.
+`scripts/switch.sh` prompts for `bw unlock` before building when the CLI is
+logged in but locked. Home Manager activation always uses the
+non-interactive mode, preserving the last generated configuration when the
+CLI is locked or has never logged in. The repository contains neither
+secret blobs nor vault credentials.
 
 ## State restored outside Nix
 

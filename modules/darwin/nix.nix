@@ -1,4 +1,5 @@
 {
+  config,
   inputs,
   pkgs,
   username,
@@ -30,4 +31,11 @@
   # login shell for the existing macOS account.
   programs.fish.enable = true;
   environment.shells = [ pkgs.fish ];
+
+  # Terminal launches Fish directly, so the POSIX path_helper used by zsh
+  # never runs. Export nix-darwin's complete system path through Fish's
+  # foreign-environment bridge before Homebrew and user plugins initialize.
+  environment.shellInit = ''
+    export PATH="${config.environment.systemPath}:$PATH"
+  '';
 }

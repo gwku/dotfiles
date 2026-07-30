@@ -8,14 +8,12 @@ Nix packages live under [`modules/home/`](modules/home/).
 
 | Application | Restore method |
 |---|---|
-| JetBrains Toolbox | Vendor installer; use Toolbox to restore IDEs |
-| IntelliJ IDEA, PyCharm, Rider, WebStorm | JetBrains Toolbox |
-| Android Studio | JetBrains Toolbox or vendor installer |
-| LM Studio | Vendor installer |
 | Little Snitch | Vendor installer and manual rules restore |
-| Cog | Vendor installer |
-| Cotypist, FileZilla, HP printer tools, Kobo, OpenMTP | Vendor installers |
-| RapidRAW, T3 Code, Tolaria, Zen, kdenlive | Vendor/project installers |
+| Cotypist, HP printer drivers, Kobo | Vendor installers |
+
+Android Studio and Rider are Homebrew casks. Their settings, plugins,
+licences, and account state remain external. RapidRAW is installed through
+Nix; Cog, Cyberduck, LM Studio, OpenMTP, and Zen are Homebrew casks.
 
 ## Mac App Store applications
 
@@ -94,7 +92,8 @@ bundled `anysphere.*` extensions are supplied by Cursor itself.
 5. Restore Android SDK components. The previous machine used Android
    platforms 33–36, build-tools 30.0.3 and 33–36.1, the emulator,
    sources for Android 36, and an Android 36.1 system image.
-6. Install JetBrains Toolbox and restore the required IDEs.
+6. Sign into Android Studio and Rider and enable settings sync where
+   available.
 7. Sign into the Mac App Store and run `./scripts/install-mas-apps.sh`.
 8. Sign into GUI applications and enable settings sync where available.
 9. Confirm the keyboard source, automatic appearance, login items,

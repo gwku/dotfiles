@@ -39,4 +39,4 @@ nix "${NIX_FLAGS[@]}" build --no-link "path:.#darwinConfigurations.${HOST}.syste
 
 echo
 echo "Build succeeded. To activate, run:"
-echo "  sudo nix run path:.#darwin-rebuild -- switch --flake path:.#${HOST}"
+echo "  ./scripts/switch.sh ${HOST}"

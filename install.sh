@@ -3,12 +3,42 @@ set -euo pipefail
 
 HOST="${1:-}"
 REPO_ROOT="$(cd "$(dirname "$0")" && pwd)"
+PLATFORM="$(uname -s)"
 if [[ -z "$HOST" ]]; then
   echo "usage: ./install.sh <hostname>" >&2
   exit 1
 fi
 cd "$REPO_ROOT"
 FLAKE_REF="path:${REPO_ROOT}"
+
+sudo_keepalive_pid=""
+cleanup() {
+  if [[ -n "$sudo_keepalive_pid" ]]; then
+    kill "$sudo_keepalive_pid" 2>/dev/null || true
+  fi
+}
+trap cleanup EXIT
+
+if [[ "$PLATFORM" == Darwin ]]; then
+  if ! xcode-select -p >/dev/null 2>&1; then
+    echo "Xcode command-line tools are required. Starting Apple's installer..."
+    xcode-select --install
+    echo "Finish that installation, then rerun ./install.sh ${HOST}." >&2
+    exit 1
+  fi
+
+  # Front-load administrator authentication and keep it alive through the
+  # Nix installation so the later switch cannot prompt again.
+  echo "Authenticating with macOS administrator privileges..."
+  sudo -v
+  (
+    while true; do
+      sudo -n true
+      sleep 50
+    done
+  ) &
+  sudo_keepalive_pid="$!"
+fi
 
 if ! command -v nix >/dev/null 2>&1; then
   echo "Installing Determinate Nix..."
@@ -19,7 +49,7 @@ if ! command -v nix >/dev/null 2>&1; then
   . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
 fi
 
-case "$(uname -s)" in
+case "$PLATFORM" in
   Darwin)
     EXPECTED_USER="$(nix --extra-experimental-features 'nix-command flakes' \
       eval --raw "${FLAKE_REF}#darwinConfigurations.${HOST}.config.system.primaryUser")"
@@ -33,14 +63,10 @@ case "$(uname -s)" in
       exit 1
     fi
 
-    echo "Applying nix-darwin configuration for host: ${HOST}"
-    sudo nix run --extra-experimental-features 'nix-command flakes' \
-      "${FLAKE_REF}#darwin-rebuild" -- switch --flake "${FLAKE_REF}#${HOST}"
+    "${REPO_ROOT}/scripts/switch.sh" "$HOST"
     ;;
   Linux)
-    echo "Applying standalone Home Manager configuration for host: ${HOST}"
-    nix run --extra-experimental-features 'nix-command flakes' \
-      "${FLAKE_REF}#home-manager" -- switch --flake "${FLAKE_REF}#${USER}@${HOST}"
+    "${REPO_ROOT}/scripts/switch.sh" "$HOST"
     ;;
   *)
     echo "Unsupported platform: $(uname -s)" >&2

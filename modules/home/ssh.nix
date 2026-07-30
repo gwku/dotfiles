@@ -29,10 +29,10 @@ in
   # below, so it does not depend on shell environment propagation.
   home.sessionVariables.SSH_AUTH_SOCK = bitwardenAgentSocket;
 
-  # During an interactive rebuild, prompt to unlock an already logged-in CLI.
-  # A clean machine where `bw login` has never run still skips without failing.
+  # Interactive unlock happens in scripts/switch.sh before the build starts.
+  # Activation itself never blocks a long rebuild on a late password prompt.
   home.activation.syncSshFromBitwarden = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    run ${syncSshFromBitwarden}/bin/bw-ssh-sync --activation
+    run ${syncSshFromBitwarden}/bin/bw-ssh-sync --non-interactive
   '';
 
   programs.ssh = {
