@@ -73,26 +73,40 @@ On NixOS, use the existing system Nix installation and start with the clone.
 The same Home Manager target can be imported into a future NixOS system
 configuration if system-level NixOS management is added later.
 
-## Daily commands
+## Maintenance and updates
+
+These commands are not a daily routine. Normal computer use requires no
+Nix maintenance. Run them only after changing or pulling this repository,
+when deliberately updating pinned dependencies, or when troubleshooting.
 
 ```sh
-# Evaluate every supported platform and build the Mac configuration
+# Test changes without activating them
 ./scripts/check.sh gkmp
 
-# Authenticate up front, synchronize Bitwarden metadata, then activate
+# Apply repository changes to this Mac
 ./scripts/switch.sh gkmp
 
-# Update pinned inputs, then build before switching
+# Periodically update pinned Nix inputs, test, and then apply
 nix flake update
 ./scripts/check.sh gkmp
+./scripts/switch.sh gkmp
 
-# Inspect or roll back
+# Troubleshooting: inspect or roll back to an older Mac generation
 darwin-rebuild --list-generations
 sudo darwin-rebuild --switch-generation <generation>
 ```
 
-Fish abbreviations `drs`, `hms`, `nfu`, and `nfc` cover the common
-rebuild and update commands.
+Fish provides a few optional abbreviations:
+
+- `drs` applies this Mac's configuration (macOS only);
+- `hms` applies the standalone Home Manager configuration (Linux only);
+- `nfu` updates the repository's pinned Nix inputs;
+- `nfc` checks the repository's flake.
+
+The abbreviations use the repository at `~/development/dotfiles`, so they
+work from any directory. Updating inputs can change many package versions;
+review `flake.lock`, run the checks, and switch only when you intend to
+upgrade.
 
 The Homebrew declaration is exhaustive: activation runs an explicit,
 non-zapping `brew bundle cleanup --force`, so formulae and casks removed

@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ lib, pkgs, ... }: {
   programs.fish = {
     enable = true;
 
@@ -21,10 +21,14 @@
     };
 
     shellAbbrs = {
+      nfu = "nix flake update --flake ~/development/dotfiles";
+      nfc = "nix flake check ~/development/dotfiles";
+    }
+    // lib.optionalAttrs pkgs.stdenv.isDarwin {
       drs = "~/development/dotfiles/scripts/switch.sh gkmp";
+    }
+    // lib.optionalAttrs pkgs.stdenv.isLinux {
       hms = "~/development/dotfiles/scripts/switch.sh workstation";
-      nfu = "nix flake update";
-      nfc = "nix flake check";
     };
 
     shellInit = ''
