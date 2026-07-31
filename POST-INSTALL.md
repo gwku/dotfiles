@@ -33,13 +33,8 @@ or encrypted secret blobs into this repository.
 
 Resolve any smoke-test failure before restoring accounts or local data.
 
-## 2. Finish Apple and device security setup
+## 2. Finish App Store setup
 
-- [ ] Sign into the intended Apple Account and enable the required iCloud
-      services, including Find My.
-- [ ] Confirm FileVault is enabled in **System Settings → Privacy & Security →
-      FileVault**, and record the recovery method somewhere safe.
-- [ ] Add fingerprints in **System Settings → Touch ID & Password**.
 - [ ] Sign into the Mac App Store.
 - [ ] Install all declared App Store applications:
 
@@ -108,17 +103,10 @@ actually requests.
       **System Settings → General → Login Items & Extensions**.
 - [ ] Complete any Elgato Wave Link driver or system-extension approval.
 - [ ] Confirm that Bitwarden and Nextcloud may run in the background.
-- [ ] Confirm these desired login items:
-
-  - Elgato Wave Link
-  - Ice
-  - Maccy
-  - Cotypist
-  - Itsycal
-  - Scroll Reverser
-  - Nextcloud
-
-- [ ] Leave OrbStack disabled at login unless that preference changes.
+- [ ] Confirm Elgato Wave Link, Ice, Maccy, Itsycal, Scroll Reverser, and
+      Nextcloud started. Home Manager owns their LaunchAgents; they do not
+      need to be added manually in Login Items.
+- [ ] Leave OrbStack disabled at login. That policy is intentional.
 - [ ] Arrange hidden and visible menu-bar items in Ice. Their positions are
       machine-local because macOS rewrites them.
 
@@ -227,8 +215,7 @@ databases, personal data, device registrations, or large assets.
 - [ ] Restore WireGuard tunnels from a secure backup.
 - [ ] Restore Cyberduck bookmarks if needed; keep saved credentials in the
       system keychain or Bitwarden.
-- [ ] Restore the Calibre library and Kobo account/device integration if
-      used.
+- [ ] Restore the Calibre library if used.
 - [ ] Redownload only the LM Studio, Ollama, or Hugging Face models still
       needed. Models are intentionally not backed up by this repository.
 - [ ] Restore OBS scenes/profiles from a private backup and remap audio/video
@@ -246,32 +233,34 @@ These do not currently have a suitable declarative installer:
 
 - [ ] Install Little Snitch from the vendor and restore its rules from a
       private backup.
-- [ ] Install Cotypist if still required.
-- [ ] Install Kobo Desktop if still required.
 - [ ] Install any model-specific HP driver that HP Smart does not provide.
 
 Reboot if a vendor system extension explicitly requires it.
 
-## 9. Restore machine-local macOS settings
+## 9. Verify code-managed macOS policy
 
-- [ ] Set the keyboard input source to **USInternational-PC**.
-- [ ] Restore text replacements and preferred smart-quote behaviour.
-- [ ] Confirm automatic light/dark appearance.
-- [ ] Enable Dictation and leave Siri/Assistant disabled.
-- [ ] Configure the physical display arrangement, resolutions, Spaces, and
-      per-display wallpaper.
-- [ ] Review power settings. The previous intent was display sleep after two
-      minutes on battery and ten minutes on AC:
+nix-darwin owns the portable macOS policy: USInternational-PC, automatic
+appearance, text replacement and smart-quote behaviour, Dictation on,
+Siri/Assistant off, Wi-Fi and Bluetooth power on, display sleep after two
+minutes on battery and ten minutes on AC, Dock/Spaces behaviour, and the
+startup applications listed above. Sudo uses the account password.
+
+- [ ] Confirm that the code-managed policy passes its runtime assertions:
 
 ```sh
+./scripts/smoke-test.sh
 pmset -g custom
 ```
 
-- [ ] Join required Wi-Fi networks and pair Bluetooth devices.
-- [ ] Configure Time Machine and complete the first backup.
-- [ ] Confirm printer/scanner availability.
-- [ ] Review notification permissions and Focus modes after applications have
-      requested access.
+- [ ] If Time Machine is used, attach or select its destination once, then
+      rerun `./scripts/switch.sh gkmp`; activation enables automatic backups
+      whenever a destination exists. macOS may require Full Disk Access for
+      the terminal performing that switch; a denied grant is reported without
+      breaking the rest of activation.
+- [ ] Pair required Bluetooth peripherals and add network credentials when
+      needed. Device identities and credentials are enrollment state, not
+      preference policy, and stay outside Git.
+- [ ] Complete the first Time Machine backup after restoring personal data.
 
 ## 10. Restore local development work
 

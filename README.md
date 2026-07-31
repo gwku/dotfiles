@@ -22,8 +22,9 @@ cd ~/development/dotfiles
 
 After the installer succeeds, continue with the complete
 [`POST-INSTALL.md`](POST-INSTALL.md) checklist. It covers the first restart,
-Apple and Bitwarden sign-in, SSH, privacy approvals, developer credentials,
-SDKs, application data, machine-local settings, and final verification.
+Mac App Store and Bitwarden sign-in, SSH, privacy approvals, developer
+credentials, SDKs, application data, code-managed macOS policy, and final
+verification.
 
 The installer:
 
@@ -228,7 +229,8 @@ state remains external. Important examples include:
 - AWS, Kubernetes, GitHub CLI, GPG, and Stripe authentication;
 - Android SDK platforms, system images, and accepted licences;
 - application sign-ins and synced IDE/editor settings;
-- iCloud, Wi-Fi, Bluetooth, displays, and Time Machine.
+- network/peripheral enrollment and a credential-bound Time Machine
+  destination.
 
 Public Cursor extensions, Shopify CLI 4.5.2, and Google Lighthouse 13.4.1
 are pinned by the flake. Cursor's bundled `anysphere.*` extensions continue

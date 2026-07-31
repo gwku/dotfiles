@@ -1,4 +1,5 @@
-{ ... }: {
+{ lib, pkgs, ... }:
+{
   # Mirrors the preferences this user actually has set on the machine,
   # rather than forcing typical-dev defaults. Audited from a live
   # `defaults read` dump across every customised domain.
@@ -88,8 +89,18 @@
           "nl-NL"
         ];
         AppleLocale = "en_US@rg=nlzzzz";
+        AppleInterfaceStyleSwitchesAutomatically = true;
         AppleMiniaturizeOnDoubleClick = false;
+        NSAutomaticDashSubstitutionEnabled = true;
+        NSAutomaticQuoteSubstitutionEnabled = true;
         NSWindowShouldDragOnGesture = false;
+        NSUserDictionaryReplacementItems = [
+          {
+            on = true;
+            replace = "omw";
+            "with" = "On my way!";
+          }
+        ];
         WebAutomaticSpellingCorrectionEnabled = false;
         "com.apple.trackpad.scaling" = 0.6875;
         "com.apple.trackpad.forceClick" = true;
@@ -104,6 +115,50 @@
       "com.apple.screencapture" = {
         showsClicks = true;
         showsCursor = true;
+      };
+
+      "com.apple.HIToolbox" = {
+        AppleCurrentKeyboardLayoutInputSourceID = "com.apple.keylayout.USInternational-PC";
+        AppleDictationAutoEnable = true;
+        AppleEnabledInputSources = [
+          {
+            "Bundle ID" = "com.apple.CharacterPaletteIM";
+            InputSourceKind = "Non Keyboard Input Method";
+          }
+          {
+            InputSourceKind = "Keyboard Layout";
+            "KeyboardLayout ID" = 15000;
+            "KeyboardLayout Name" = "USInternational-PC";
+          }
+          {
+            "Bundle ID" = "com.apple.PressAndHold";
+            InputSourceKind = "Non Keyboard Input Method";
+          }
+          {
+            "Bundle ID" = "com.apple.inputmethod.ironwood";
+            InputSourceKind = "Non Keyboard Input Method";
+          }
+        ];
+        AppleSelectedInputSources = [
+          {
+            InputSourceKind = "Keyboard Layout";
+            "KeyboardLayout ID" = 15000;
+            "KeyboardLayout Name" = "USInternational-PC";
+          }
+          {
+            "Bundle ID" = "com.apple.PressAndHold";
+            InputSourceKind = "Non Keyboard Input Method";
+          }
+        ];
+      };
+
+      "com.apple.assistant.support" = {
+        "Assistant Enabled" = false;
+        "Dictation Enabled" = true;
+      };
+
+      "com.apple.speech.recognition.AppleSpeechRecognition.prefs" = {
+        DictationIMIntroMessagePresented = true;
       };
 
       # Portable application preferences. Account identifiers, window
@@ -241,5 +296,44 @@
     # No AppleInterfaceStyle override — user has Auto light/dark.
   };
 
-  security.pam.services.sudo_local.touchIdAuth = true;
+  environment.systemPackages = [ pkgs.blueutil ];
+
+  # Portable hardware policy. Device identities, network credentials, paired
+  # peripherals, and Time Machine destinations remain external, but their
+  # non-secret on/off and power-management policy is reproducible. These use
+  # nix-darwin's supported activation phases so they run on every switch.
+  system.activationScripts.power.text = lib.mkAfter ''
+    /usr/bin/pmset -b displaysleep 2
+    /usr/bin/pmset -c displaysleep 10
+  '';
+
+  system.activationScripts.networking.text = lib.mkAfter ''
+    wifiDevice="$(
+      /usr/sbin/networksetup -listallhardwareports |
+        /usr/bin/awk '
+          /Hardware Port: Wi-Fi/ {
+            getline
+            if ($1 == "Device:") print $2
+            exit
+          }
+        '
+    )"
+    if [[ -n "$wifiDevice" ]]; then
+      /usr/sbin/networksetup -setairportpower "$wifiDevice" on
+    fi
+
+    if ${pkgs.blueutil}/bin/blueutil --power >/dev/null 2>&1; then
+      ${pkgs.blueutil}/bin/blueutil --power 1
+    fi
+  '';
+
+  system.activationScripts.postActivation.text = lib.mkAfter ''
+    if /usr/bin/tmutil destinationinfo 2>/dev/null |
+      /usr/bin/grep -q '^Name'; then
+      /usr/bin/tmutil enable || {
+        echo >&2 "warning: Time Machine automatic backups could not be enabled"
+        echo >&2 "grant Full Disk Access to the activating terminal, then switch again"
+      }
+    fi
+  '';
 }

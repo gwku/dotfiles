@@ -9,7 +9,7 @@ Nix packages live under [`modules/home/`](modules/home/).
 | Application | Restore method |
 | --- | --- |
 | Little Snitch | Vendor installer and manual rules restore |
-| Cotypist, HP printer drivers, Kobo | Vendor installers |
+| Model-specific HP printer drivers | Vendor installer |
 
 Android Studio and Rider are Homebrew casks. Their settings, plugins,
 licences, and account state remain external. RapidRAW is installed through
@@ -27,39 +27,32 @@ The idempotent script installs Amphetamine, HP Smart, Keynote, Microsoft
 Word, Numbers, Pages, Todoist, and WireGuard by their numeric App Store
 IDs. Apple ID credentials remain outside the repository.
 
-## Login items
+## Startup applications
 
-Confirm these after installing their applications:
+Home Manager LaunchAgents start Elgato Wave Link, Ice, Maccy, Itsycal, Scroll
+Reverser, and Nextcloud at login. OrbStack intentionally does not start at
+login.
 
-- Elgato Wave Link
-- Ice
-- Maccy
-- Cotypist
-- Itsycal
-- Scroll Reverser
-- Nextcloud
+## macOS policy and external hardware state
 
-OrbStack is not currently configured to open at login.
+nix-darwin owns the keyboard input source, text replacements, smart-quote
+behaviour, automatic appearance, Dictation/Siri intent, radio power, display
+sleep, symbolic shortcuts, Dock/Spaces behaviour, and screen-recording
+cursor/click preferences. Home Manager owns startup applications. Sudo uses
+the account password; biometric PAM authentication is disabled.
 
-## Settings requiring manual work
+Network credentials, Bluetooth pairings, and a Time Machine destination are
+external enrollment state because they contain secrets or hardware identities.
+Activation turns the radios on and enables automatic Time Machine backups when
+a destination already exists and macOS permits the activating terminal Full
+Disk Access. A denied privacy grant does not fail the rest of activation.
+Menu-bar item positions remain runtime UI state because macOS rewrites them and
+Ice manages the visible layout.
 
-| Setting/state | Current intent |
-| --- | --- |
-| Keyboard input source | USInternational-PC |
-| Appearance | Automatic light/dark switching |
-| Text replacements and smart quotes | Restore in Keyboard settings |
-| Dictation and Siri | Dictation on; Siri/Assistant off |
-| iCloud | Sign in manually |
-| Displays and Spaces | Reconfigure for attached displays |
-| Power | Display sleep: battery 2 min; AC 10 min |
-| Time Machine, Wi-Fi, Bluetooth | Restore or configure per machine |
-| Little Snitch rules | Restore through Little Snitch |
-| OBS camera | Approve extension in Login Items & Extensions |
-
-Symbolic keyboard shortcuts and the screen-recording cursor/click
-preferences are managed by nix-darwin. Menu-bar item positioning remains
-machine-local because macOS rewrites those positions and Ice manages the
-visible layout.
+Little Snitch rules remain in its private vendor backup. OBS Virtual Camera
+still requires approval in Login Items & Extensions because macOS does not
+allow configuration management to pre-approve privacy permissions or system
+extensions.
 
 ## Application configuration coverage
 
@@ -103,7 +96,7 @@ bundled `anysphere.*` extensions are supplied by Cursor itself.
 The complete, ordered first-machine runbook is
 [`POST-INSTALL.md`](POST-INSTALL.md). It is the single source of truth for
 account sign-ins, SSH restoration, privacy permissions, developer
-authentication, SDKs, application data, machine-local settings, and final
+authentication, SDKs, application data, code-managed macOS policy, and final
 verification. The sections above document why those steps remain outside
 Nix.
 

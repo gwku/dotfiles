@@ -48,6 +48,7 @@ test "$configured_agent" = "$expected_agent" ||
 case "$(uname -s)" in
   Darwin)
     command -v mas >/dev/null 2>&1 || fail "missing command: mas"
+    command -v blueutil >/dev/null 2>&1 || fail "missing command: blueutil"
 
     test -e "/Applications/Nix Apps/WezTerm.app" ||
       fail "nix-darwin WezTerm application bundle is missing"
@@ -72,6 +73,66 @@ case "$(uname -s)" in
       fail "Scroll Reverser preferences were not restored"
     test "$(defaults read org.p0deje.Maccy historySize)" = 999 ||
       fail "Maccy preferences were not restored"
+
+    test "$(
+      defaults read com.apple.HIToolbox AppleCurrentKeyboardLayoutInputSourceID
+    )" = "com.apple.keylayout.USInternational-PC" ||
+      fail "USInternational-PC is not the selected keyboard layout"
+    test "$(
+      defaults read NSGlobalDomain AppleInterfaceStyleSwitchesAutomatically
+    )" = 1 ||
+      fail "automatic light/dark appearance is not enabled"
+    defaults read NSGlobalDomain NSUserDictionaryReplacementItems |
+      grep -q 'replace = omw' ||
+      fail "text replacements were not restored"
+    test "$(
+      defaults read com.apple.assistant.support "Dictation Enabled"
+    )" = 1 ||
+      fail "Dictation is not enabled"
+    test "$(
+      defaults read com.apple.assistant.support "Assistant Enabled"
+    )" = 0 ||
+      fail "Siri/Assistant is not disabled"
+
+    battery_display_sleep="$(
+      pmset -g custom |
+        awk '
+          /Battery Power:/ { power = "battery" }
+          /AC Power:/ { power = "ac" }
+          power == "battery" && $1 == "displaysleep" { print $2; exit }
+        '
+    )"
+    ac_display_sleep="$(
+      pmset -g custom |
+        awk '
+          /Battery Power:/ { power = "battery" }
+          /AC Power:/ { power = "ac" }
+          power == "ac" && $1 == "displaysleep" { print $2; exit }
+        '
+    )"
+    test "$battery_display_sleep" = 2 ||
+      fail "battery display sleep is not set to two minutes"
+    test "$ac_display_sleep" = 10 ||
+      fail "AC display sleep is not set to ten minutes"
+
+    test "$(blueutil --power)" = 1 ||
+      fail "Bluetooth power policy was not applied"
+
+    for login_agent in \
+      elgato-wave-link \
+      ice \
+      itsycal \
+      maccy \
+      nextcloud \
+      scroll-reverser; do
+      test -f "$HOME/Library/LaunchAgents/org.nix-community.home.${login_agent}.plist" ||
+        fail "missing managed login agent: $login_agent"
+    done
+
+    if grep -Ev '^[[:space:]]*(#|$)' /etc/pam.d/sudo_local 2>/dev/null |
+      grep -q 'pam_tid.so'; then
+      fail "biometric authentication for sudo is still enabled"
+    fi
 
     configured_shell="$(/usr/bin/dscl . -read "/Users/$USER" UserShell | /usr/bin/awk '{ print $2 }')"
     case "$configured_shell" in
