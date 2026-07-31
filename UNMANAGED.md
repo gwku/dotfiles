@@ -49,6 +49,10 @@ Disk Access. A denied privacy grant does not fail the rest of activation.
 Menu-bar item positions remain runtime UI state because macOS rewrites them and
 Ice manages the visible layout.
 
+FileVault is required and the smoke test verifies that it is enabled.
+Enrollment stays in Setup Assistant because it creates credential-bound
+recovery material, which must be stored securely outside this repository.
+
 Little Snitch rules remain in its private vendor backup. OBS Virtual Camera
 still requires approval in Login Items & Extensions because macOS does not
 allow configuration management to pre-approve privacy permissions or system

@@ -11,7 +11,9 @@ this repository.
 
 ## Bootstrap a Mac
 
-Create the first macOS account with the short name `gwku`, then run:
+During Setup Assistant, create the first macOS account with the short name
+`gwku` and enable FileVault. Store its recovery key somewhere secure and
+outside this repository. Then run:
 
 ```sh
 xcode-select --install
@@ -43,7 +45,9 @@ Nix/Homebrew activation itself is non-interactive.
 End-to-end bootstrap is not completely unattended: Mac App Store
 applications require an Apple ID sign-in and the separate command below,
 and a clean machine still needs one-time Bitwarden desktop/CLI login and
-SSH-agent setup after activation.
+SSH-agent setup after activation. FileVault enrollment belongs in Setup
+Assistant because it creates credential-bound recovery material; the runtime
+test verifies that it remains enabled.
 
 After signing into the Mac App Store, restore the declared App Store
 applications:

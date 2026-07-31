@@ -134,6 +134,9 @@ case "$(uname -s)" in
       fail "biometric authentication for sudo is still enabled"
     fi
 
+    fdesetup status | grep -q '^FileVault is On' ||
+      fail "FileVault is not enabled"
+
     configured_shell="$(/usr/bin/dscl . -read "/Users/$USER" UserShell | /usr/bin/awk '{ print $2 }')"
     case "$configured_shell" in
       /nix/store/*/bin/fish) ;;

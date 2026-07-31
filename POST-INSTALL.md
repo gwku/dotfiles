@@ -33,7 +33,16 @@ or encrypted secret blobs into this repository.
 
 Resolve any smoke-test failure before restoring accounts or local data.
 
-## 2. Finish App Store setup
+## 2. Verify FileVault and finish App Store setup
+
+- [ ] Confirm that FileVault, enabled during Setup Assistant, is active:
+
+```sh
+fdesetup status
+```
+
+- [ ] Confirm that its recovery method is stored securely outside this
+      repository.
 
 - [ ] Sign into the Mac App Store.
 - [ ] Install all declared App Store applications:
@@ -243,7 +252,9 @@ nix-darwin owns the portable macOS policy: USInternational-PC, automatic
 appearance, text replacement and smart-quote behaviour, Dictation on,
 Siri/Assistant off, Wi-Fi and Bluetooth power on, display sleep after two
 minutes on battery and ten minutes on AC, Dock/Spaces behaviour, and the
-startup applications listed above. Sudo uses the account password.
+startup applications listed above. Sudo uses the account password. The smoke
+test also enforces the required FileVault-on state without handling its
+recovery credentials.
 
 - [ ] Confirm that the code-managed policy passes its runtime assertions:
 
