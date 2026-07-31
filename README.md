@@ -20,6 +20,11 @@ cd ~/development/dotfiles
 ./install.sh gkmp
 ```
 
+After the installer succeeds, continue with the complete
+[`POST-INSTALL.md`](POST-INSTALL.md) checklist. It covers the first restart,
+Apple and Bitwarden sign-in, SSH, privacy approvals, developer credentials,
+SDKs, application data, machine-local settings, and final verification.
+
 The installer:
 
 1. installs Determinate Nix when necessary;
@@ -215,8 +220,9 @@ secret blobs nor vault credentials.
 ## State restored outside Nix
 
 Nix does not reproduce credentials, application databases, or cloud
-accounts. The post-bootstrap checklist is maintained in
-[`UNMANAGED.md`](UNMANAGED.md). Important examples include:
+accounts. Follow the ordered [`POST-INSTALL.md`](POST-INSTALL.md) checklist
+after a clean bootstrap. [`UNMANAGED.md`](UNMANAGED.md) explains why that
+state remains external. Important examples include:
 
 - enabling Bitwarden's desktop SSH agent and running `bw-ssh-sync`;
 - AWS, Kubernetes, GitHub CLI, GPG, and Stripe authentication;
