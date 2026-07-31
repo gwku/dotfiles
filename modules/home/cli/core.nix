@@ -32,7 +32,6 @@
 
       # System monitors
       htop
-      btop
       procps # provides `watch` on Darwin
 
       # Docs / help

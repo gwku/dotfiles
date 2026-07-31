@@ -61,6 +61,27 @@ preferences are managed by nix-darwin. Menu-bar item positioning remains
 machine-local because macOS rewrites those positions and Ice manages the
 visible layout.
 
+## Application configuration coverage
+
+Home Manager owns the portable Cursor settings, keybindings, and public
+extension set. Private `remote.SSH.remotePlatform` mappings are intentionally
+excluded: SSH aliases come from Bitwarden metadata, and Cursor can detect the
+remote platform when it connects. Home Manager also owns the current `btop`
+layout preference.
+
+nix-darwin restores the portable preferences for Itsycal, Ice, Maccy, and
+Scroll Reverser. Window positions, menu-bar item positions, update timestamps,
+calendar identifiers, and migration/runtime markers remain machine-local.
+Easy Move+Resize currently has no user preference domain to restore.
+
+OBS scenes and profiles remain external because the current collection embeds
+hardware-specific audio device identifiers. Browser, Thunderbird, messaging,
+Bitwarden, Nextcloud, LM Studio, and JetBrains/Android Studio profiles also
+remain external because they contain account state, credentials, databases,
+large assets, licences, or machine-specific data. Restore them through the
+application's own sync/login flow or a private backup, never through this
+repository.
+
 ## Project-local commands
 
 These are intentionally rebuilt from their project repositories rather

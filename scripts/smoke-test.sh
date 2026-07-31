@@ -31,6 +31,12 @@ wezterm --config-file "$HOME/.config/wezterm/wezterm.lua" \
 ssh -G github.com >/dev/null 2>&1 ||
   fail "SSH configuration could not resolve github.com"
 
+btop_config="$HOME/.config/btop/btop.conf"
+test -L "$btop_config" ||
+  fail "btop configuration is not managed by Home Manager"
+grep -qx 'cpu_bottom = True' "$btop_config" ||
+  fail "btop layout preference was not restored"
+
 expected_agent="$HOME/.bitwarden-ssh-agent.sock"
 configured_agent="$(
   ssh -G github.com 2>/dev/null |
@@ -45,6 +51,27 @@ case "$(uname -s)" in
 
     test -e "/Applications/Nix Apps/WezTerm.app" ||
       fail "nix-darwin WezTerm application bundle is missing"
+
+    cursor_user_dir="$HOME/Library/Application Support/Cursor/User"
+    test -L "$cursor_user_dir/settings.json" ||
+      fail "Cursor settings are not managed by Home Manager"
+    test -L "$cursor_user_dir/keybindings.json" ||
+      fail "Cursor keybindings are not managed by Home Manager"
+    jq -e '
+      .["git.autofetch"] == true
+      and .["workbench.colorTheme"] == "Cursor Light"
+      and (has("remote.SSH.remotePlatform") | not)
+    ' "$cursor_user_dir/settings.json" >/dev/null ||
+      fail "Cursor portable settings were not restored safely"
+
+    test "$(defaults read com.mowglii.ItsycalApp ShowEventDays)" = 7 ||
+      fail "Itsycal preferences were not restored"
+    test "$(defaults read com.jordanbaird.Ice AutoRehide)" = 1 ||
+      fail "Ice preferences were not restored"
+    test "$(defaults read com.pilotmoon.scroll-reverser HideIcon)" = 1 ||
+      fail "Scroll Reverser preferences were not restored"
+    test "$(defaults read org.p0deje.Maccy historySize)" = 999 ||
+      fail "Maccy preferences were not restored"
 
     configured_shell="$(/usr/bin/dscl . -read "/Users/$USER" UserShell | /usr/bin/awk '{ print $2 }')"
     case "$configured_shell" in

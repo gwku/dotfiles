@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 # Synchronize Bitwarden SSH item metadata into OpenSSH configuration.
 #
 # Private keys remain in Bitwarden and are used through its desktop SSH
