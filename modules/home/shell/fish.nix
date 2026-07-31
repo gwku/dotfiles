@@ -1,4 +1,8 @@
 { lib, pkgs, ... }: {
+  home.sessionVariables = lib.mkIf pkgs.stdenv.isDarwin {
+    HOMEBREW_NO_ANALYTICS = "1";
+  };
+
   programs.fish = {
     enable = true;
 

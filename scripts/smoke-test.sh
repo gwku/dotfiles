@@ -50,6 +50,15 @@ case "$(uname -s)" in
     command -v mas >/dev/null 2>&1 || fail "missing command: mas"
     command -v blueutil >/dev/null 2>&1 || fail "missing command: blueutil"
 
+    test "$(
+      env -u __HM_SESS_VARS_SOURCED \
+        fish -lc "printf %s \"\$HOMEBREW_NO_ANALYTICS\""
+    )" = 1 ||
+      fail "Homebrew analytics opt-out is not configured"
+    HOMEBREW_NO_ANALYTICS=1 /opt/homebrew/bin/brew analytics state |
+      grep -q 'InfluxDB analytics are disabled' ||
+      fail "Homebrew does not report analytics as disabled"
+
     test -e "/Applications/Nix Apps/WezTerm.app" ||
       fail "nix-darwin WezTerm application bundle is missing"
 

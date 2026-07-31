@@ -9,6 +9,12 @@ let
   cleanupBrewfile = pkgs.writeText "Brewfile-cleanup" config.homebrew.brewfile;
 in
 {
+  # nix-homebrew uses an immutable, Nix-managed repository without the Git
+  # config where `brew analytics off` normally stores its setting. The
+  # environment variable is Homebrew's supported alternative and applies to
+  # every interactive brew command.
+  environment.variables.HOMEBREW_NO_ANALYTICS = "1";
+
   # nix-homebrew installs and pins Homebrew itself via Nix so the
   # bootstrap is declarative. autoMigrate adopts the existing
   # /opt/homebrew if present.
@@ -25,6 +31,7 @@ in
   system.activationScripts.setup-homebrew.text = lib.mkAfter ''
     if [[ -x /opt/homebrew/bin/brew ]]; then
       sudo --user=${username} --set-home \
+        env HOMEBREW_NO_ANALYTICS=1 \
         /opt/homebrew/bin/brew trust --tap \
         microsoft/mssql-release cirruslabs/cli
     fi
@@ -35,7 +42,7 @@ in
   system.activationScripts.homebrew.text = lib.mkAfter ''
     if [[ -x /opt/homebrew/bin/brew ]]; then
       sudo --user=${username} --set-home \
-        env HOMEBREW_NO_AUTO_UPDATE=1 \
+        env HOMEBREW_NO_ANALYTICS=1 HOMEBREW_NO_AUTO_UPDATE=1 \
         /opt/homebrew/bin/brew bundle cleanup \
         --file=${cleanupBrewfile} --force
     fi
@@ -51,6 +58,7 @@ in
       # Required for Microsoft's non-interactive ODBC/tool formulae.
       extraEnv = {
         HOMEBREW_ACCEPT_EULA = "Y";
+        HOMEBREW_NO_ANALYTICS = "1";
 
         # Homebrew defaults to twice the CPU count, which is too aggressive
         # for a bootstrap downloading many large casks through one connection.

@@ -8,7 +8,12 @@ PLATFORM="$(uname -s)"
 HOST="${1:-}"
 
 case "$PLATFORM" in
-  Darwin) HOST="${HOST:-gkmp}" ;;
+  Darwin)
+    HOST="${HOST:-gkmp}"
+    # Opt out before nix-darwin invokes Homebrew, including the first switch
+    # before the declarative shell environment has been activated.
+    export HOMEBREW_NO_ANALYTICS=1
+    ;;
   Linux) HOST="${HOST:-workstation}" ;;
   *)
     echo "Unsupported platform: $PLATFORM" >&2
