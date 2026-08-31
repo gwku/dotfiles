@@ -127,6 +127,7 @@ in
       "codex"
       "cursor"
       "lm-studio"
+      "t3-code"
 
       # Dev / API tools
       "android-studio"
