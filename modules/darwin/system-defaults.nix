@@ -11,13 +11,14 @@
   system.defaults = {
     dock = {
       autohide = false;
-      tilesize = 46;
+      tilesize = 44;
       magnification = false;
       show-recents = false;
       mru-spaces = false;
       minimize-to-application = true;
       expose-group-apps = false;
       wvous-tr-corner = 14; # top-right hot corner = Lock Screen
+      wvous-br-corner = 14; # bottom-right hot corner = Lock Screen
 
       persistent-apps = [
         "/Applications/Zen.app"
@@ -31,8 +32,7 @@
         "/Applications/Obsidian.app"
         "/System/Applications/Utilities/Activity Monitor.app"
         "/Applications/Bitwarden.app"
-        "/Applications/Claude.app"
-        "/Applications/ChatGPT.app"
+        "/Applications/T3 Code (Nightly).app"
         "/Applications/Slack.app"
         "/Applications/WhatsApp.app"
         "/Applications/Signal.app"
