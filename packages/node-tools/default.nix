@@ -5,6 +5,7 @@
 }:
 
 buildNpmPackage {
+  nodejs = nodejs_22;
   pname = "dotfiles-node-tools";
   version = "1.0.0";
   src = ./.;

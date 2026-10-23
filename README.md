@@ -258,3 +258,22 @@ and remove them only after confirming the managed replacement works.
 
 - `gkmp` — Apple Silicon MacBook
 - `workstation` — x86-64 Linux placeholder
+
+## Node.js security updates
+
+Apple Silicon uses the official Node.js 22.23.4 binary, including its bundled security fixes,
+from `packages/node-security`. Its SHA-256 hash is pinned. The shell runtime, pnpm, and the
+Shopify/Lighthouse wrappers use this package; other Nix packages stay on the existing lockfile.
+The package retains the Node 22 major version. Linux continues to use the existing Nixpkgs package.
+
+Build and temporarily select the patched runtime before a full system activation:
+
+```sh
+nix build .#node-security
+nix profile install .#node-security
+node --version
+```
+
+Apply the managed shell and CLI wrappers with the normal `darwin-rebuild switch --flake .#gkmp`.
+Once that activation is complete, remove the temporary `node-security` user-profile entry
+with `nix profile remove node-security` so the managed system remains the source of truth.

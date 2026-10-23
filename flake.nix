@@ -108,7 +108,13 @@
       packages = {
         aarch64-darwin = {
           darwin-rebuild = nix-darwin.packages.aarch64-darwin.darwin-rebuild;
-          node-tools = nixpkgs.legacyPackages.aarch64-darwin.callPackage ./packages/node-tools { };
+          node-security = nixpkgs.legacyPackages.aarch64-darwin.callPackage ./packages/node-security { };
+          pnpm-security = nixpkgs.legacyPackages.aarch64-darwin.pnpm.override {
+            nodejs = self.packages.aarch64-darwin.node-security;
+          };
+          node-tools = nixpkgs.legacyPackages.aarch64-darwin.callPackage ./packages/node-tools {
+            nodejs_22 = self.packages.aarch64-darwin.node-security;
+          };
         };
         x86_64-linux.home-manager = home-manager.packages.x86_64-linux.home-manager;
       };
