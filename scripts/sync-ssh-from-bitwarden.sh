@@ -54,7 +54,20 @@ ensure_empty_config() {
   fi
 }
 
-status=$(bw status | jq -er '.status')
+bitwarden_failure() {
+  echo "Bitwarden CLI failed to $1; existing SSH metadata was preserved." >&2
+  echo "Check 'bw status' and sign in again with 'bw login' if required, then rerun bw-ssh-sync." >&2
+  if [[ "$mode" == non-interactive ]]; then
+    ensure_empty_config
+    echo "Skipping optional SSH metadata sync during activation." >&2
+    exit 0
+  fi
+  exit 1
+}
+
+if ! status=$(bw status | jq -er '.status'); then
+  bitwarden_failure "read vault status"
+fi
 case "$status" in
   unlocked)
     ;;
@@ -64,8 +77,10 @@ case "$status" in
       echo "Bitwarden CLI is locked; skipped SSH metadata sync."
       exit 0
     fi
+    if ! BW_SESSION=$(bw unlock --raw) || [[ -z "$BW_SESSION" ]]; then
+      bitwarden_failure "unlock the vault"
+    fi
     export BW_SESSION
-    BW_SESSION=$(bw unlock --raw)
     ;;
   unauthenticated)
     ensure_empty_config
@@ -83,8 +98,12 @@ case "$status" in
     ;;
 esac
 
-bw sync >/dev/null
-items=$(bw list items)
+if ! bw sync >/dev/null; then
+  bitwarden_failure "sync the vault"
+fi
+if ! items=$(bw list items | jq -ce 'if type == "array" then . else error("expected a vault item array") end'); then
+  bitwarden_failure "list vault items"
+fi
 stage_dir=$(mktemp -d "${ssh_dir}/.bitwarden-sync.XXXXXX")
 config_stage="${stage_dir}/config.bitwarden"
 manifest_stage="${stage_dir}/manifest"

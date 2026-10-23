@@ -30,6 +30,27 @@ else
   exit 1
 fi
 
+TARGET_USER="$(id -un)"
+TARGET_HOME="$HOME"
+if [[ "$PLATFORM" == Darwin && "$(id -u)" == 0 ]]; then
+  TARGET_USER="$("$NIX_BIN" --extra-experimental-features 'nix-command flakes' \
+    eval --raw "path:${REPO_ROOT}#darwinConfigurations.${HOST}.config.system.primaryUser")"
+  TARGET_HOME="$(/usr/bin/dscl . -read "/Users/${TARGET_USER}" NFSHomeDirectory |
+    sed -n 's/^NFSHomeDirectory: //p')"
+  if [[ -z "$TARGET_HOME" || "$TARGET_USER" == root ]]; then
+    echo "Could not resolve the configured macOS user for Bitwarden preflight." >&2
+    exit 1
+  fi
+fi
+
+run_user_command() {
+  if [[ "$(id -u)" == 0 && "$TARGET_USER" != root ]]; then
+    sudo --user="$TARGET_USER" --set-home -- "$@"
+  else
+    "$@"
+  fi
+}
+
 find_user_command() {
   local name="$1"
   local resolved=""
@@ -41,8 +62,8 @@ find_user_command() {
   fi
 
   for candidate in \
-    "/etc/profiles/per-user/${USER}/bin/${name}" \
-    "${HOME}/.nix-profile/bin/${name}" \
+    "/etc/profiles/per-user/${TARGET_USER}/bin/${name}" \
+    "${TARGET_HOME}/.nix-profile/bin/${name}" \
     "/run/current-system/sw/bin/${name}" \
     "/opt/homebrew/bin/${name}"; do
     if [[ -x "$candidate" ]]; then
@@ -83,15 +104,24 @@ BW_SSH_SYNC_BIN="$(find_user_command bw-ssh-sync || true)"
 JQ_BIN="$(find_user_command jq || true)"
 
 if [[ -n "$BW_BIN" && -n "$BW_SSH_SYNC_BIN" && -n "$JQ_BIN" ]]; then
-  bw_status="$("$BW_BIN" status | "$JQ_BIN" -er '.status')"
+  if ! bw_status="$(run_user_command "$BW_BIN" status | "$JQ_BIN" -er '.status')"; then
+    echo "warning: Bitwarden CLI status failed; preserving existing SSH metadata" >&2
+    echo "Check 'bw status' and sign in again with 'bw login' if required." >&2
+    bw_status=unavailable
+  fi
   case "$bw_status" in
     unlocked | locked)
       echo "==> Synchronizing Bitwarden SSH metadata"
       # A locked CLI prompts here, before the long build starts.
-      "$BW_SSH_SYNC_BIN"
+      if ! run_user_command "$BW_SSH_SYNC_BIN"; then
+        echo "warning: Bitwarden SSH metadata sync failed; continuing with the existing configuration" >&2
+        echo "Fix the Bitwarden CLI error, then rerun bw-ssh-sync." >&2
+      fi
       ;;
     unauthenticated)
       echo "==> Bitwarden CLI is not logged in; SSH metadata sync will be skipped"
+      ;;
+    unavailable)
       ;;
     *)
       echo "Unexpected Bitwarden CLI status: $bw_status" >&2

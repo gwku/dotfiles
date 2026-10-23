@@ -118,6 +118,14 @@ work from any directory. Updating inputs can change many package versions;
 review `flake.lock`, run the checks, and switch only when you intend to
 upgrade.
 
+When the switch script is launched from a root shell, Bitwarden preflight
+still runs as the Mac's configured primary user. Maccy preference restoration
+is attempted by Home Manager; a macOS app-data permission denial warns and
+allows the rest of activation to complete. From a terminal permitted to
+access Maccy app data, run `restore-maccy-preferences` as your normal user,
+then rerun the smoke test. The smoke test continues to fail until Maccy's
+declared preferences can be verified.
+
 The Homebrew declaration is exhaustive: activation runs an explicit,
 non-zapping `brew bundle cleanup --force`, so formulae and casks removed
 from the declaration are also removed from the machine while their user
@@ -219,8 +227,10 @@ runtime.
 `scripts/switch.sh` prompts for `bw unlock` before building when the CLI is
 logged in but locked. Home Manager activation always uses the
 non-interactive mode, preserving the last generated configuration when the
-CLI is locked or has never logged in. The repository contains neither
-secret blobs nor vault credentials.
+CLI is locked, has never logged in, or returns an API error. Failed optional
+syncs warn without blocking the switch; rerun `bw-ssh-sync` after resolving
+the CLI error. The repository contains neither secret blobs nor vault
+credentials.
 
 ## State restored outside Nix
 

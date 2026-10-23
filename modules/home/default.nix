@@ -4,6 +4,7 @@
     ./shell/starship.nix
     ./shell/direnv.nix
     ./login-items.nix
+    ./maccy.nix
     ./cli/core.nix
     ./cli/fzf.nix
     ./cli/zoxide.nix

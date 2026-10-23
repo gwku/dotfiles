@@ -8,6 +8,10 @@ fail() {
   exit 1
 }
 
+if [[ "$(uname -s)" == Darwin && "$(id -u)" == 0 ]]; then
+  fail "run this test as your normal macOS user, not from a root shell"
+fi
+
 for command in fish nvim wezterm git ssh bw-ssh-sync tofu go cloudflared psql shopify lighthouse fzf zoxide infisical stripe; do
   command -v "$command" >/dev/null 2>&1 || fail "missing command: $command"
 done
@@ -80,7 +84,13 @@ case "$(uname -s)" in
       fail "Ice preferences were not restored"
     test "$(defaults read com.pilotmoon.scroll-reverser HideIcon)" = 1 ||
       fail "Scroll Reverser preferences were not restored"
-    test "$(defaults read org.p0deje.Maccy historySize)" = 999 ||
+    if ! maccy_history_size="$(defaults read org.p0deje.Maccy historySize 2>&1)"; then
+      printf '%s\n' "$maccy_history_size" >&2
+      echo "Maccy stores preferences in its protected macOS app container." >&2
+      echo "Run restore-maccy-preferences, then this test, as your normal user from a terminal allowed to access Maccy app data." >&2
+      fail "Maccy preferences could not be read; restoration has not been verified"
+    fi
+    test "$maccy_history_size" = 999 ||
       fail "Maccy preferences were not restored"
 
     test "$(

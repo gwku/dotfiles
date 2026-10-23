@@ -106,6 +106,9 @@ actually requests.
 
 - [ ] Approve Accessibility/Input Monitoring where requested by Easy
       Move+Resize, Maccy, Ice, and Scroll Reverser.
+- [ ] If activation warns that Maccy preferences could not be restored, run
+      `restore-maccy-preferences` as your normal user from a terminal permitted
+      to access Maccy app data. Rerun `./scripts/smoke-test.sh` to verify it.
 - [ ] Approve microphone, camera, and screen-recording access for OBS and
       communication/AI applications that need those features.
 - [ ] If OBS Virtual Camera is needed, approve its system extension in

@@ -199,32 +199,6 @@
         ShowDiscreteScrollOptions = true;
       };
 
-      "org.p0deje.Maccy" = {
-        KeyboardShortcuts_delete = "{\"carbonModifiers\":2048,\"carbonKeyCode\":51}";
-        KeyboardShortcuts_pin = "{\"carbonModifiers\":2048,\"carbonKeyCode\":35}";
-        KeyboardShortcuts_popup = "{\"carbonModifiers\":2304,\"carbonKeyCode\":9}";
-        KeyboardShortcuts_togglePreview = "{\"carbonKeyCode\":49,\"carbonModifiers\":4096}";
-        SUEnableAutomaticChecks = false;
-        enabledPasteboardTypes = [
-          "public.jpeg"
-          "public.heic"
-          "public.html"
-          "public.file-url"
-          "public.rtf"
-          "public.utf8-plain-text"
-          "public.tiff"
-          "public.png"
-        ];
-        historySize = 999;
-        previewWidth = 400;
-        showFooter = true;
-        showInStatusBar = false;
-        showSearch = true;
-        showTitle = true;
-        suppressClearAlert = false;
-        windowSize = "[450,800]";
-      };
-
       # Preserve the current system-wide shortcut choices. IDs are
       # Apple's stable symbolic-hotkey identifiers.
       "com.apple.symbolichotkeys".AppleSymbolicHotKeys = {

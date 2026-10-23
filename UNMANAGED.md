@@ -68,8 +68,12 @@ layout preference. It also installs the portable T3 Code `settings.json`,
 `keybindings.json`, and `client-settings.json`; window bounds, tokens, secrets,
 and its SQLite state stay machine-local.
 
-nix-darwin restores the portable preferences for Itsycal, Ice, Maccy, and
-Scroll Reverser. Window positions, menu-bar item positions, update timestamps,
+nix-darwin restores the portable preferences for Itsycal, Ice, and Scroll
+Reverser. Home Manager attempts to restore Maccy's declared preferences;
+if macOS blocks access to its app container, activation warns and continues.
+Run `restore-maccy-preferences` as your normal user from a terminal permitted
+to access Maccy app data, then rerun the smoke test to verify restoration.
+Window positions, menu-bar item positions, update timestamps,
 calendar identifiers, and migration/runtime markers remain machine-local.
 Easy Move+Resize currently has no user preference domain to restore.
 
