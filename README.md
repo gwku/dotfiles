@@ -276,4 +276,4 @@ node --version
 
 Apply the managed shell and CLI wrappers with the normal `darwin-rebuild switch --flake .#gkmp`.
 Once that activation is complete, remove the temporary `node-security` user-profile entry
-with `nix profile remove node-security` so the managed system remains the source of truth.
+with `nix profile remove node-security pnpm-security` so the managed system remains the source of truth.
