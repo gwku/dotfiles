@@ -64,7 +64,9 @@ Home Manager owns the portable Cursor settings, keybindings, and public
 extension set. Private `remote.SSH.remotePlatform` mappings are intentionally
 excluded: SSH aliases come from Bitwarden metadata, and Cursor can detect the
 remote platform when it connects. Home Manager also owns the current `btop`
-layout preference.
+layout preference. It also installs the portable T3 Code `settings.json`,
+`keybindings.json`, and `client-settings.json`; window bounds, tokens, secrets,
+and its SQLite state stay machine-local.
 
 nix-darwin restores the portable preferences for Itsycal, Ice, Maccy, and
 Scroll Reverser. Window positions, menu-bar item positions, update timestamps,

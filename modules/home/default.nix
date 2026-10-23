@@ -16,6 +16,7 @@
     ./neovim
     ./wezterm
     ./cursor.nix
+    ./t3-code
     ./dev
     ./fonts.nix
   ];
