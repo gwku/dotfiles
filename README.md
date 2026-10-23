@@ -261,10 +261,10 @@ and remove them only after confirming the managed replacement works.
 
 ## Node.js security updates
 
-Apple Silicon uses the official Node.js 22.23.4 binary, including its bundled security fixes,
-from `packages/node-security`. Its SHA-256 hash is pinned. The shell runtime, pnpm, and the
+Apple Silicon and x86-64 Linux use the official Node.js 22.23.4 binaries, including its bundled security fixes,
+from `packages/node-security`. Their SHA-256 hashes are pinned. The shell runtime, pnpm, and the
 Shopify/Lighthouse wrappers use this package; other Nix packages stay on the existing lockfile.
-The package retains the Node 22 major version. Linux continues to use the existing Nixpkgs package.
+The package retains the Node 22 major version. The Linux binary uses the standard Nix automatic ELF patching hook.
 
 Build and temporarily select the patched runtime before a full system activation:
 

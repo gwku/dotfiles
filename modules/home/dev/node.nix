@@ -1,8 +1,6 @@
 { pkgs, ... }:
 let
-  nodejs = if pkgs.stdenv.hostPlatform.system == "aarch64-darwin"
-    then pkgs.callPackage ../../../packages/node-security { }
-    else pkgs.nodejs_22;
+  nodejs = pkgs.callPackage ../../../packages/node-security { };
 in {
   # Keep globally useful Node CLIs in the Nix profile instead of a
   # mutable /opt/homebrew/lib/node_modules tree.
