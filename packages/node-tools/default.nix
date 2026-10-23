@@ -1,5 +1,8 @@
 {
   buildNpmPackage,
+  lib,
+  stdenv,
+  python3,
   makeWrapper,
   nodejs_22,
 }:
@@ -8,10 +11,20 @@ buildNpmPackage {
   nodejs = nodejs_22;
   pname = "dotfiles-node-tools";
   version = "1.0.0";
-  src = ./.;
+  src = lib.fileset.toSource {
+    root = ./.;
+    fileset = lib.fileset.unions [ ./package.json ./package-lock.json ];
+  };
 
   npmDepsHash = "sha256-VZp7XNaoR8pXAlcb3gr5OHAqFr+mhbQe48eaYvM13Bs=";
   dontNpmBuild = true;
+
+  # The pinned Darwin Bash crashes in the upstream FIFO-based classifier.
+  # Keep temporary-path validation with the independent checker below.
+  noAuditTmpdir = stdenv.hostPlatform.isDarwin;
+  postFixup = lib.optionalString stdenv.hostPlatform.isDarwin ''
+    ${python3}/bin/python3 ${./audit-temporary-paths.py} "$out" "$TMPDIR"
+  '';
 
   nativeBuildInputs = [ makeWrapper ];
 

@@ -264,6 +264,7 @@ and remove them only after confirming the managed replacement works.
 Apple Silicon and x86-64 Linux use the official Node.js 22.23.4 binaries, including its bundled security fixes,
 from `packages/node-security`. Their SHA-256 hashes are pinned. The shell runtime, pnpm, and the
 Shopify/Lighthouse wrappers use this package; other Nix packages stay on the existing lockfile.
+The Darwin Node-tools build uses an independent executable temporary-path checker because the pinned Bash audit classifier crashes. The replacement rejects writable build-directory references and has regression tests.
 The package retains the Node 22 major version. The Linux binary uses the standard Nix automatic ELF patching hook.
 
 Build and temporarily select the patched runtime before a full system activation:
