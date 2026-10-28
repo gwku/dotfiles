@@ -58,6 +58,45 @@
         mkdir -p $argv[1]; and cd $argv[1]
       '';
 
+      # nvm for fish. The real nvm lives in ~/.nvm (see UNMANAGED.md) and runs through
+      # bash; the resulting PATH is copied back so `nvm use` and `nvm install` work.
+      nvm = {
+        description = "Node Version Manager (real nvm via bash)";
+        body = ''
+          if not test -s $HOME/.nvm/nvm.sh
+            echo "nvm is not installed in ~/.nvm" >&2
+            return 1
+          end
+
+          bash -c '. "$HOME/.nvm/nvm.sh" --no-use; nvm "$@"' nvm $argv
+          set -l nvm_status $status
+
+          if test $nvm_status -eq 0; and contains -- "$argv[1]" use install deactivate
+            set -l use_args $argv
+            if test "$argv[1]" = install
+              set use_args use $argv[2]
+            end
+            set -l new_path (bash -c '. "$HOME/.nvm/nvm.sh" --no-use; nvm "$@" >/dev/null 2>&1; printf %s "$PATH"' nvm $use_args)
+            if test -n "$new_path"
+              set -gx PATH (string split : -- $new_path)
+            end
+          end
+          return $nvm_status
+        '';
+      };
+
+      # Switch Node automatically when a directory has a .nvmrc.
+      __nvm_auto_use = {
+        description = "Run nvm use when entering a directory with .nvmrc";
+        onVariable = "PWD";
+        body = ''
+          status is-interactive; or return
+          test -f .nvmrc; or return
+          test -s $HOME/.nvm/nvm.sh; or return
+          nvm use >/dev/null 2>&1
+        '';
+      };
+
       bw-load-secrets = ''
         # Unlock Bitwarden once per shell, then export selected secrets
         # into the current session. The vault and item IDs are

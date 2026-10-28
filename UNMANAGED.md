@@ -15,6 +15,20 @@ Android Studio and Rider are Homebrew casks. Their settings, plugins,
 licences, and account state remain external. RapidRAW is installed through
 Nix; Cog, Cyberduck, LM Studio, OpenMTP, and Zen are Homebrew casks.
 
+## nvm
+
+Node itself comes from Nix (`modules/home/dev/node.nix`). For repositories that
+need another Node line, nvm is installed per machine in `~/.nvm` without
+touching shell profiles; the fish `nvm` function in `modules/home/shell/fish.nix`
+drives it and switches on `.nvmrc`:
+
+```sh
+tag=$(gh api repos/nvm-sh/nvm/releases/latest --jq .tag_name)
+curl -fsSL -o /tmp/nvm-install.sh "https://raw.githubusercontent.com/nvm-sh/nvm/$tag/install.sh"
+PROFILE=/dev/null bash /tmp/nvm-install.sh
+bash -c '. ~/.nvm/nvm.sh; nvm install 24'
+```
+
 ## Mac App Store applications
 
 Sign into the App Store, then run:
