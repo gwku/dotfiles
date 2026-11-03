@@ -70,6 +70,8 @@ test "$configured_agent" = "$expected_agent" ||
 
 case "$(uname -s)" in
   Darwin)
+    bash "$(dirname "$0")/check-macos-apps.sh" ||
+      fail "macOS application bundles are incomplete"
     command -v mas >/dev/null 2>&1 || fail "missing command: mas"
     command -v blueutil >/dev/null 2>&1 || fail "missing command: blueutil"
 

@@ -131,6 +131,12 @@ non-zapping `brew bundle cleanup --force`, so formulae and casks removed
 from the declaration are also removed from the machine while their user
 data is preserved. Close Homebrew-managed applications before switching.
 
+Activation checks application bundles before and after Homebrew runs.
+An interrupted cask upgrade can leave an empty `.app` directory that
+`brew bundle` would otherwise adopt. Reinstall any reported casks with
+`brew reinstall --cask <cask>`, then retry the switch. The same check is
+available as `./scripts/check-macos-apps.sh` and in the runtime smoke test.
+
 On an existing Mac, first complete a successful switch. Then remove the
 privileged leftovers that Homebrew cannot own:
 
@@ -276,12 +282,15 @@ On Linux, Nix combines both SDKs. `packages/dotnet/releases.nix` vendors
 upstream Nixpkgs release metadata with pinned Microsoft download hashes for
 SDK 10.0.403 while the rest of Nixpkgs stays on the existing lockfile.
 
-An old `dotnet-wrapped-combined` user-profile override must be removed
-after switching to this configuration, otherwise it will still hide the
-managed launcher:
+After switching, check for an old `dotnet-wrapped-combined` user-profile
+override. Remove it only if it appears in `nix profile list`; otherwise
+there is nothing to remove. An old SDK override would hide the managed
+launcher:
 
 ```sh
 ./scripts/switch.sh gkmp
+nix profile list
+# Only if listed above:
 nix profile remove dotnet-wrapped-combined
 dotnet --list-sdks
 ```

@@ -7,6 +7,7 @@
 }:
 let
   cleanupBrewfile = pkgs.writeText "Brewfile-cleanup" config.homebrew.brewfile;
+  checkAppBundles = pkgs.writeShellScript "check-macos-apps" (builtins.readFile ../../scripts/check-macos-apps.sh);
 in
 {
   # nix-homebrew uses an immutable, Nix-managed repository without the Git
@@ -30,6 +31,9 @@ in
   # immediately before nix-darwin's Homebrew bundle activation.
   system.activationScripts.setup-homebrew.text = lib.mkAfter ''
     if [[ -x /opt/homebrew/bin/brew ]]; then
+      if ! ${checkAppBundles}; then
+        exit 1
+      fi
       sudo --user=${username} --set-home \
         env HOMEBREW_NO_ANALYTICS=1 \
         /opt/homebrew/bin/brew trust --tap \
@@ -45,6 +49,9 @@ in
         env HOMEBREW_NO_ANALYTICS=1 HOMEBREW_NO_AUTO_UPDATE=1 \
         /opt/homebrew/bin/brew bundle cleanup \
         --file=${cleanupBrewfile} --force
+      if ! ${checkAppBundles}; then
+        exit 1
+      fi
     fi
   '';
 
