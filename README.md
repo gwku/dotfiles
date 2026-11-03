@@ -259,6 +259,21 @@ and remove them only after confirming the managed replacement works.
 - `gkmp` — Apple Silicon MacBook
 - `workstation` — x86-64 Linux placeholder
 
+## .NET SDKs
+
+Home Manager combines .NET 10 and .NET 8 in one Nix installation. Both
+appear in `dotnet --list-sdks`; projects can select .NET 8 with `global.json`.
+A separate Homebrew SDK is not discovered by the Nix `dotnet` command.
+
+If `dotnet-wrapped-combined` was installed in your user profile as an
+immediate repair, remove that temporary override after activating this
+configuration with `./scripts/switch.sh gkmp`:
+
+```sh
+nix profile remove dotnet-wrapped-combined
+dotnet --list-sdks
+```
+
 ## Node.js security updates
 
 Apple Silicon and x86-64 Linux use the official Node.js 22.23.4 binaries, including its bundled security fixes,

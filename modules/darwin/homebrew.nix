@@ -146,9 +146,6 @@ in
       "android-commandlinetools"
       "openmtp"
 
-      # Current .NET SDK (SDK 8 is also provided via Nix in dev/dotnet.nix)
-      "dotnet-sdk"
-
       # JVM
       "zulu@11"
       "zulu@21"

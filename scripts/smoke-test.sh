@@ -16,6 +16,19 @@ for command in fish nvim wezterm git ssh bw-ssh-sync tofu go cloudflared psql sh
   command -v "$command" >/dev/null 2>&1 || fail "missing command: $command"
 done
 
+# Both SDKs must be visible through the same dotnet command on PATH.
+command -v dotnet >/dev/null 2>&1 || fail "missing command: dotnet"
+dotnet_sdks="$(dotnet --list-sdks)"
+dotnet_runtimes="$(dotnet --list-runtimes)"
+for major in 8 10; do
+  grep -q "^${major}\\.0\\." <<<"$dotnet_sdks" ||
+    fail ".NET ${major} SDK is not visible to dotnet"
+  for runtime in Microsoft.NETCore.App Microsoft.AspNetCore.App; do
+    grep -F "$runtime " <<<"$dotnet_runtimes" | grep -q " ${major}\\.0\\." ||
+      fail ".NET ${major} runtime $runtime is not visible to dotnet"
+  done
+done
+
 fish -n "$HOME/.config/fish/config.fish"
 fish -i -c 'type -q z' ||
   fail "zoxide Fish integration did not provide the z command"
