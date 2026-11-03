@@ -20,6 +20,12 @@ done
 command -v dotnet >/dev/null 2>&1 || fail "missing command: dotnet"
 dotnet_sdks="$(dotnet --list-sdks)"
 dotnet_runtimes="$(dotnet --list-runtimes)"
+if [[ "$(uname -s)" == Darwin ]]; then
+  grep -Fq '[/usr/local/share/dotnet/sdk]' <<<"$dotnet_sdks" ||
+    fail "macOS dotnet must expose the Homebrew-managed SDKs"
+fi
+grep -q '^10\.0\.4[0-9][0-9] ' <<<"$dotnet_sdks" ||
+  fail ".NET 10.0.4xx SDK is required for preview C# syntax"
 for major in 8 10; do
   grep -q "^${major}\\.0\\." <<<"$dotnet_sdks" ||
     fail ".NET ${major} SDK is not visible to dotnet"

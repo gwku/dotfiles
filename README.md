@@ -261,18 +261,34 @@ and remove them only after confirming the managed replacement works.
 
 ## .NET SDKs
 
-Home Manager combines .NET 10 and .NET 8 in one Nix installation. Both
-appear in `dotnet --list-sdks`; projects can select .NET 8 with `global.json`.
-A separate Homebrew SDK is not discovered by the Nix `dotnet` command.
+On macOS, Homebrew manages `dotnet-sdk` and `dotnet-sdk@8` in the same
+`/usr/local/share/dotnet` installation. Updates run during the normal system
+switch (`homebrew.onActivation.upgrade = true`), or manually with
+`brew update && brew upgrade --cask dotnet-sdk dotnet-sdk@8`.
+Homebrew does not run background updates on its own.
 
-If `dotnet-wrapped-combined` was installed in your user profile as an
-immediate repair, remove that temporary override after activating this
-configuration with `./scripts/switch.sh gkmp`:
+Nix supplies only a `dotnet` launcher pointing at that installation, so its
+PATH precedence cannot hide the Homebrew SDKs. `DOTNET_ROOT` points there
+for app hosts and editors too. McHub requires SDK 10.0.4xx for its preview
+C# collection expression arguments; the runtime smoke test checks this.
+
+On Linux, Nix combines both SDKs. `packages/dotnet/releases.nix` vendors
+upstream Nixpkgs release metadata with pinned Microsoft download hashes for
+SDK 10.0.403 while the rest of Nixpkgs stays on the existing lockfile.
+
+An old `dotnet-wrapped-combined` user-profile override must be removed
+after switching to this configuration, otherwise it will still hide the
+managed launcher:
 
 ```sh
+./scripts/switch.sh gkmp
 nix profile remove dotnet-wrapped-combined
 dotnet --list-sdks
 ```
+
+An immediate repair may instead install the new `dotnet` launcher in the
+user profile. It contains no SDK and does not pin Homebrew's versions;
+after a full system switch it can be removed with `nix profile remove dotnet`.
 
 ## Node.js security updates
 

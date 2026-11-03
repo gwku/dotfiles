@@ -146,6 +146,11 @@ in
       "android-commandlinetools"
       "openmtp"
 
+      # Both SDKs share Microsoft's installation root. Keep upgrades enabled
+      # above; Nix only supplies a launcher so its PATH cannot hide Brew's SDKs.
+      "dotnet-sdk"
+      "dotnet-sdk@8"
+
       # JVM
       "zulu@11"
       "zulu@21"

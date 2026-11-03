@@ -107,6 +107,7 @@
       # and rebuilds instead of resolving a moving registry entry.
       packages = {
         aarch64-darwin = {
+          dotnet = nixpkgs.legacyPackages.aarch64-darwin.callPackage ./packages/dotnet { };
           darwin-rebuild = nix-darwin.packages.aarch64-darwin.darwin-rebuild;
           node-security = nixpkgs.legacyPackages.aarch64-darwin.callPackage ./packages/node-security { };
           pnpm-security = nixpkgs.legacyPackages.aarch64-darwin.pnpm.override {
@@ -116,7 +117,10 @@
             nodejs_22 = self.packages.aarch64-darwin.node-security;
           };
         };
-        x86_64-linux.home-manager = home-manager.packages.x86_64-linux.home-manager;
+        x86_64-linux = {
+          dotnet = nixpkgs.legacyPackages.x86_64-linux.callPackage ./packages/dotnet { };
+          home-manager = home-manager.packages.x86_64-linux.home-manager;
+        };
       };
 
       checks = {
