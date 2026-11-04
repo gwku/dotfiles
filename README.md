@@ -272,6 +272,22 @@ does not authorize deployment: preserve the task's explicit go-ahead and current
 head checks. `gh` continues to handle GitHub repositories, including backup
 inspection, and is not the client for the canonical MC Forgejo PRs.
 
+## MC GitHub backup push guard
+
+The Git configuration rejects pushes to MarketingConcurrent's normal GitHub
+HTTPS, SSH and Git URLs. Forgejo is canonical; use its `origin` for commits and
+PRs. GitHub backup fetches and other GitHub organizations are unaffected. This
+works with GitHub Free and applies to new clones after activation.
+
+An explicit `remote.<name>.pushurl` bypasses Git's `pushInsteadOf` rewriting.
+Existing MC backup remotes therefore also use a deliberately blocked push URL:
+`github-backup-push-blocked://MarketingConcurrent/<repo>.git`. A direct GitHub
+URL push is covered by the global rewrite. This is an accidental-push guard on
+machines using these dotfiles, not a GitHub server security boundary: an owner
+can intentionally override local Git configuration. Ordinary GitHub collaborators
+must separately have read-only repository access. GitHub Free private repositories
+cannot enforce an owner-excluding branch/tag ruleset.
+
 ## State restored outside Nix
 
 Nix does not reproduce credentials, application databases, or cloud
