@@ -238,6 +238,37 @@ syncs warn without blocking the switch; rerun `bw-ssh-sync` after resolving
 the CLI error. The repository contains neither secret blobs nor vault
 credentials.
 
+## Forgejo CLI for coding agents
+
+`forgejo-cli` is declared in the Homebrew formula list and provides `fj`. The
+pinned nixpkgs package is older than T3's supported CLI, so macOS uses Homebrew.
+A Home Manager wrapper exposes `fj` on the Nix profile PATH used by GUI agents.
+The current machine also has these two wrapper packages in its user Nix profile;
+a full system switch is not required just to make the CLI available.
+
+Git fetch/push continues through the Bitwarden SSH agent. PRs, reviews and
+Actions status use a separate Forgejo API login. Once the MC agent credential
+has been provisioned in restricted Infisical, initialize or refresh that login:
+
+```sh
+fj version
+mc-forgejo-login
+fj --host https://git.marketingconcurrent.nl whoami
+```
+
+The helper reads only `FORGEJO_AGENT_TOKEN` from Forgejo Administration,
+Production `/`, validates the expected account and passes the token to `fj`
+through stdin. It does not print credentials. The CLI's local credential file
+is mode 600 in a mode-700 directory. Infisical remains the source for rotation;
+run the helper again after a rotation. No token is embedded in this repository
+or the Nix store. An Infisical CLI login with access to that restricted project
+is required; application CI identities do not get access.
+
+The `mchub-task` skill in McHub contains the shipping workflow. Authentication
+does not authorize deployment: preserve the task's explicit go-ahead and current
+head checks. `gh` continues to handle GitHub repositories, including backup
+inspection, and is not the client for the canonical MC Forgejo PRs.
+
 ## State restored outside Nix
 
 Nix does not reproduce credentials, application databases, or cloud

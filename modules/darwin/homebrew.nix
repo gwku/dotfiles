@@ -101,6 +101,7 @@ in
       "mssql-tools18"
       "cirruslabs/cli/tart" # macOS VMs on Apple Silicon
       "jadx" # Nix build is currently broken on aarch64-darwin
+      "forgejo-cli" # T3 needs fj >= 0.6; the pinned nixpkgs has 0.5.
     ];
 
     # Cask GUI apps. Apps that are reproducible from nixpkgs darwin
