@@ -261,7 +261,10 @@ Production `/`, validates the expected account and passes the token to `fj`
 through stdin. It does not print credentials. The CLI's local credential file
 is mode 600 in a mode-700 directory. Infisical remains the source for rotation;
 run the helper again after a rotation. No token is embedded in this repository
-or the Nix store. An Infisical CLI login with access to that restricted project
+or the Nix store. The approved token uses gwku's existing repository access,
+with repository/issue write and user/organization read scopes; it has no
+site-administration API scope. Forgejo 17 cannot combine the CLI's required
+user-read scope with an explicit repository allowlist. An Infisical CLI login with access to that restricted project
 is required; application CI identities do not get access.
 
 The `mchub-task` skill in McHub contains the shipping workflow. Authentication
