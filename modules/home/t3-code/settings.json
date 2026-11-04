@@ -1,4 +1,5 @@
 {
+  "linkedEnvironmentsEnabled": true,
   "favorites": [
     {
       "provider": "claudeAgent",
@@ -29,8 +30,16 @@
     "instanceId": "claudeAgent",
     "model": "claude-sonnet-5-5"
   },
-  "projectSettingsFolded": true,
   "autoResumeLimitedThreads": true,
   "defaultThreadEnvMode": "worktree",
-  "addProjectBaseDirectory": "~/development/"
+  "addProjectBaseDirectory": "~/development/",
+  "newWorktreesStartFromOrigin": true,
+  "enableProviderUpdateChecks": true,
+  "backgroundActivity": {
+    "profile": "balanced"
+  },
+  "sourceControlWritingStyle": {
+    "mode": "repo_conventions",
+    "followChangeRequestTemplates": true
+  }
 }

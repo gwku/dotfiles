@@ -1,8 +1,8 @@
-{ user, ... }: {
+{ ... }: {
   networking = {
-    hostName = "gkmp";
-    computerName = "${user.fullName}'s MacBook Pro";
-    localHostName = "GKMP";
+    hostName = "gmbp16";
+    computerName = "GMBP16";
+    localHostName = "GMBP16";
   };
 
   nixpkgs.hostPlatform = "aarch64-darwin";

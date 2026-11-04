@@ -29,7 +29,7 @@
       nfc = "nix flake check ~/development/dotfiles";
     }
     // lib.optionalAttrs pkgs.stdenv.isDarwin {
-      drs = "~/development/dotfiles/scripts/switch.sh gkmp";
+      drs = "~/development/dotfiles/scripts/switch.sh";
     }
     // lib.optionalAttrs pkgs.stdenv.isLinux {
       hms = "~/development/dotfiles/scripts/switch.sh workstation";

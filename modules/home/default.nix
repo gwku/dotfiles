@@ -12,12 +12,15 @@
     ./cli/btop.nix
     ./cli/eza.nix
     ./cli/gh.nix
+    ./cli/forgejo.nix
     ./git.nix
     ./ssh.nix
     ./neovim
     ./wezterm
     ./cursor.nix
     ./t3-code
+    ./tailscale-gui.nix
+    ./remote-desktop.nix
     ./dev
     ./fonts.nix
   ];

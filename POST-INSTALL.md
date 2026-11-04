@@ -225,6 +225,18 @@ databases, personal data, device registrations, or large assets.
       menu-bar, and session defaults. Its historical statistics and sessions
       are intentionally not restored.
 - [ ] Restore WireGuard tunnels from a secure backup.
+- [ ] Enroll Tailscale against `your private coordination-server URL` using a private,
+      single-use Headscale preauth key and a unique hostname (`mbp14`,
+      `mbp16`, or `lenovo`). Keep `--accept-routes=false`; the mesh does not
+      require an exit node or access to the whole home subnet.
+- [ ] Sync Bitwarden SSH metadata, then verify `ssh mbp14`, `ssh mbp16`, and
+      `ssh lenovo` resolve through the private mesh DNS domain. Home Manager starts the
+      T3 SSH tunnels at login. Pair T3 peers using `http://127.0.0.1:4773`
+      (Lenovo), `:5773` (MBP14), and `:6773` (MBP16), skipping this machine.
+      T3 link credentials expire; check Connections when a link needs renewal.
+- [ ] Add a phone using the enrollment and direct mesh pairing steps in
+      [REMOTE-T3-ACCESS.md](REMOTE-T3-ACCESS.md). Configure optional attended
+      screen sharing using [REMOTE-SCREEN-ACCESS.md](REMOTE-SCREEN-ACCESS.md).
 - [ ] Restore Cyberduck bookmarks if needed; keep saved credentials in the
       system keychain or Bitwarden.
 - [ ] Restore the Calibre library if used.

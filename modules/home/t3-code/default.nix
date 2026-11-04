@@ -1,21 +1,16 @@
-{ lib, ... }:
-let
-  # Portable T3 Code preferences only. Window bounds, auth tokens, secrets,
-  # the environment id, and the SQLite state stay machine-local.
-  files = [
-    "settings.json"
-    "keybindings.json"
-    "client-settings.json"
-  ];
-in
+{ lib, pkgs, ... }:
 {
-  # T3 Code rewrites these files itself, so they are copied as regular
-  # writable files instead of read-only store symlinks. Each switch restores
-  # the versions committed here.
+  imports = [ ./tunnels.nix ./private-sync.nix ];
+  # Merge only reviewed portable keys into writable config. T3 owns credentials,
+  # provider/device configuration, onboarding, runtime state, and databases.
   home.activation.installT3CodeConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    run mkdir -p "$HOME/.t3/userdata"
-    ${lib.concatMapStringsSep "\n" (f: ''
-      run install -m 644 ${./. + "/${f}"} "$HOME/.t3/userdata/${f}"
-    '') files}
+    private_mode=()
+    private_state="''${XDG_STATE_HOME:-$HOME/.local/state}/t3-portable-sync"
+    if [[ -f "$private_state/payload.json" || -f "$private_state/receipt.json" ]]; then
+      private_mode=(--defaults-only)
+    fi
+    run ${pkgs.python3}/bin/python3 ${./sync-portable-settings.py} \
+      --source ${./.} --destination "$HOME/.t3/userdata" \
+      --platform ${pkgs.stdenv.hostPlatform.system} "''${private_mode[@]}"
   '';
 }

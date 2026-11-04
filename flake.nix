@@ -77,7 +77,7 @@
                 sharedModules = [ ./modules/home ];
               };
             }
-          ];
+          ] ++ nixpkgs.lib.optional (builtins.pathExists ./private.local.nix) ./private.local.nix;
         };
 
       mkHome =
@@ -95,8 +95,21 @@
         };
     in
     {
-      darwinConfigurations = {
-        gkmp = mkDarwin "gkmp" "aarch64-darwin";
+      darwinConfigurations = rec {
+        # Preserve the original selector for the 16-inch MacBook.
+        gkmp = mbp16;
+        mbp16 = mkDarwin "gkmp" "aarch64-darwin";
+        mbp14 = mbp16.extendModules {
+          modules = [
+            ({ lib, ... }: {
+              networking = {
+                hostName = lib.mkForce "gmbp14";
+                computerName = lib.mkForce "GMBP14";
+                localHostName = lib.mkForce "GMBP14";
+              };
+            })
+          ];
+        };
       };
 
       homeConfigurations = {

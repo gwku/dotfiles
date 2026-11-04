@@ -312,8 +312,17 @@ and remove them only after confirming the managed replacement works.
 
 ## Hosts
 
-- `gkmp` — Apple Silicon MacBook
+- `mbp16` — 16-inch Apple Silicon MacBook, named `GMBP16`
+- `mbp14` — 14-inch Apple Silicon MacBook, named `GMBP14`
+- `gkmp` — compatibility alias for `mbp16`
 - `workstation` — x86-64 Linux placeholder
+
+Select the matching Mac explicitly when installing, for example
+`./install.sh mbp14`. `./scripts/switch.sh` and `drs` select `mbp14` or `mbp16`
+from the Mac's LocalHostName, accepting both the original `MBP14`/`MBP16`
+and current `GMBP14`/`GMBP16` names; an explicit argument overrides that selection.
+Both Macs share their software configuration; their separate targets preserve
+their names across activation. Unknown Mac names retain the `gkmp` default.
 
 ## .NET SDKs
 

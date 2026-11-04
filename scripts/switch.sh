@@ -9,7 +9,14 @@ HOST="${1:-}"
 
 case "$PLATFORM" in
   Darwin)
-    HOST="${HOST:-gkmp}"
+    if [[ -z "$HOST" ]]; then
+      LOCAL_HOST_NAME="$(/usr/sbin/scutil --get LocalHostName 2>/dev/null | tr '[:upper:]' '[:lower:]' || true)"
+      case "$LOCAL_HOST_NAME" in
+        mbp14 | gmbp14) HOST=mbp14 ;;
+        mbp16 | gmbp16) HOST=mbp16 ;;
+        *) HOST=gkmp ;;
+      esac
+    fi
     # Opt out before nix-darwin invokes Homebrew, including the first switch
     # before the declarative shell environment has been activated.
     export HOMEBREW_NO_ANALYTICS=1

@@ -4,4 +4,7 @@ result-*
 *.local.nix
 secrets.*
 .DS_Store
+._*
+__pycache__/
+*.py[cod]
 .serena/

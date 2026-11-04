@@ -82,6 +82,14 @@ layout preference. It also installs the portable T3 Code `settings.json`,
 `keybindings.json`, and `client-settings.json`; window bounds, tokens, secrets,
 and its SQLite state stay machine-local.
 
+nix-darwin runs Tailscale and configures the the private mesh DNS domain resolver for the
+self-hosted Headscale controller at `your private coordination-server URL`. Device
+enrollment and Tailscale state remain machine-local. Home Manager maintains
+SSH tunnels for T3's localhost-only peer links: Lenovo on 4773, MBP14 on 5773,
+and MBP16 on 6773. The SSH aliases and public-key selectors come from
+Bitwarden; each machine skips its own tunnel. Pairing credentials and link
+expiry remain managed by T3, outside the repository.
+
 nix-darwin restores the portable preferences for Itsycal, Ice, and Scroll
 Reverser. Home Manager attempts to restore Maccy's declared preferences;
 if macOS blocks access to its app container, activation warns and continues.
