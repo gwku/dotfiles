@@ -1,6 +1,8 @@
 { lib, pkgs, ... }:
 {
   imports = [ ./tunnels.nix ./private-sync.nix ];
+  # The desktop app writes its supported CLI launcher here.
+  home.sessionPath = [ "$HOME/.t3/bin" ];
   # Merge only reviewed portable keys into writable config. T3 owns credentials,
   # provider/device configuration, onboarding, runtime state, and databases.
   home.activation.installT3CodeConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
