@@ -89,7 +89,9 @@ The manager skips its own node, validates aliases/ports, reloads changed tunnel
 configuration, and keeps one SSH connection per peer carrying both directions.
 Reverse forwards let a peer reach this computer without copying its private SSH
 keys. `BatchMode` avoids interactive password prompts; an unavailable/locked SSH
-agent makes the connection retry later. Run `t3-ssh-tunnel --validate` before
+agent can leave SSH waiting for signing approval. Prefer direct authenticated
+mesh routes for agent links, with these forwards as optional fallbacks.
+Run `t3-ssh-tunnel --validate` before
 activation. A user LaunchAgent or systemd user unit owns the manager.
 
 ## Scope and view state
