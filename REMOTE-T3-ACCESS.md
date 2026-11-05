@@ -67,10 +67,9 @@ T3's displayed machine names follow the operating system's friendly hostname.
 A running server may cache its name until restarted. Saved client route names
 may require refreshing through the application's own connection flow.
 
-Use authenticated T3 endpoints on the private mesh as the primary agent-link
-routes. Restrict their listeners with the mesh ACL and host firewall. This
-keeps paired agent access independent of an SSH agent's unlock prompt.
-Optional Home Manager SSH forwards provide loopback fallback routes:
+Home Manager starts persistent SSH forwards over the mesh. These provide
+localhost endpoints accepted by T3's environment-link validation when using
+a custom Headscale domain:
 
 Local and reverse port mappings belong in the private peer configuration.
 Do not publish a live device-to-port inventory here.
@@ -80,11 +79,9 @@ private keys onto Lenovo. The Mac whose app is being accessed must keep its
 tunnel to Lenovo running. Bitwarden must expose the SSH key through its
 desktop agent when a tunnel reconnects.
 
-Start links with approval-required access; grant full access only where the
-user explicitly approves it. Set a direct mesh URL as the primary route and
-an optional loopback fallback with the CLI's repeated `--url` flag. T3
-environment links last 30 days; renew using a fresh pairing code. The phone
-uses direct mesh addresses, never another computer's localhost ports.
+All six directional links use approval-required access. T3 environment links
+last 30 days; renew using a fresh pairing code. The phone uses the direct
+mesh addresses above, never these localhost ports.
 
 Portable settings and keybindings come from `modules/home/t3-code`. Each
 machine keeps its own identity, credentials, SQLite state, projects, and
