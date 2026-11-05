@@ -69,7 +69,9 @@ may require refreshing through the application's own connection flow.
 
 Home Manager starts persistent SSH forwards over the mesh. These provide
 localhost endpoints accepted by T3's environment-link validation when using
-a custom Headscale domain:
+a custom Headscale domain. The current validator does not recognize private
+IPv4 mesh addresses as encrypted transport, while the Mac backend binds IPv4
+only; retain SSH routes until native custom-controller routing is supported:
 
 Local and reverse port mappings belong in the private peer configuration.
 Do not publish a live device-to-port inventory here.
@@ -79,7 +81,8 @@ private keys onto Lenovo. The Mac whose app is being accessed must keep its
 tunnel to Lenovo running. Bitwarden must expose the SSH key through its
 desktop agent when a tunnel reconnects.
 
-All six directional links use approval-required access. T3 environment links
+Start links with approval-required access and grant full access only where
+the user explicitly approves it. T3 environment links
 last 30 days; renew using a fresh pairing code. The phone uses the direct
 mesh addresses above, never these localhost ports.
 
