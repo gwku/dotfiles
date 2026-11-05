@@ -81,9 +81,10 @@ open and accept each session locally.
 
 ## Lenovo / Linux
 
-Linux screen sharing is currently deferred. The native client and attended
-policy are installed, but an end-to-end screen and input test has not passed.
-Complete that test before relying on it for remote assistance.
+Use both the native client window and the privileged input helper. The
+attended policy rejects requests while the main window is closed, even if a
+background service is running. Verify picture and input on the real desktop
+before relying on it for remote assistance.
 
 Linux is included in dotfiles. `modules/home/remote-desktop.nix` installs
 `pkgs.rustdesk` through Home Manager on Linux. Its version follows the flake's
@@ -123,6 +124,19 @@ sudo systemctl enable --now rustdesk
 /usr/bin/rustdesk
 ```
 
+For reproducible graphical-login startup of the native RustDesk window and T3
+desktop, run as the desktop user:
+
+```sh
+./scripts/install-linux-session-startup.sh --start
+```
+
+This installs user units bound to `graphical-session.target`; it does not
+enable the root input helper, grant capture permissions, or remove click
+approval. The root helper, T3 headless server, and graphical windows are
+separate services. Closing the RustDesk window intentionally blocks attended
+connections; reopen it or restart `rustdesk-gui.service` when needed.
+
 Service activation supplies privileged input support; click approval and the
 open-window requirement still govern incoming sessions. It does not configure
 an unattended password. Accept each incoming request and any Wayland screen
@@ -147,6 +161,41 @@ this Lenovo until its real session has been tested.
 No software remote-desktop tool can reach the Lenovo's LUKS unlock prompt
 before Linux starts, or a Mac's FileVault preboot unlock screen. Those need
 physical access or a separate hardware KVM.
+
+## Restart and login
+
+On macOS, Home Manager login agents open T3, RustDesk, and Bitwarden after
+graphical login. The system Tailscale and firewall daemons run independently.
+On Linux, the enabled T3 headless user service uses lingering; the desktop
+window units start with the graphical session. Screen sharing needs that
+logged-in session, a running RustDesk window, and local connection approval.
+
+After a cold boot, unlock FileVault/LUKS locally first. Unlock Bitwarden and
+approve SSH key use when a tunnel reconnects. Sleeping laptops may not answer
+over the mesh. Service configuration and controlled app restarts do not prove
+a full power-cycle test; record that separately after an attended reboot.
+
+## Awake on external power
+
+The Mac login configuration runs `caffeinate -s`, which inhibits system sleep
+only on AC power and leaves display and battery preferences unchanged. It
+does not guarantee closed-lid operation. Other applications can hold their
+own independent sleep assertions.
+
+For the native Linux installation, enable the conditional inhibitor once:
+
+```sh
+sudo install -D -m 755 scripts/keep-awake-on-ac.py /usr/local/libexec/t3-ac-awake.py
+sudo install -D -m 644 scripts/t3-ac-awake.service /etc/systemd/system/t3-ac-awake.service
+sudo systemctl daemon-reload
+sudo systemctl enable --now t3-ac-awake
+```
+
+It polls external power, holds an idle/sleep inhibitor while plugged in, and
+releases its inhibitor within three seconds on battery. It does not edit
+battery settings or release inhibitors held by other active workloads. To
+restore the previous policy, disable `t3-ac-awake` on Linux or unload the
+Mac's `org.nix-community.home.t3-ac-awake` login agent and remove its declaration.
 
 ## Verification
 

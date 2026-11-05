@@ -1,0 +1,19 @@
+[Unit]
+Description=Keep awake on AC power for remote access
+After=systemd-logind.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /usr/local/libexec/t3-ac-awake.py
+Restart=on-failure
+RestartSec=5
+KillMode=control-group
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+
+[Install]
+WantedBy=multi-user.target
