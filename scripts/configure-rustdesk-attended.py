@@ -36,6 +36,8 @@ def main():
     parser.add_argument("--key", required=True, help="server PUBLIC signing key")
     parser.add_argument("--server", required=True, help="private server hostname from your private inventory")
     parser.add_argument("--config", type=Path)
+    parser.add_argument("--enable-clipboard", action="store_true",
+                        help="allow non-file clipboard sharing; file transfer stays disabled")
     args = parser.parse_args()
     if not re.fullmatch(r"[A-Za-z0-9+/]{43}=", args.key):
         parser.error("expected a base64 Ed25519 public key")
@@ -54,6 +56,9 @@ def main():
     if not all(isinstance(v, str) for v in options.values()):
         raise ValueError("unexpected non-string RustDesk option; use the app UI")
     options.update(POLICY)
+    if args.enable_clipboard:
+        options.update({"enable-clipboard": "Y", "disable-clipboard": "N",
+                        "one-way-clipboard-redirection": "N"})
     options.update({
         "custom-rendezvous-server": f"{args.server}:21116",
         "relay-server": f"{args.server}:21117",

@@ -22,7 +22,7 @@ POLICY = {
     'approve-mode': 'password',
     'allow-only-conn-window-open': 'N',
 }
-DISABLED = ['direct-server', 'enable-file-transfer', 'enable-clipboard',
+DISABLED = ['direct-server', 'enable-file-transfer',
             'enable-terminal', 'enable-tunnel', 'enable-camera',
             'allow-remote-config-modification', 'enable-remote-restart']
 
@@ -62,6 +62,9 @@ def main():
     for option in DISABLED:
         if cli('--option', option) != 'N':
             parser.error('expected existing disabled permission: ' + option)
+    clipboard_before = cli('--option', 'enable-clipboard')
+    if clipboard_before not in {'Y', 'N'}:
+        parser.error('unexpected clipboard permission; no changes applied')
     before = {option: cli('--option', option) for option in POLICY}
     backup_dir = Path('/var/db/t3-rustdesk-policy' if sys.platform == 'darwin'
                       else '/var/lib/t3-rustdesk-policy')
@@ -82,6 +85,8 @@ def main():
         for option in DISABLED:
             if cli('--option', option) != 'N':
                 raise RuntimeError('A disabled permission changed unexpectedly')
+        if cli('--option', 'enable-clipboard') != clipboard_before:
+            raise RuntimeError('Clipboard permission changed unexpectedly')
     except Exception:
         for option, value in before.items():
             cli('--option', option, value)

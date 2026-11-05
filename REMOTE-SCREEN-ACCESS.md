@@ -198,6 +198,27 @@ battery settings or release inhibitors held by other active workloads. To
 restore the previous policy, disable `t3-ac-awake` on Linux or unload the
 Mac's `org.nix-community.home.t3-ac-awake` login agent and remove its declaration.
 
+## Clipboard sharing
+
+The reference policy disables clipboard sharing. To enable it on a particular
+controlled Mac or Linux desktop without changing authentication or enabling
+file transfer, run:
+
+```sh
+sudo python3 scripts/configure-rustdesk-clipboard.py --expected-id "$RUSTDESK_TARGET_ID"
+```
+
+Keep the adjacent password-access helper available; the clipboard helper uses
+its installed-CLI adapter. This enables clipboard permission, disables the
+one-way restriction and permits normal clipboard synchronization. Existing
+viewer sessions should be reconnected; their toolbar's Disable clipboard
+option must also be off. The helper never reads clipboard contents.
+
+Test plain text first, then an Excel range, including the formatting you need.
+Rich clipboard formats depend on the client/application combination; copying
+cells does not require enabling file transfer. The attended merge helper also
+accepts `--enable-clipboard` for explicitly opting in during initial setup.
+
 ## Optional password-only access on macOS and Linux
 
 For an explicitly authorized machine, password-only authentication replaces
@@ -214,9 +235,9 @@ sudo python3 scripts/configure-rustdesk-password-access.py \
 The helper checks the intended desktop ID and private-server configuration,
 sets the password using the installed RustDesk CLI, then selects permanent
 password authentication and removes the open-window requirement. It verifies
-the result and preserves disabled clipboard, file transfer, terminal, tunnel,
-camera and remote-configuration permissions. A local policy rollback record
-is retained with administrator-only permissions. Remove the temporary password
+the result and preserves the existing clipboard permission and disabled file
+transfer, terminal, tunnel, camera and remote-configuration permissions. A local
+policy rollback record is retained with administrator-only permissions. Remove the temporary password
 file after configuration; never copy the plaintext into source or logs.
 
 Reconnect from another client with the new password and verify that no Accept
