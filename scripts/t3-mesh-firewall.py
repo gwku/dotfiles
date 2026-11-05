@@ -78,11 +78,14 @@ def attach_anchor():
     statement = f'anchor "{ANCHOR}"'
     live = run([PF, "-sr"]).stdout
     if statement not in live:
-        allowed = ('scrub-anchor "com.apple/', 'anchor "com.apple/', 'dummynet-anchor "com.apple/')
+        allowed = ('scrub-anchor "com.apple/', 'anchor "com.apple/', 'dummynet-anchor "com.apple/',
+                   'scrub-anchor "com.apple.internet-sharing"', 'anchor "com.apple.internet-sharing"')
         if any(line.strip() and not line.lstrip().startswith(allowed) for line in live.splitlines()):
             raise RuntimeError("Unmanaged live PF filter rules; refusing a global reload")
         translations = run([PF, "-sn"]).stdout
-        if any(line.strip() and not line.lstrip().startswith(('nat-anchor "com.apple/', 'rdr-anchor "com.apple/'))
+        if any(line.strip() and not line.lstrip().startswith(('nat-anchor "com.apple/', 'rdr-anchor "com.apple/',
+                                                            'nat-anchor "com.apple.internet-sharing"',
+                                                            'rdr-anchor "com.apple.internet-sharing"'))
                for line in translations.splitlines()):
             raise RuntimeError("Unmanaged live PF translation rules; refusing a global reload")
     if statement not in original.splitlines():
@@ -92,6 +95,15 @@ def attach_anchor():
         if apple not in original.splitlines():
             raise RuntimeError("Unrecognized PF configuration; leaving it unchanged")
         lines = original.splitlines(keepends=True)
+        # Preserve Internet Sharing's dynamic sibling hook points. The child
+        # rules remain owned by Apple and are never loaded or flushed here.
+        translations = run([PF, "-sn"]).stdout
+        for kind in ('scrub-anchor', 'nat-anchor', 'rdr-anchor', 'anchor'):
+            hook = f'{kind} "com.apple.internet-sharing"'
+            if any(line.startswith(hook + ' ') for line in (live + '\n' + translations).splitlines()) and hook not in original.splitlines():
+                base = f'{kind} "com.apple/*"'
+                index = next(i for i, line in enumerate(lines) if line.rstrip('\r\n') == base)
+                lines.insert(index + 1, hook + '\n')
         position = next(index for index, line in enumerate(lines) if line.rstrip("\r\n") == apple)
         lines.insert(position, statement + "\n")
         updated = "".join(lines)
