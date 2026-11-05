@@ -56,7 +56,7 @@ computer. Use full-screen in the viewer. The reviewed computer keeps its
 own active desktop; this does not create a second remote desktop session.
 
 The default reference does not set a permanent password or enable unattended
-access. A specific Linux machine can explicitly opt in as described below.
+access. A specific Mac or Linux machine can explicitly opt in as described below.
 Client identities, passwords, peer history, and device privacy permissions
 remain machine-local. Do not replace an existing RustDesk config file to
 apply this reference: use the client UI or merge the specific options.
@@ -198,11 +198,11 @@ battery settings or release inhibitors held by other active workloads. To
 restore the previous policy, disable `t3-ac-awake` on Linux or unload the
 Mac's `org.nix-community.home.t3-ac-awake` login agent and remove its declaration.
 
-## Optional Linux password-only access
+## Optional password-only access on macOS and Linux
 
 For an explicitly authorized machine, password-only authentication replaces
-the local Accept prompt. First configure the private server, run its native
-input service and graphical session, and save a strong unique permanent
+the local Accept prompt. First configure the private server, run its installed
+helper and graphical session, and save a strong unique permanent
 password in your password manager. Supply it through a temporary owner-only
 file outside Git, rather than a shell command or shell history:
 
@@ -221,8 +221,9 @@ file after configuration; never copy the plaintext into source or logs.
 
 Reconnect from another client with the new password and verify that no Accept
 click is needed. Clients may remember that password if desired. This does not
-bypass disk unlocking, graphical login or Wayland's capture permission; screen
-selection may be needed again after a new desktop session. Re-running the
+bypass disk unlocking, graphical login, macOS privacy grants or Wayland's
+capture permission; screen selection may be needed again after a new Linux
+desktop session. Re-running the
 attended helper explicitly restores its click/open-window policy.
 
 ## Verification

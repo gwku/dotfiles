@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Opt in to Linux RustDesk password-only access using its installed CLI.
+"""Opt in to macOS/Linux RustDesk password-only access using its installed CLI.
 
 Supply a temporary owner-only password file; never pass the password in a
 shell command or commit it. Configure the pinned private server first.
@@ -8,12 +8,15 @@ import argparse
 import datetime
 import json
 import os
+import pwd
 from pathlib import Path
 import stat
 import subprocess
+import sys
 
 
-CLI = '/usr/bin/rustdesk'
+CLI = ('/Applications/RustDesk.app/Contents/MacOS/RustDesk'
+       if sys.platform == 'darwin' else '/usr/bin/rustdesk')
 POLICY = {
     'verification-method': 'use-permanent-password',
     'approve-mode': 'password',
@@ -25,7 +28,13 @@ DISABLED = ['direct-server', 'enable-file-transfer', 'enable-clipboard',
 
 
 def cli(*arguments):
-    result = subprocess.run([CLI, *arguments], capture_output=True, text=True, timeout=15)
+    environment = os.environ.copy()
+    if sys.platform == 'darwin':
+        # macOS sudo can preserve the caller's HOME. Root CLI startup must
+        # not create root-owned cache/config files in the desktop user's home.
+        environment.update(HOME=pwd.getpwuid(0).pw_dir, USER='root', LOGNAME='root')
+    result = subprocess.run([CLI, *arguments], env=environment,
+                            capture_output=True, text=True, timeout=15)
     if result.returncode:
         raise RuntimeError('RustDesk CLI request failed; sensitive output suppressed')
     return result.stdout.strip()
@@ -54,7 +63,8 @@ def main():
         if cli('--option', option) != 'N':
             parser.error('expected existing disabled permission: ' + option)
     before = {option: cli('--option', option) for option in POLICY}
-    backup_dir = Path('/var/lib/t3-rustdesk-policy')
+    backup_dir = Path('/var/db/t3-rustdesk-policy' if sys.platform == 'darwin'
+                      else '/var/lib/t3-rustdesk-policy')
     backup_dir.mkdir(parents=True, exist_ok=True, mode=0o700)
     stamp = datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
     backup = backup_dir / (stamp + '.json')
