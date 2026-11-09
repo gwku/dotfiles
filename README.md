@@ -267,6 +267,22 @@ site-administration API scope. Forgejo 17 cannot combine the CLI's required
 user-read scope with an explicit repository allowlist. An Infisical CLI login with access to that restricted project
 is required; application CI identities do not get access.
 
+`fj` 0.7.0 can show Actions run status (`fj actions tasks`) but has no log
+command. Forgejo 17's REST API does, so `mc-forgejo-logs` reads logs with the
+login `mc-forgejo-login` already stored (read-only, fixed host, no extra
+scope):
+
+```sh
+mc-forgejo-logs list                  # recent runs, from the repo's origin remote
+mc-forgejo-logs                       # failed jobs of the latest failed run, last 200 lines each
+mc-forgejo-logs 5 --tail 0            # failed jobs of run #5, full log
+mc-forgejo-logs 5 --all -q error      # every job, only lines containing "error"
+mc-forgejo-logs 5 --job 178 --step 3  # one job, one step
+```
+
+Run numbers are the ones shown in the UI and `fj`. Log text is untrusted CI
+output. Remove the helper once `fj` ships a native log command.
+
 The `mchub-task` skill in McHub contains the shipping workflow. Authentication
 does not authorize deployment: preserve the task's explicit go-ahead and current
 head checks. `gh` continues to handle GitHub repositories, including backup

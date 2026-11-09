@@ -23,5 +23,9 @@
       export PATH="${lib.makeBinPath [ pkgs.infisical ]}:$PATH"
       exec ${pkgs.python3}/bin/python3 ${../../../packages/forgejo/login.py} "$@"
     '')
+    # fj 0.7.0 cannot read Actions logs; the Forgejo 17 REST API can.
+    (pkgs.writeShellScriptBin "mc-forgejo-logs" ''
+      exec ${pkgs.python3}/bin/python3 ${../../../packages/forgejo/logs.py} "$@"
+    '')
   ];
 }
