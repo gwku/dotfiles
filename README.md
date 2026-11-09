@@ -304,6 +304,22 @@ can intentionally override local Git configuration. Ordinary GitHub collaborator
 must separately have read-only repository access. GitHub Free private repositories
 cannot enforce an owner-excluding branch/tag ruleset.
 
+## Agent skills for Claude Code and Codex
+
+[`modules/home/agent-skills/`](modules/home/agent-skills/) installs every
+folder under its `skills/` directory (each with a `SKILL.md`) into both
+`~/.claude/skills` and `~/.codex/skills` on every switch. To add a skill, drop
+its folder into `modules/home/agent-skills/skills/` and run
+`./scripts/switch.sh`. Currently managed: `seo-2026`, an evidence-graded SEO
+and AI-search audit workflow with a standard-library `scripts/seo_audit.py`.
+
+The module copies with `rsync` instead of symlinking into the Nix store,
+because skill discovery does not reliably follow symlinks in every tool
+version. Each managed skill folder is replaced as a whole (`--delete`), so edit
+the copy in this repository rather than the installed one. Skills that are not
+in the repository, such as `humanizer`, the synced Claude skills, and Codex's
+`.system` set, are never touched.
+
 ## State restored outside Nix
 
 Nix does not reproduce credentials, application databases, or cloud

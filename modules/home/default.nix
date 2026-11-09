@@ -19,6 +19,7 @@
     ./wezterm
     ./cursor.nix
     ./t3-code
+    ./agent-skills
     ./tailscale-gui.nix
     ./remote-desktop.nix
     ./dev
