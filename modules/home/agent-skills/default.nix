@@ -14,8 +14,8 @@ in
   # without leaving an `.hm-backup` duplicate that would load as a second skill.
   #
   # Only skills listed in ./skills are touched, and `--delete` is scoped to
-  # each managed skill's own folder, so unmanaged skills (humanizer, synced,
-  # the Codex .system set) are left alone. Local edits to a managed skill are
+  # each managed skill's own folder, so unmanaged skills (the synced Claude
+  # skills, the Codex .system set) are left alone. Local edits to a managed skill are
   # overwritten at the next switch: change the copy in this repository.
   home.activation.installAgentSkills = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     for target in ${lib.concatMapStringsSep " " (t: ''"$HOME/${t}"'') targets}; do
