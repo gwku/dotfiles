@@ -347,7 +347,6 @@ and remove them only after confirming the managed replacement works.
 
 - `gmbp16` — 16-inch Apple Silicon MacBook, named `GMBP16`
 - `gmbp14` — 14-inch Apple Silicon MacBook, named `GMBP14`
-- `gkmp` — compatibility alias for `gmbp16`
 - `workstation` — x86-64 Linux placeholder
 
 Select the matching Mac explicitly when installing, for example

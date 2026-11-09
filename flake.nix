@@ -96,9 +96,6 @@
     in
     {
       darwinConfigurations = rec {
-        # `gkmp` is the original selector for the 16-inch MacBook; keep it so
-        # existing commands and runbooks continue to work.
-        gkmp = gmbp16;
         gmbp16 = mkDarwin "gmbp16" "aarch64-darwin";
         gmbp14 = gmbp16.extendModules {
           modules = [
