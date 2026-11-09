@@ -17,14 +17,14 @@
 # Env vars:
 #   TART_IMAGE     OCI image (default: macos-tahoe-base:latest).
 #   VM_NAME        Local VM name (default: dotfiles-test).
-#   HOST_NAME      Flake host attribute (default: gkmp).
+#   HOST_NAME      Flake host attribute (default: gmbp16).
 #   VM_DISK_SIZE   Disk size in GB (default: 140; the full cask set needs it).
 
 set -euo pipefail
 
 IMAGE="${TART_IMAGE:-ghcr.io/cirruslabs/macos-tahoe-base:latest}"
 VM_NAME="${VM_NAME:-dotfiles-test}"
-HOST_NAME="${HOST_NAME:-gkmp}"
+HOST_NAME="${HOST_NAME:-gmbp16}"
 VM_DISK_SIZE="${VM_DISK_SIZE:-140}"
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 LOG_FILE="${TMPDIR:-/tmp}/tart-${VM_NAME}.log"

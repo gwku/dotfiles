@@ -1,6 +1,6 @@
 # First Mac post-install checklist
 
-Use this checklist after `./install.sh gkmp` finishes successfully on a new
+Use this checklist after `./install.sh gmbp16` finishes successfully on a new
 Mac. Nix has already installed the declared applications, command-line tools,
 fonts, Dock layout, shell, editor configuration, and portable application
 preferences. The remaining work requires accounts, credentials, hardware,
@@ -96,7 +96,7 @@ truth.
       proves that the standard preflight unlock and metadata sync work:
 
 ```sh
-./scripts/switch.sh gkmp
+./scripts/switch.sh gmbp16
 ```
 
 ## 4. Approve privacy permissions and startup applications
@@ -279,7 +279,7 @@ pmset -g custom
 ```
 
 - [ ] If Time Machine is used, attach or select its destination once, then
-      rerun `./scripts/switch.sh gkmp`; activation enables automatic backups
+      rerun `./scripts/switch.sh gmbp16`; activation enables automatic backups
       whenever a destination exists. macOS may require Full Disk Access for
       the terminal performing that switch; a denied grant is reported without
       breaking the rest of activation.

@@ -12,9 +12,9 @@ case "$PLATFORM" in
     if [[ -z "$HOST" ]]; then
       LOCAL_HOST_NAME="$(/usr/sbin/scutil --get LocalHostName 2>/dev/null | tr '[:upper:]' '[:lower:]' || true)"
       case "$LOCAL_HOST_NAME" in
-        mbp14 | gmbp14) HOST=mbp14 ;;
-        mbp16 | gmbp16) HOST=mbp16 ;;
-        *) HOST=gkmp ;;
+        mbp14 | gmbp14) HOST=gmbp14 ;;
+        mbp16 | gmbp16) HOST=gmbp16 ;;
+        *) HOST=gmbp16 ;;
       esac
     fi
     # Opt out before nix-darwin invokes Homebrew, including the first switch

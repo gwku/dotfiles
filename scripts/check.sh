@@ -4,11 +4,11 @@
 # touching the running system.
 #
 # Usage:  ./scripts/check.sh [hostname]
-# Default hostname: gkmp.
+# Default hostname: gmbp16.
 
 set -euo pipefail
 
-HOST="${1:-gkmp}"
+HOST="${1:-gmbp16}"
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 
 # 1. Ensure Nix is installed.

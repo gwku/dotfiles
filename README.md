@@ -19,7 +19,7 @@ outside this repository. Then run:
 xcode-select --install
 git clone https://github.com/gwku/dotfiles.git ~/development/dotfiles
 cd ~/development/dotfiles
-./install.sh gkmp
+./install.sh gmbp16
 ```
 
 After the installer succeeds, continue with the complete
@@ -91,15 +91,15 @@ when deliberately updating pinned dependencies, or when troubleshooting.
 
 ```sh
 # Test changes without activating them
-./scripts/check.sh gkmp
+./scripts/check.sh gmbp16
 
 # Apply repository changes to this Mac
-./scripts/switch.sh gkmp
+./scripts/switch.sh gmbp16
 
 # Periodically update pinned Nix inputs, test, and then apply
 nix flake update
-./scripts/check.sh gkmp
-./scripts/switch.sh gkmp
+./scripts/check.sh gmbp16
+./scripts/switch.sh gmbp16
 
 # Troubleshooting: inspect or roll back to an older Mac generation
 darwin-rebuild --list-generations
@@ -154,7 +154,7 @@ Run the non-activating checks first:
 
 ```sh
 nix flake check path:. --all-systems --no-build
-nix build path:.#darwinConfigurations.gkmp.system
+nix build path:.#darwinConfigurations.gmbp16.system
 ```
 
 For a clean-machine test on Apple Silicon:
@@ -345,17 +345,18 @@ and remove them only after confirming the managed replacement works.
 
 ## Hosts
 
-- `mbp16` — 16-inch Apple Silicon MacBook, named `GMBP16`
-- `mbp14` — 14-inch Apple Silicon MacBook, named `GMBP14`
-- `gkmp` — compatibility alias for `mbp16`
+- `gmbp16` — 16-inch Apple Silicon MacBook, named `GMBP16`
+- `gmbp14` — 14-inch Apple Silicon MacBook, named `GMBP14`
+- `gkmp` — compatibility alias for `gmbp16`
 - `workstation` — x86-64 Linux placeholder
 
 Select the matching Mac explicitly when installing, for example
-`./install.sh mbp14`. `./scripts/switch.sh` and `drs` select `mbp14` or `mbp16`
-from the Mac's LocalHostName, accepting both the original `MBP14`/`MBP16`
-and current `GMBP14`/`GMBP16` names; an explicit argument overrides that selection.
-Both Macs share their software configuration; their separate targets preserve
-their names across activation. Unknown Mac names retain the `gkmp` default.
+`./install.sh gmbp14`. `./scripts/switch.sh` and `drs` select `gmbp14` or
+`gmbp16` from the Mac's LocalHostName, accepting both the original
+`MBP14`/`MBP16` and current `GMBP14`/`GMBP16` names; an explicit argument
+overrides that selection. Both Macs share their software configuration; their
+separate targets preserve their names across activation. Unknown Mac names
+select `gmbp16`.
 
 ## .NET SDKs
 
@@ -380,7 +381,7 @@ there is nothing to remove. An old SDK override would hide the managed
 launcher:
 
 ```sh
-./scripts/switch.sh gkmp
+./scripts/switch.sh gmbp16
 nix profile list
 # Only if listed above:
 nix profile remove dotnet-wrapped-combined
@@ -407,6 +408,6 @@ nix profile install .#node-security
 node --version
 ```
 
-Apply the managed shell and CLI wrappers with the normal `darwin-rebuild switch --flake .#gkmp`.
+Apply the managed shell and CLI wrappers with the normal `darwin-rebuild switch --flake .#gmbp16`.
 Once that activation is complete, remove the temporary `node-security` user-profile entry
 with `nix profile remove node-security pnpm-security` so the managed system remains the source of truth.

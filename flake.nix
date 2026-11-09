@@ -96,10 +96,11 @@
     in
     {
       darwinConfigurations = rec {
-        # Preserve the original selector for the 16-inch MacBook.
-        gkmp = mbp16;
-        mbp16 = mkDarwin "gkmp" "aarch64-darwin";
-        mbp14 = mbp16.extendModules {
+        # `gkmp` is the original selector for the 16-inch MacBook; keep it so
+        # existing commands and runbooks continue to work.
+        gkmp = gmbp16;
+        gmbp16 = mkDarwin "gmbp16" "aarch64-darwin";
+        gmbp14 = gmbp16.extendModules {
           modules = [
             ({ lib, ... }: {
               networking = {
@@ -137,7 +138,7 @@
       };
 
       checks = {
-        aarch64-darwin.gkmp = self.darwinConfigurations.gkmp.system;
+        aarch64-darwin.gmbp16 = self.darwinConfigurations.gmbp16.system;
         x86_64-linux.workstation = self.homeConfigurations."${user.name}@workstation".activationPackage;
       };
     };
