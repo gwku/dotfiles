@@ -109,6 +109,7 @@ in
     casks = [
       # Window / menu bar / desktop
       "easy-move+resize"
+      "espanso"
       "itsycal"
       "jordanbaird-ice"
       "maccy"

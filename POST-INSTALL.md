@@ -106,6 +106,9 @@ actually requests.
 
 - [ ] Approve Accessibility/Input Monitoring where requested by Easy
       Move+Resize, Maccy, Ice, and Scroll Reverser.
+- [ ] Open Espanso and approve Accessibility. Restart it after approval;
+      type `;date` and `:smile:` in a scratch document. Restore personal
+      expansions from private backup; see [`ESPANSO.md`](ESPANSO.md).
 - [ ] If activation warns that Maccy preferences could not be restored, run
       `restore-maccy-preferences` as your normal user from a terminal permitted
       to access Maccy app data. Rerun `./scripts/smoke-test.sh` to verify it.

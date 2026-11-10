@@ -1,0 +1,3 @@
+# Keep this file present so Espanso does not recreate its demo expansions.
+# Add personal snippets to the private runtime, never this checkout.
+matches: []

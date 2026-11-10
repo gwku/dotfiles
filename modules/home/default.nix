@@ -5,6 +5,7 @@
     ./shell/direnv.nix
     ./login-items.nix
     ./maccy.nix
+    ./espanso
     ./cli/core.nix
     ./cli/fzf.nix
     ./cli/zoxide.nix

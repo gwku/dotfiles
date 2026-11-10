@@ -1,0 +1,9 @@
+matches:
+  - triggers: [";guid", ";uuid"]
+    label: "Generate a fresh UUID v4"
+    replace: "{{identifier}}"
+    vars:
+      - name: identifier
+        type: script
+        params:
+          args: [python, -c, "import uuid; print(uuid.uuid4())"]

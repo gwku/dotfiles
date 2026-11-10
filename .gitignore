@@ -8,3 +8,11 @@ secrets.*
 __pycache__/
 *.py[cod]
 .serena/
+
+# Personal expansions and GUI backups must never enter the public repository.
+modules/home/espanso/files/**/*.local.yml
+modules/home/espanso/files/**/*.local.yaml
+modules/home/espanso/files/config_backup/
+modules/home/espanso/files/match_backup/
+modules/home/espanso/files/packages/
+modules/home/espanso/files/match/packages/

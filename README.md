@@ -83,6 +83,15 @@ On NixOS, use the existing system Nix installation and start with the clone.
 The same Home Manager target can be imported into a future NixOS system
 configuration if system-level NixOS management is added later.
 
+## Text expansion
+
+Espanso uses writable YAML in a private runtime
+outside this checkout. Public defaults provide dates and Markdown helpers;
+the pinned all-emojis package is installed automatically. Email addresses
+and postal addresses stay outside Git and the Nix store. See
+[`ESPANSO.md`](ESPANSO.md) for shortcuts, setup, the trigger list, and Windows
+and Linux notes.
+
 ## Maintenance and updates
 
 These commands are not a daily routine. Normal computer use requires no

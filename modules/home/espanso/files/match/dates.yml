@@ -1,0 +1,41 @@
+matches:
+  - trigger: ";unix"
+    label: "Unix timestamp - seconds since epoch"
+    replace: "{{timestamp}}"
+    vars:
+      - name: timestamp
+        type: date
+        params:
+          format: "%s"
+  - trigger: ";date"
+    label: "Date - ISO (YYYY-MM-DD)"
+    replace: "{{date}}"
+    vars:
+      - name: date
+        type: date
+        params:
+          format: "%Y-%m-%d"
+  - trigger: ";dnl"
+    label: "Date - Dutch (DD-MM-YYYY)"
+    replace: "{{date}}"
+    vars:
+      - name: date
+        type: date
+        params:
+          format: "%d-%m-%Y"
+  - trigger: ";time"
+    label: "Time - 24-hour"
+    replace: "{{time}}"
+    vars:
+      - name: time
+        type: date
+        params:
+          format: "%H:%M"
+  - trigger: ";stamp"
+    label: "Timestamp - local time with UTC offset"
+    replace: "{{stamp}}"
+    vars:
+      - name: stamp
+        type: date
+        params:
+          format: "%Y-%m-%dT%H:%M:%S%:z"

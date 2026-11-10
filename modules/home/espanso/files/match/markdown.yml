@@ -1,0 +1,19 @@
+matches:
+  - trigger: ";mdlink"
+    label: "Markdown - link using clipboard URL"
+    replace: "[$|$]({{clip}})"
+    vars:
+      - name: clip
+        type: clipboard
+  - trigger: ";mdcode"
+    label: "Markdown - fenced code block"
+    replace: "```$|$\n\n```"
+  - trigger: ";mdclip"
+    label: "Markdown - clipboard in a code block"
+    replace: "```\n{{clip}}\n```"
+    vars:
+      - name: clip
+        type: clipboard
+  - trigger: ";todo"
+    label: "Markdown - checkbox"
+    replace: "- [ ] "
