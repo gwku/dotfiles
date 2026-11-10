@@ -37,7 +37,11 @@ in
       sudo --user=${username} --set-home \
         env HOMEBREW_NO_ANALYTICS=1 \
         /opt/homebrew/bin/brew trust --tap \
-        microsoft/mssql-release cirruslabs/cli
+        microsoft/mssql-release
+      sudo --user=${username} --set-home \
+        env HOMEBREW_NO_ANALYTICS=1 \
+        /opt/homebrew/bin/brew trust --formula \
+        openai/tools/softnet openai/tools/tart
     fi
   '';
 
@@ -82,7 +86,7 @@ in
     # Extra taps for proprietary tools not on the default homebrew-cask.
     taps = [
       "microsoft/mssql-release"
-      "cirruslabs/cli"
+      "openai/tools"
     ];
 
     # Brew formulae not (yet) in nixpkgs or where the brew distribution
@@ -99,7 +103,10 @@ in
 
       "msodbcsql18"
       "mssql-tools18"
-      "cirruslabs/cli/tart" # macOS VMs on Apple Silicon
+      # Both moved from cirruslabs/cli; keep the runtime dependency explicit
+      # so exhaustive cleanup also handles installations migrated by Homebrew.
+      "openai/tools/softnet"
+      "openai/tools/tart" # macOS VMs on Apple Silicon
       "jadx" # Nix build is currently broken on aarch64-darwin
       "forgejo-cli" # T3 needs fj >= 0.6; the pinned nixpkgs has 0.5.
     ];

@@ -44,7 +44,7 @@ done
 
 command -v tart >/dev/null || {
   echo "tart not installed. Install it with:" >&2
-  echo "  brew install cirruslabs/cli/tart" >&2
+  echo "  brew install openai/tools/tart" >&2
   exit 1
 }
 
