@@ -37,7 +37,7 @@ in
       sudo --user=${username} --set-home \
         env HOMEBREW_NO_ANALYTICS=1 \
         /opt/homebrew/bin/brew trust --tap \
-        microsoft/mssql-release
+        microsoft/mssql-release gwku/dotfiles
       sudo --user=${username} --set-home \
         env HOMEBREW_NO_ANALYTICS=1 \
         /opt/homebrew/bin/brew trust --formula \
@@ -87,6 +87,11 @@ in
     taps = [
       "microsoft/mssql-release"
       "openai/tools"
+      # This repository, for casks homebrew-cask lacks (Casks/ at the root).
+      {
+        name = "gwku/dotfiles";
+        clone_target = "https://github.com/gwku/dotfiles.git";
+      }
     ];
 
     # Brew formulae not (yet) in nixpkgs or where the brew distribution
@@ -162,9 +167,12 @@ in
       "android-commandlinetools"
       "openmtp"
 
-      # Both SDKs share Microsoft's installation root. Keep upgrades enabled
+      # The SDKs share Microsoft's installation root. Keep upgrades enabled
       # above; Nix only supplies a launcher so its PATH cannot hide Brew's SDKs.
+      # `dotnet-sdk` is the current major (.NET 11); `dotnet-sdk@10` comes from
+      # this repository's tap until homebrew-cask ships one.
       "dotnet-sdk"
+      "gwku/dotfiles/dotnet-sdk@10"
       "dotnet-sdk@8"
 
       # JVM

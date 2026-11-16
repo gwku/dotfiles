@@ -16,7 +16,7 @@ for command in fish nvim wezterm git ssh bw-ssh-sync tofu go cloudflared psql sh
   command -v "$command" >/dev/null 2>&1 || fail "missing command: $command"
 done
 
-# Both SDKs must be visible through the same dotnet command on PATH.
+# All SDKs must be visible through the same dotnet command on PATH.
 command -v dotnet >/dev/null 2>&1 || fail "missing command: dotnet"
 dotnet_sdks="$(dotnet --list-sdks)"
 dotnet_runtimes="$(dotnet --list-runtimes)"
@@ -26,7 +26,7 @@ if [[ "$(uname -s)" == Darwin ]]; then
 fi
 grep -q '^10\.0\.4[0-9][0-9] ' <<<"$dotnet_sdks" ||
   fail ".NET 10.0.4xx SDK is required for preview C# syntax"
-for major in 8 10; do
+for major in 8 10 11; do
   grep -q "^${major}\\.0\\." <<<"$dotnet_sdks" ||
     fail ".NET ${major} SDK is not visible to dotnet"
   for runtime in Microsoft.NETCore.App Microsoft.AspNetCore.App; do

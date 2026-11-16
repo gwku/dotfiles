@@ -368,11 +368,19 @@ select `gmbp16`.
 
 ## .NET SDKs
 
-On macOS, Homebrew manages `dotnet-sdk` and `dotnet-sdk@8` in the same
-`/usr/local/share/dotnet` installation. Updates run during the normal system
-switch (`homebrew.onActivation.upgrade = true`), or manually with
-`brew update && brew upgrade --cask dotnet-sdk dotnet-sdk@8`.
+On macOS, Homebrew manages `dotnet-sdk` (the current major, .NET 11),
+`dotnet-sdk@10` and `dotnet-sdk@8` in the same `/usr/local/share/dotnet`
+installation. Updates run during the normal system switch
+(`homebrew.onActivation.upgrade = true`), or manually with
+`brew update && brew upgrade --cask dotnet-sdk gwku/dotfiles/dotnet-sdk@10 dotnet-sdk@8`.
 Homebrew does not run background updates on its own.
+
+homebrew-cask has no `dotnet-sdk@10` yet, so this repository is its own tap:
+[`Casks/dotnet-sdk@10.rb`](Casks/dotnet-sdk@10.rb) mirrors upstream's
+`dotnet-sdk@9` and installs 10.0.404. The projects target .NET 10; without its
+runtime, test runs roll forward to .NET 11 and fail on runtime differences.
+Bump the cask's `version` and both `sha256` values for a new 10.0 patch (its
+livecheck lists them), and drop the cask once homebrew-cask ships its own.
 
 Nix supplies only a `dotnet` launcher pointing at that installation, so its
 PATH precedence cannot hide the Homebrew SDKs. `DOTNET_ROOT` points there
