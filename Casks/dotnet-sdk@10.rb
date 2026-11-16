@@ -34,5 +34,6 @@ cask "dotnet-sdk@10" do
 
   uninstall pkgutil: "com.microsoft.dotnet.*#{version.major_minor}*#{arch}"
 
-  zap :not_required
+  # No zap stanza: the SDK keeps no per-user state, and nix-homebrew pins a
+  # Homebrew that predates upstream's `zap :not_required`.
 end
