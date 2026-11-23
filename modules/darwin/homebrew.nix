@@ -142,6 +142,7 @@ in
       "whatsapp"
 
       # AI
+      "antigravity"
       "chatgpt"
       "claude"
       "claude-code@latest"
