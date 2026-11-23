@@ -143,6 +143,7 @@ in
 
       # AI
       "antigravity"
+      "antigravity-cli" # agy terminal CLI; the app does not put it on PATH
       "chatgpt"
       "claude"
       "claude-code@latest"
